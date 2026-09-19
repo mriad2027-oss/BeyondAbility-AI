@@ -439,49 +439,52 @@ function ContextualTopBar({
 }) {
   const crumb = getCurrentCrumb(current, dir);
   return (
-    <div className="top-bar">
+    <header className="sticky top-0 z-30 flex h-14 items-center justify-between px-4 sm:px-6 border-b border-[#1E294B] bg-[#080B18]/95 backdrop-blur-md shadow-md">
       <div className="flex items-center gap-3 min-w-0">
         <button
           onClick={onOpenMobile}
           aria-label={localize("Open navigation", dir)}
-          className="slim-nav-icon lg:hidden"
+          className="flex size-9 items-center justify-center rounded-lg border border-[#1E294B] bg-[#0D1224] text-slate-200 hover:text-white hover:border-brand-indigo/50 hover:bg-white/5 transition lg:hidden"
         >
           <Menu className="size-5" />
         </button>
-        <div className="hidden lg:flex flex-col min-w-0">
-          <div className="flex items-center gap-2">
-            <span className="meta-label">
-              EduAccess AI
-            </span>
-            <span className="text-slate-300" aria-hidden>/</span>
-            <span className="meta-label text-brand-indigo">
-              {crumb}
-            </span>
-          </div>
+        <div className="hidden lg:flex items-center gap-2.5 min-w-0">
+          <span className="font-mono text-[13px] sm:text-sm font-bold tracking-wider text-slate-200 uppercase">
+            EduAccess AI
+          </span>
+          <span className="text-slate-500 font-mono text-sm select-none" aria-hidden>/</span>
+          <span className="font-mono text-[13px] sm:text-sm font-bold tracking-wider text-brand-indigo dark:text-[#A78BFA] uppercase bg-brand-indigo/15 border border-brand-indigo/30 px-2.5 py-0.5 rounded-md shadow-sm">
+            {crumb}
+          </span>
         </div>
-        <div className="lg:hidden">
+        <div className="lg:hidden flex items-center gap-2.5 min-w-0">
           <LogoMark small dir={dir} />
+          <span className="font-mono text-xs sm:text-sm font-bold tracking-wide text-slate-100 uppercase truncate">
+            {crumb}
+          </span>
         </div>
       </div>
       <div className="flex items-center gap-3">
-        <span className="hidden md:inline-flex items-center gap-1.5">
-          <span className="size-2 rounded-full bg-emerald-500 animate-pulse-soft" aria-hidden />
-          <span className="text-[11px] font-medium text-slate-500">{localize("Ready", dir)}</span>
-        </span>
+        <div className="hidden sm:inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-950/60 border border-emerald-500/40 shadow-sm">
+          <span className="size-2 rounded-full bg-emerald-400 ring-2 ring-emerald-400/20 animate-pulse" aria-hidden />
+          <span className="text-xs sm:text-[13px] font-mono font-bold text-emerald-300 tracking-wide">
+            {localize("Ready", dir)}
+          </span>
+        </div>
         <button
           onClick={() => {
             const ev = new CustomEvent("eduaccess-toggle-language");
             window.dispatchEvent(ev);
           }}
           aria-label={localize("Switch reading direction", dir)}
-          className="hidden md:inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-slate-600 hover:border-brand-indigo/40 hover:text-brand-indigo transition shadow-surface"
+          className="inline-flex items-center gap-2 rounded-lg border border-[#1E294B] bg-[#0D1224] px-3 py-1.5 text-xs sm:text-sm font-mono font-bold text-slate-100 hover:text-white hover:border-brand-indigo/60 hover:bg-brand-indigo/15 transition shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-indigo/40"
           dir="ltr"
         >
-          <Accessibility className="size-3.5 text-brand-indigo" aria-hidden />
-          {dir === "ltr" ? "عربى" : "EN"}
+          <Accessibility className="size-4 text-brand-indigo dark:text-[#A78BFA]" aria-hidden />
+          <span>{dir === "ltr" ? "عربى" : "EN"}</span>
         </button>
       </div>
-    </div>
+    </header>
   );
 }
 
