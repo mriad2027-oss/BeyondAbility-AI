@@ -1,0 +1,15 @@
+{
+  "name": "eduaccess-ai",
+  "version": "2.0.0",
+  "private": true,
+  "workspaces": [
+    "frontend/next-app"
+  ],
+  "scripts": {
+    "dev": "npm --prefix frontend/next-app run dev",
+    "build": "npm --prefix frontend/next-app run build",
+    "start": "npm --prefix frontend/next-app run start",
+    "lint": "npm --prefix frontend/next-app run lint",
+    "typecheck": "npm --prefix frontend/next-app run typecheck"
+  }
+}
