@@ -239,26 +239,30 @@ function LecturesContent() {
       </div>
 
       {/* SECONDARY SECTION: ADDITIONAL LECTURES OR COMPILER CTA */}
-      <div className="space-y-6 pt-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 dark:border-white/10 pb-4">
-          <div className="space-y-1">
-            <h2 className="text-xl sm:text-2xl font-display font-bold text-slate-950 dark:text-white">
+      <div className="space-y-5 pt-2">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-3">
+          <div className="space-y-0.5">
+            <h2 className="text-lg sm:text-xl font-display font-bold text-slate-200">
               Additional Lectures & Custom Ingestion
             </h2>
-            <p className="text-sm text-slate-600 dark:text-slate-300">
+            <p className="text-xs sm:text-sm text-slate-400">
               Compile custom lecture recordings using the Multimodal Ingestion Pipeline.
             </p>
           </div>
           <Link href="/upload">
-            <Button variant="outline" size="sm" className="gap-2 border-brand-indigo/30 text-brand-indigo hover:bg-brand-indigo/10">
-              <Upload className="size-4" />
+            <Button
+              variant="outline"
+              size="sm"
+              className="gap-2 border-white/15 bg-white/5 hover:bg-brand-indigo/10 hover:border-brand-indigo/40 text-slate-200 hover:text-white"
+            >
+              <Upload className="size-3.5 text-brand-indigo" />
               <span>Compile New Video</span>
             </Button>
           </Link>
         </div>
 
         {otherLectures.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {otherLectures.map((lec) => {
               const isReady = lec.status === "done" || lec.status === "partial";
               return (
@@ -267,30 +271,30 @@ function LecturesContent() {
                   href={`/lectures/${encodeURIComponent(lec.job_id)}`}
                   className="group block"
                 >
-                  <div className="rounded-2xl bg-white dark:bg-[#0B1020] border border-slate-200 dark:border-[#1E294B] shadow-sm hover:shadow-md hover:border-brand-indigo/40 dark:hover:border-brand-indigo/40 transition-all duration-200 p-6 flex flex-col justify-between gap-5 min-h-[220px]">
-                    <div className="flex items-start gap-4">
-                      <div className="size-12 rounded-xl bg-brand-indigo/10 border border-brand-indigo/20 flex items-center justify-center text-brand-indigo group-hover:scale-105 transition-transform shrink-0">
-                        <FileVideo className="size-6" />
+                  <div className="rounded-2xl bg-[#0B1020]/80 border border-white/10 shadow-sm hover:shadow-md hover:border-brand-indigo/40 transition-all duration-200 p-5 sm:p-6 flex flex-col justify-between gap-4 min-h-[200px]">
+                    <div className="flex items-start gap-3.5">
+                      <div className="size-11 rounded-xl bg-brand-indigo/10 border border-brand-indigo/20 flex items-center justify-center text-brand-indigo group-hover:scale-105 transition-transform shrink-0">
+                        <FileVideo className="size-5" />
                       </div>
                       <div className="min-w-0 flex-1">
-                        <h3 className="text-lg font-bold text-slate-950 dark:text-white truncate group-hover:text-brand-indigo transition-colors">
+                        <h3 className="text-base sm:text-lg font-bold text-white truncate group-hover:text-brand-indigo transition-colors">
                           {lec.filename}
                         </h3>
-                        <p className="text-xs font-mono text-slate-500 mt-1">
+                        <p className="text-xs font-mono text-slate-400 mt-0.5">
                           Job ID: {lec.job_id}
                         </p>
-                        <div className="flex items-center gap-3 mt-2 text-xs font-mono text-slate-600 dark:text-slate-300">
+                        <div className="flex items-center gap-3 mt-2 text-xs font-mono text-slate-300">
                           <span className="inline-flex items-center gap-1 font-semibold">
                             <Clock className="size-3.5 text-slate-400" />
                             {formatSeconds(lec.duration || 0)}
                           </span>
                           <span>·</span>
                           {isReady ? (
-                            <span className="text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1">
+                            <span className="text-emerald-400 font-semibold flex items-center gap-1">
                               <CircleCheck className="size-3.5" /> Ready
                             </span>
                           ) : (
-                            <span className="text-amber-600 dark:text-amber-400 font-semibold flex items-center gap-1">
+                            <span className="text-amber-400 font-semibold flex items-center gap-1">
                               <CircleX className="size-3.5" /> {lec.status}
                             </span>
                           )}
@@ -298,7 +302,7 @@ function LecturesContent() {
                       </div>
                     </div>
 
-                    <div className="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-white/5 text-xs font-bold text-brand-indigo group-hover:text-brand-indigo/90">
+                    <div className="flex items-center justify-between pt-3 border-t border-white/5 text-xs font-bold text-brand-indigo group-hover:text-brand-indigo/90">
                       <span>Open Accessibility Studio</span>
                       <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
                     </div>
@@ -308,19 +312,23 @@ function LecturesContent() {
             })}
           </div>
         ) : (
-          /* High-End Ingestion Prompt Card to fill space gracefully */
-          <div className="rounded-2xl border border-dashed border-slate-300 dark:border-white/10 bg-slate-50/50 dark:bg-white/[0.01] p-8 sm:p-10 flex flex-col sm:flex-row items-center justify-between gap-6">
-            <div className="space-y-2 text-center sm:text-left max-w-xl">
-              <h3 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">
+          /* Secondary Ingestion Prompt Card — dark cohesive styling with high contrast text */
+          <div className="rounded-2xl border border-white/10 bg-[#0B1020]/70 p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-sm">
+            <div className="space-y-1.5 text-center sm:text-left max-w-xl">
+              <h3 className="text-base sm:text-lg font-bold text-white tracking-tight">
                 Have another lecture video to compile?
               </h3>
-              <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
                 Upload any lecture in MP4, WebM, or MOV format to decompile speech, extract code snippets, and synthesize synchronized audio descriptions.
               </p>
             </div>
             <Link href="/upload" className="shrink-0">
-              <Button size="lg" className="gap-2.5 bg-brand-indigo hover:bg-brand-indigo/90 text-white font-bold px-6 py-3 shadow-lg shadow-brand-indigo/20">
-                <Upload className="size-4.5" />
+              <Button
+                variant="outline"
+                size="default"
+                className="gap-2.5 border-white/20 bg-white/5 hover:bg-brand-indigo/15 hover:border-brand-indigo/50 text-white font-semibold px-5 py-2.5 rounded-xl transition-all shadow-sm"
+              >
+                <Upload className="size-4 text-brand-indigo" />
                 <span>Open Compiler Workspace</span>
               </Button>
             </Link>
