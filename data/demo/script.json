@@ -1,0 +1,75 @@
+{
+  "note": "Synthetic-but-real demo lecture: real rendered frames, real TTS audio.",
+  "manifest": [
+    {
+      "id": "intro",
+      "kind": "slide",
+      "duration": 6.45,
+      "frames": [
+        "intro_000.jpg",
+        "intro_001.jpg",
+        "intro_002.jpg",
+        "intro_003.jpg"
+      ]
+    },
+    {
+      "id": "code",
+      "kind": "code",
+      "duration": 6.91,
+      "frames": [
+        "code_000.jpg",
+        "code_001.jpg",
+        "code_002.jpg"
+      ]
+    },
+    {
+      "id": "interface",
+      "kind": "interface",
+      "duration": 6.07,
+      "frames": [
+        "interface_000.jpg",
+        "interface_001.jpg",
+        "interface_002.jpg"
+      ]
+    },
+    {
+      "id": "diagram",
+      "kind": "diagram",
+      "duration": 7.12,
+      "frames": [
+        "diagram_000.jpg",
+        "diagram_001.jpg",
+        "diagram_002.jpg"
+      ]
+    },
+    {
+      "id": "compare",
+      "kind": "slide",
+      "duration": 5.58,
+      "frames": [
+        "compare_000.jpg",
+        "compare_001.jpg",
+        "compare_002.jpg"
+      ]
+    },
+    {
+      "id": "chart",
+      "kind": "chart",
+      "duration": 3.35,
+      "frames": [
+        "chart_000.jpg",
+        "chart_001.jpg"
+      ]
+    },
+    {
+      "id": "outro",
+      "kind": "slide",
+      "duration": 4.77,
+      "frames": [
+        "outro_000.jpg",
+        "outro_001.jpg",
+        "outro_002.jpg"
+      ]
+    }
+  ]
+}

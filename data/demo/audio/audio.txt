@@ -1,0 +1,7 @@
+file 'intro.wav'
+file 'code.wav'
+file 'interface.wav'
+file 'diagram.wav'
+file 'compare.wav'
+file 'chart.wav'
+file 'outro.wav'

@@ -1,0 +1,40 @@
+# ---------------------------------------------------------------------------
+# EduAccess AI -- Python dependencies
+# Install with:  pip install -r requirements.txt
+# ---------------------------------------------------------------------------
+
+# --- Backend API ---
+fastapi>=0.110
+uvicorn[standard]>=0.27
+python-multipart>=0.0.9
+pydantic>=2.6
+python-dotenv>=1.0
+httpx>=0.27
+
+# --- Frontend ---
+streamlit>=1.32
+requests>=2.31
+
+# --- Video / audio processing ---
+opencv-python-headless>=4.9
+
+# --- Speech-to-text (runs 100% locally, no API key needed) ---
+openai-whisper>=20231117
+# Whisper needs PyTorch. If `pip install openai-whisper` doesn't pull a
+# working torch build for your machine, install torch manually first from
+# https://pytorch.org/get-started/locally/ then re-run this file.
+
+# --- Vision (offline OCR fallback -- always works, no API key needed) ---
+pytesseract>=0.3.10
+pillow>=10.2
+
+# --- Offline text-to-speech fallback (used if espeak-ng isn't installed) ---
+pyttsx3>=2.90
+
+# ---------------------------------------------------------------------------
+# OPTIONAL: only needed if you want higher-quality Vision/LLM/TTS output
+# using a paid API instead of the free offline fallbacks. Uncomment the
+# ones you plan to use and set the matching key in your .env file.
+# ---------------------------------------------------------------------------
+# openai>=1.30
+# anthropic>=0.34
