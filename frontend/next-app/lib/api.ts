@@ -9,9 +9,16 @@ export class ApiError extends Error {
   }
 }
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://127.0.0.1:8000";
-
-export const apiBase = () => API_BASE.replace(/\/$/, "");
+export const apiBase = () => {
+  const envUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  if (envUrl && envUrl.trim()) {
+    return envUrl.trim().replace(/\/$/, "");
+  }
+  if (typeof window !== "undefined" && (window as unknown as { __API_BASE_URL__?: string }).__API_BASE_URL__) {
+    return (window as unknown as { __API_BASE_URL__: string }).__API_BASE_URL__.replace(/\/$/, "");
+  }
+  return "http://127.0.0.1:8000";
+};
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(`${apiBase()}${path}`, {

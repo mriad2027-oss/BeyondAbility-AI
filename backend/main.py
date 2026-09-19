@@ -24,12 +24,22 @@ app = FastAPI(
     contact={"name": "EduAccess AI"},
 )
 
+import os
+
+cors_origins_raw = os.getenv("CORS_ORIGINS", "*")
+if cors_origins_raw == "*":
+    allowed_origins = ["*"]
+else:
+    allowed_origins = [origin.strip() for origin in cors_origins_raw.split(",") if origin.strip()]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=allowed_origins,
+    allow_credentials=True if cors_origins_raw != "*" else False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 app.include_router(upload.router, tags=["upload"])
 app.include_router(process.router, tags=["process"])
