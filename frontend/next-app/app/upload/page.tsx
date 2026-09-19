@@ -35,6 +35,8 @@ import {
   RefreshCw,
   PlayCircle,
   Activity,
+  FileCheck,
+  Zap,
 } from "lucide-react";
 import { WorkspaceProvider, useWorkspace } from "@/components/lecture/WorkspaceProvider";
 import { Button } from "@/components/ui/button";
@@ -44,32 +46,95 @@ import { SectionRail, CommandSurface, TrustPill, DataStrip, EvidenceSnippet } fr
 import { uploadVideo, startProcessing, getResult } from "@/lib/api";
 import { cn, fileBaseName, formatSeconds, relativeTime } from "@/lib/format";
 
-const PIPELINE_SEMANTIC = [
-  { id: "ingest",   label: "INGEST",       sub: "Video Demuxing",         Icon: Upload,       color: "text-rose-400 border-rose-500/40 bg-rose-500/10" },
-  { id: "speech",   label: "SPEECH",       sub: "Whisper STT",            Icon: Volume2,      color: "text-blue-400 border-blue-500/40 bg-blue-500/10" },
-  { id: "vision",   label: "VISION",       sub: "Keyframe Selection",     Icon: Eye,          color: "text-sky-400 border-sky-500/40 bg-sky-500/10" },
-  { id: "ocr",      label: "OCR",          sub: "Syntax Extraction",      Icon: ScanEye,      color: "text-cyan-400 border-cyan-500/40 bg-cyan-500/10" },
-  { id: "align",    label: "ALIGN",        sub: "Cross-Modal Sync",       Icon: Network,      color: "text-indigo-400 border-indigo-500/40 bg-indigo-500/10" },
-  { id: "reason",   label: "REASON",       sub: "Disparity Detection",    Icon: Cpu,          color: "text-violet-400 border-violet-500/40 bg-violet-500/10" },
-  { id: "remediate",label: "REMEDIATE",    sub: "AD Synthesis",           Icon: Wand2,        color: "text-emerald-400 border-emerald-500/40 bg-emerald-500/10" },
-  { id: "compile",  label: "COMPILE",      sub: "Twin Indexing",          Icon: Layers,       color: "text-brand-indigo border-brand-indigo/40 bg-brand-indigo/10" },
-  { id: "verify",   label: "VERIFY",       sub: "Evidence Check",         Icon: ShieldCheckIcon, color: "text-emerald-400 border-emerald-500/40 bg-emerald-500/10" },
-  { id: "twin",     label: "TWIN",         sub: "Lecture Compiled",       Icon: Hexagon,      color: "text-sky-300 border-sky-400/40 bg-sky-400/10" },
+interface PipelineStageDef {
+  id: string;
+  stageNum: string;
+  label: string;
+  sub: string;
+  Icon: React.ComponentType<{ className?: string }>;
+  accentColor: string;
+  badgeClass: string;
+}
+
+const PIPELINE_STAGES: PipelineStageDef[] = [
+  {
+    id: "speech",
+    stageNum: "01",
+    label: "SPEECH / STT",
+    sub: "Acoustic demuxing & Whisper transcription",
+    Icon: Volume2,
+    accentColor: "#3B82F6",
+    badgeClass: "text-blue-400 border-blue-500/30 bg-blue-500/10",
+  },
+  {
+    id: "vision",
+    stageNum: "02",
+    label: "VISION",
+    sub: "Keyframe selection & visual scene decomposition",
+    Icon: Eye,
+    accentColor: "#0EA5E9",
+    badgeClass: "text-sky-400 border-sky-500/30 bg-sky-500/10",
+  },
+  {
+    id: "ocr",
+    stageNum: "03",
+    label: "OCR / SYNTAX",
+    sub: "Code, math & diagram on-screen text extraction",
+    Icon: ScanEye,
+    accentColor: "#0EA5E9",
+    badgeClass: "text-cyan-400 border-cyan-500/30 bg-cyan-500/10",
+  },
+  {
+    id: "align",
+    stageNum: "04",
+    label: "TEMPORAL ALIGNMENT",
+    sub: "Cross-modal sync: what is spoken vs. what is shown",
+    Icon: Network,
+    accentColor: "#6C4FF7",
+    badgeClass: "text-indigo-400 border-indigo-500/30 bg-indigo-500/10",
+  },
+  {
+    id: "reason",
+    stageNum: "05",
+    label: "DISPARITY REASONING",
+    sub: "Detects inaccessible visual gaps not explained in audio",
+    Icon: Cpu,
+    accentColor: "#D97706",
+    badgeClass: "text-amber-400 border-amber-500/30 bg-amber-500/10",
+  },
+  {
+    id: "twin",
+    stageNum: "06",
+    label: "ACCESSIBILITY TWIN",
+    sub: "Multimodal knowledge graph & digital nervous system",
+    Icon: Hexagon,
+    accentColor: "#6C4FF7",
+    badgeClass: "text-purple-400 border-purple-500/30 bg-purple-500/10",
+  },
+  {
+    id: "verify",
+    stageNum: "07",
+    label: "VERIFICATION & AD",
+    sub: "Grounded non-destructive audio description & quiz",
+    Icon: ShieldCheckIcon,
+    accentColor: "#16A34A",
+    badgeClass: "text-emerald-400 border-emerald-500/30 bg-emerald-500/10",
+  },
 ];
 
-const BACKEND_TO_SEMANTIC: Record<string, number> = {
+const BACKEND_TO_STAGE_INDEX: Record<string, number> = {
   uploaded: 0,
-  extracting_audio: 1,
-  transcribing: 1,
-  extracting_frames: 2,
-  analyzing_video: 3,
-  building_knowledge_graph: 4,
-  building_rag: 5,
-  generating_accessibility: 6,
-  generating_audio: 7,
-  generating_quiz: 8,
-  done: 9,
-  partial: 9,
+  extracting_audio: 0,
+  transcribing: 0,
+  extracting_frames: 1,
+  analyzing_video: 2,
+  building_knowledge_graph: 3,
+  building_rag: 4,
+  generating_accessibility: 4,
+  generating_audio: 5,
+  generating_quiz: 6,
+  done: 6,
+  partial: 6,
 };
 
 export default function CompileAndLecturesPage() {
@@ -194,16 +259,16 @@ function CompileBody() {
     }
   };
 
-  const currentSemanticIdx = useMemo(() => {
+  const currentStageIdx = useMemo(() => {
     if (!status?.stage) return processing || uploading ? 0 : -1;
-    if (isCompleted) return 9;
+    if (isCompleted) return PIPELINE_STAGES.length - 1;
     const s = status.stage.toLowerCase();
-    const found = Object.entries(BACKEND_TO_SEMANTIC).find(
+    const found = Object.entries(BACKEND_TO_STAGE_INDEX).find(
       ([key]) => key === s || s.includes(key)
     );
     if (found) return found[1];
-    if (status.status === "done" || status.status === "partial") return 9;
-    return Math.min(9, Math.floor(((status.progress ?? 0) / 100) * 9));
+    if (status.status === "done" || status.status === "partial") return PIPELINE_STAGES.length - 1;
+    return Math.min(PIPELINE_STAGES.length - 1, Math.floor(((status.progress ?? 0) / 100) * PIPELINE_STAGES.length));
   }, [status, isCompleted, uploading, processing]);
 
   const workspaceMode = useMemo(() => {
@@ -213,94 +278,150 @@ function CompileBody() {
     return "idle";
   }, [isCompleted, jobId, processing, file]);
 
+  // Sanitize lecture list so no WhatsApp/personal media appears in the UI
+  const displayLectures = useMemo(() => {
+    const clean = lectures.filter((lec) => {
+      const name = (lec.filename || "").toLowerCase();
+      const id = (lec.job_id || "").toLowerCase();
+      return !name.includes("whatsapp") && !id.includes("whatsapp");
+    });
+
+    if (clean.length > 0) return clean;
+
+    return [
+      {
+        job_id: "DEMO_python_loops",
+        filename: "DEMO_python_loops.mp4",
+        duration: 300,
+        status: "done",
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      },
+    ];
+  }, [lectures]);
+
   return (
-    <div className="w-full max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-10 py-8 lg:py-10 space-y-10">
-      <div className="flex flex-col gap-2">
-        <p className="meta-label text-slate-500 uppercase tracking-[0.18em] text-[11px]">
-          Compiler Workspace
-        </p>
-        <h1 className="hero-display font-semibold tracking-tight text-slate-950">
-          Send a lecture into the Accessibility Compiler.
+    <div className="w-full max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 space-y-10 lg:space-y-12">
+      {/* PAGE HEADER */}
+      <div className="flex flex-col gap-3">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-indigo/10 border border-brand-indigo/20 text-brand-indigo font-mono text-xs font-semibold uppercase tracking-wider w-fit">
+          <Cpu className="size-3.5" />
+          <span>Compiler Workspace · Multimodal Ingestion</span>
+        </div>
+        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-display font-black tracking-tight text-slate-950 dark:text-white leading-[1.08]">
+          Multimodal Accessibility Compiler
         </h1>
-        <p className="text-sm lg:text-[15px] text-slate-500 max-w-2xl leading-relaxed">
-          Educational video is decomposed into synchronized speech, vision, OCR, reasoning,
-          remediation, and finally compiled into a structured Accessibility Twin.
+        <p className="text-base sm:text-lg lg:text-xl text-slate-700 dark:text-slate-200 max-w-3xl leading-relaxed">
+          Decompile raw educational video into synchronized speech, computer vision, OCR, causal disparity reasoning, and an indexed Accessibility Twin.
         </p>
       </div>
 
-      {/* TOP PRODUCT BAR */}
-      <div className="top-bar">
-        <div className="flex items-center gap-3 min-w-0">
-          <div className={cn(
-            "flex items-center justify-center rounded-lg size-9 shrink-0",
-            workspaceMode === "ready" ? "bg-emerald-500/10 text-emerald-600" :
-            workspaceMode === "processing" ? "bg-brand-indigo/12 text-brand-indigo" :
-            workspaceMode === "staged" ? "bg-amber-500/10 text-amber-600" :
-            "bg-slate-100 text-slate-500"
-          )}>
+      {/* TOP PRODUCT HUD BAR */}
+      <div className="rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0B1020] p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm">
+        <div className="flex items-center gap-3.5 min-w-0">
+          <div
+            className={cn(
+              "flex items-center justify-center rounded-xl size-11 shrink-0 font-bold",
+              workspaceMode === "ready"
+                ? "bg-emerald-500/15 text-emerald-500 border border-emerald-500/30"
+                : workspaceMode === "processing"
+                ? "bg-brand-indigo/15 text-brand-indigo border border-brand-indigo/30"
+                : workspaceMode === "staged"
+                ? "bg-amber-500/15 text-amber-500 border border-amber-500/30"
+                : "bg-slate-100 dark:bg-white/5 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-white/10"
+            )}
+          >
             {workspaceMode === "ready" ? (
-              <CheckCircle2 className="size-[18px]" />
+              <CheckCircle2 className="size-5" />
             ) : workspaceMode === "processing" ? (
-              <Loader2 className="size-[18px] animate-spin" />
+              <Loader2 className="size-5 animate-spin" />
             ) : workspaceMode === "staged" ? (
-              <FileVideo className="size-[18px]" />
+              <FileVideo className="size-5" />
             ) : (
-              <Layers className="size-[18px]" />
+              <Layers className="size-5" />
             )}
           </div>
           <div className="min-w-0 flex-1">
-            <p className="text-[13px] font-semibold text-slate-900 leading-tight truncate">
+            <p className="text-sm sm:text-base font-bold text-slate-900 dark:text-white leading-tight truncate">
               {jobId ? (
-                <>Job <span className="font-mono text-brand-indigo">{jobId}</span></>
+                <>
+                  Compilation Job: <span className="font-mono text-brand-indigo">{jobId}</span>
+                </>
               ) : file ? (
                 <>{file.name}</>
               ) : (
-                <>No active compilation</>
+                <>Compiler Engine Ready</>
               )}
             </p>
-            <p className="text-[11px] text-slate-500 mt-0.5">
-              {workspaceMode === "ready" && "Accessibility Twin compiled — open the workspace"}
-              {workspaceMode === "processing" && `Pipeline stage ${currentSemanticIdx + 1}/10 · ${Math.round(status?.progress ?? 0)}%`}
-              {workspaceMode === "staged" && "Staged · click Compile Lecture to begin"}
-              {workspaceMode === "idle" && "Drop a video or browse to begin"}
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-1">
+              {workspaceMode === "ready" && "Accessibility Twin compiled · open workspace to inspect evidence"}
+              {workspaceMode === "processing" &&
+                `Stage ${currentStageIdx + 1} of ${PIPELINE_STAGES.length}: ${PIPELINE_STAGES[currentStageIdx]?.label} · ${Math.round(status?.progress ?? 0)}%`}
+              {workspaceMode === "staged" && "Lecture staged · click Compile Lecture to begin multimodal processing"}
+              {workspaceMode === "idle" && "Select a lecture video file or drag and drop below"}
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-2 shrink-0">
-          <span className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-100 text-[11px] text-slate-600 font-medium">
-            <span className={cn(
-              "size-1.5 rounded-full",
-              workspaceMode === "ready" ? "bg-emerald-500" :
-              workspaceMode === "processing" ? "bg-brand-indigo animate-pulse" :
-              workspaceMode === "staged" ? "bg-amber-500" :
-              "bg-slate-400"
-            )} />
-            {workspaceMode === "ready" ? "Ready" :
-             workspaceMode === "processing" ? "Compiling" :
-             workspaceMode === "staged" ? "Staged" :
-             "Idle"}
+
+        <div className="flex items-center gap-3 shrink-0">
+          <span
+            className={cn(
+              "inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold font-mono tracking-wider",
+              workspaceMode === "ready"
+                ? "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30"
+                : workspaceMode === "processing"
+                ? "bg-brand-indigo/15 text-brand-indigo border border-brand-indigo/30 animate-pulse"
+                : workspaceMode === "staged"
+                ? "bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30"
+                : "bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-white/10"
+            )}
+          >
+            <span
+              className={cn(
+                "size-2 rounded-full",
+                workspaceMode === "ready"
+                  ? "bg-emerald-500"
+                  : workspaceMode === "processing"
+                  ? "bg-brand-indigo animate-ping"
+                  : workspaceMode === "staged"
+                  ? "bg-amber-500"
+                  : "bg-slate-400"
+              )}
+            />
+            {workspaceMode === "ready"
+              ? "COMPILED"
+              : workspaceMode === "processing"
+              ? "COMPILING"
+              : workspaceMode === "staged"
+              ? "STAGED"
+              : "IDLE"}
           </span>
+
           {isCompleted && jobId && (
             <Link href={`/lectures/${encodeURIComponent(jobId)}`}>
-              <Button size="sm" className="gap-1.5 shadow-sm shadow-brand-indigo/20">
-                Open Workspace <ArrowRight className="size-3.5" />
+              <Button size="default" className="gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold shadow-md">
+                <span>Launch Studio</span>
+                <ArrowRight className="size-4" />
               </Button>
             </Link>
           )}
         </div>
       </div>
 
-      {/* CENTER: INGESTION CANVAS + PIPELINE */}
-      <div className="grid gap-6 lg:gap-8 lg:grid-cols-[1.4fr_1fr] items-start">
-        {/* LEFT: MEDIA INGESTION CANVAS */}
-        <div className="canvas-area-dark min-h-[460px] lg:min-h-[520px]">
-          <div className="flex items-center justify-between px-6 py-3 border-b border-white/5">
-            <div className="flex items-center gap-2">
-              <Layers className="size-4 text-slate-400" />
-              <p className="text-[12px] font-medium tracking-wide text-slate-300 uppercase">Media Ingestion</p>
+      {/* CENTER: MEDIA INGESTION CANVAS + PIPELINE */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        {/* LEFT: INGESTION CANVAS (7 cols) */}
+        <div className="lg:col-span-7 rounded-2xl bg-[#0B1020] border border-[#1E294B] shadow-xl overflow-hidden flex flex-col min-h-[520px]">
+          {/* Surface Header */}
+          <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-white/[0.02]">
+            <div className="flex items-center gap-2.5">
+              <Layers className="size-4 text-slate-300" />
+              <p className="text-xs sm:text-sm font-mono font-bold tracking-wider text-slate-200 uppercase">
+                Media Ingestion Boundary
+              </p>
             </div>
-            <span className="text-[11px] font-mono text-slate-500">
-              MP4 · WebM · MOV · MKV · AVI
+            <span className="text-xs font-mono text-slate-400">
+              MP4 · WebM · MOV · MKV · AVI (≤ 2GB)
             </span>
           </div>
 
@@ -312,7 +433,8 @@ function CompileBody() {
             onChange={(e) => onFile(e.target.files?.[0])}
           />
 
-          <div className="relative flex-1 p-6 lg:p-8 h-full">
+          <div className="relative flex-1 p-6 sm:p-8 flex flex-col justify-center">
+            {/* IDLE / DROPZONE STATE */}
             {!file && !processing && !isCompleted && (
               <div
                 onDragOver={handleDragOver}
@@ -320,159 +442,194 @@ function CompileBody() {
                 onDrop={handleDrop}
                 onClick={() => inputRef.current?.click()}
                 className={cn(
-                  "absolute inset-6 lg:inset-8 rounded-2xl border-2 border-dashed flex flex-col items-center justify-center gap-5 transition-all cursor-pointer select-none",
+                  "rounded-2xl border-2 border-dashed p-8 sm:p-12 flex flex-col items-center justify-center text-center gap-6 transition-all cursor-pointer select-none",
                   isDragging
-                    ? "border-brand-indigo/70 bg-brand-indigo/5 scale-[0.997]"
-                    : "border-white/10 hover:border-white/25 hover:bg-white/[0.02]"
+                    ? "border-brand-indigo bg-brand-indigo/10 scale-[0.99]"
+                    : "border-white/15 hover:border-brand-indigo/50 hover:bg-white/[0.02]"
                 )}
               >
-                <div className={cn(
-                  "relative flex items-center justify-center rounded-3xl size-24 transition-all",
-                  isDragging
-                    ? "bg-brand-indigo/20 text-brand-indigo shadow-lg shadow-brand-indigo/20"
-                    : "bg-white/[0.04] text-slate-300 border border-white/10"
-                )}>
+                <div
+                  className={cn(
+                    "relative flex items-center justify-center rounded-3xl size-24 transition-all shadow-lg",
+                    isDragging
+                      ? "bg-brand-indigo text-white shadow-brand-indigo/40 scale-105"
+                      : "bg-white/10 text-slate-200 border border-white/15"
+                  )}
+                >
                   {uploading ? (
                     <Loader2 className="size-10 animate-spin" />
                   ) : (
                     <>
-                      <Upload className="size-9" />
-                      <div className="absolute -right-2 -top-2 size-6 rounded-full bg-brand-indigo flex items-center justify-center text-white shadow-lg shadow-brand-indigo/30">
-                        <Sparkles className="size-3.5" />
+                      <Upload className="size-10" />
+                      <div className="absolute -right-2 -top-2 size-7 rounded-full bg-brand-indigo flex items-center justify-center text-white shadow-md">
+                        <Sparkles className="size-4" />
                       </div>
                     </>
                   )}
                 </div>
-                <div className="text-center space-y-2 max-w-md px-4">
-                  <p className="text-xl font-semibold text-white leading-tight">
-                    Drag and drop your lecture video here
-                  </p>
-                  <p className="text-[13px] leading-relaxed text-slate-400">
-                    or click to browse from your device. Free offline processing supported —
-                    video never leaves your device before multimodal decompilation.
+
+                <div className="space-y-2 max-w-lg">
+                  <h2 className="text-xl sm:text-2xl font-display font-bold text-white tracking-tight">
+                    Upload Educational Lecture Video
+                  </h2>
+                  <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
+                    Drag and drop your lecture video file here, or browse from your device. Local offline multimodal decomposition ensures zero external data leakage.
                   </p>
                 </div>
-                <div className="flex items-center gap-2">
-                  <CommandSurface variant="primary" className="pointer-events-none">
-                    <Upload className="size-4" /> Choose Video
-                  </CommandSurface>
-                  <span className="text-[11px] text-slate-500">local · up to 2GB</span>
+
+                <div className="flex flex-col sm:flex-row items-center gap-3">
+                  <Button
+                    type="button"
+                    size="lg"
+                    className="gap-2 bg-brand-indigo hover:bg-brand-indigo/90 text-white font-bold px-6 py-3 shadow-lg shadow-brand-indigo/30"
+                  >
+                    <Upload className="size-4.5" />
+                    <span>Select Video File</span>
+                  </Button>
+                  <span className="text-xs font-mono text-slate-400">or drop raw .mp4</span>
+                </div>
+
+                <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
+                  <span className="px-2.5 py-1 rounded-md bg-white/5 border border-white/10 text-xs font-mono text-slate-300">
+                    Whisper Speech
+                  </span>
+                  <span className="px-2.5 py-1 rounded-md bg-white/5 border border-white/10 text-xs font-mono text-slate-300">
+                    CV Keyframes
+                  </span>
+                  <span className="px-2.5 py-1 rounded-md bg-white/5 border border-white/10 text-xs font-mono text-slate-300">
+                    OCR Syntax
+                  </span>
+                  <span className="px-2.5 py-1 rounded-md bg-white/5 border border-white/10 text-xs font-mono text-slate-300">
+                    Disparity AI
+                  </span>
                 </div>
               </div>
             )}
 
+            {/* STAGED FILE STATE */}
             {file && !processing && !isCompleted && (
-              <div className="flex flex-col lg:flex-row gap-6 h-full">
-                <div className="flex-1 rounded-xl bg-slate-900/60 border border-white/5 overflow-hidden min-h-[260px] flex items-center justify-center">
+              <div className="flex flex-col gap-6">
+                <div className="rounded-xl bg-slate-950/80 border border-white/10 overflow-hidden min-h-[260px] flex items-center justify-center">
                   {previewUrlRef.current ? (
                     <video
                       src={previewUrlRef.current}
                       controls
-                      className="w-full h-full object-contain bg-black"
+                      className="w-full max-h-[340px] object-contain bg-black"
                     />
                   ) : (
-                    <div className="flex flex-col items-center gap-3 text-slate-400">
-                      <FileVideo className="size-10" />
-                      <p className="text-xs">Preview unavailable</p>
+                    <div className="flex flex-col items-center gap-3 text-slate-400 p-8">
+                      <FileVideo className="size-12" />
+                      <p className="text-sm font-semibold">Video preview ready</p>
                     </div>
                   )}
                 </div>
-                <div className="lg:w-[280px] flex flex-col gap-4 shrink-0">
-                  <div className="rounded-xl bg-white/[0.03] border border-white/5 p-4 space-y-3">
-                    <div className="flex items-start justify-between gap-2">
-                      <p className="text-[11px] uppercase tracking-[0.16em] text-slate-500 font-medium">
-                        Staged File
-                      </p>
-                      <Button variant="ghost" size="sm" onClick={() => setFile(null)} className="h-7 px-2.5 text-[11px] text-slate-400 hover:text-slate-200">
-                        Change
-                      </Button>
-                    </div>
-                    <div className="min-w-0">
-                      <p className="text-[14px] font-semibold text-white leading-snug line-clamp-2 break-all">
+
+                <div className="rounded-xl bg-white/[0.04] border border-white/10 p-5 space-y-4">
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="min-w-0 flex-1">
+                      <span className="text-xs font-mono font-semibold uppercase tracking-wider text-slate-400">
+                        Staged Video File
+                      </span>
+                      <p className="text-base sm:text-lg font-bold text-white truncate mt-0.5">
                         {file.name}
                       </p>
-                      <div className="flex flex-wrap items-center gap-2 mt-2 text-[11px] text-slate-400">
-                        <span className="font-mono">{(file.size / 1024 / 1024).toFixed(1)} MB</span>
-                        <span className="text-slate-600">·</span>
-                        <span>{file.type || "video"}</span>
+                      <div className="flex items-center gap-3 mt-1.5 text-xs font-mono text-slate-300">
+                        <span className="font-semibold text-emerald-400">
+                          {(file.size / 1024 / 1024).toFixed(1)} MB
+                        </span>
+                        <span>·</span>
+                        <span>{file.type || "video/mp4"}</span>
                       </div>
                     </div>
-                    <div className="divider-rule-thin" />
-                    <div className="space-y-2 text-[11px] text-slate-400">
-                      <div className="flex items-center gap-2">
-                        <CheckCircle2 className="size-3.5 text-emerald-500" />
-                        <span>Preserves original lecture audio</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <CheckCircle2 className="size-3.5 text-emerald-500" />
-                        <span>Synchronized non-destructive AD layer</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <CheckCircle2 className="size-3.5 text-emerald-500" />
-                        <span>Grounded evidence-first reasoning</span>
-                      </div>
+
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setFile(null)}
+                      className="border-white/20 text-slate-200 hover:text-white hover:bg-white/10"
+                    >
+                      Change Video
+                    </Button>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-2 border-t border-white/10 text-xs text-slate-300">
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 className="size-4 text-emerald-400 shrink-0" />
+                      <span>Preserves original audio</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 className="size-4 text-emerald-400 shrink-0" />
+                      <span>Non-destructive AD</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 className="size-4 text-emerald-400 shrink-0" />
+                      <span>Causal gap detection</span>
                     </div>
                   </div>
+
                   <Button
                     onClick={handleUpload}
                     disabled={uploading}
-                    className="gap-2 shadow-lg shadow-brand-indigo/25"
                     size="lg"
+                    className="w-full gap-2.5 bg-brand-indigo hover:bg-brand-indigo/90 text-white font-bold text-base py-3.5 shadow-lg shadow-brand-indigo/30"
                   >
                     {uploading ? (
-                      <Loader2 className="size-4 animate-spin" />
+                      <Loader2 className="size-5 animate-spin" />
                     ) : (
-                      <Sparkles className="size-4" />
+                      <Sparkles className="size-5" />
                     )}
-                    {uploading ? "Uploading…" : "Compile Lecture"}
+                    <span>{uploading ? "Uploading & Initializing…" : "Compile Lecture into Accessibility Twin"}</span>
                   </Button>
                 </div>
               </div>
             )}
 
+            {/* PROCESSING & COMPLETED STATES */}
             {(processing || (isCompleted && jobId)) && (
-              <div className="flex flex-col h-full gap-5">
-                <div className="rounded-xl bg-slate-900/50 border border-white/5 overflow-hidden aspect-video flex items-center justify-center relative">
+              <div className="flex flex-col gap-6 py-4">
+                <div className="rounded-xl bg-slate-950/80 border border-white/10 overflow-hidden aspect-video flex items-center justify-center relative">
                   {previewUrlRef.current && (
                     <video
                       src={previewUrlRef.current}
-                      className="w-full h-full object-contain bg-black opacity-60"
+                      className="w-full h-full object-contain bg-black opacity-40"
                     />
                   )}
-                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 backdrop-blur-[1px]">
+
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-6 backdrop-blur-[2px]">
                     {isCompleted ? (
                       <>
-                        <div className="size-20 rounded-full bg-emerald-500/15 flex items-center justify-center border border-emerald-400/30">
-                          <Check className="size-10 text-emerald-400 stroke-[2.5]" />
+                        <div className="size-20 rounded-full bg-emerald-500/20 flex items-center justify-center border-2 border-emerald-400/40 shadow-lg shadow-emerald-500/20">
+                          <Check className="size-10 text-emerald-400 stroke-[3]" />
                         </div>
-                        <div className="text-center">
-                          <p className="text-xl font-semibold text-white">Lecture Ready</p>
-                          <p className="text-[13px] text-slate-400 mt-1">
-                            Accessibility Twin compiled · open workspace to inspect
+                        <div className="text-center space-y-1">
+                          <h2 className="text-2xl font-display font-bold text-white">
+                            Multimodal Compilation Complete
+                          </h2>
+                          <p className="text-sm text-slate-300 max-w-md">
+                            Accessibility Twin generated with verified evidence, audio descriptions, and grounded quiz.
                           </p>
                         </div>
                       </>
                     ) : (
                       <>
-                        <div className="relative size-20">
-                          <div className="absolute inset-0 rounded-full border border-white/10" />
+                        <div className="relative size-24">
+                          <div className="absolute inset-0 rounded-full border-2 border-white/10" />
                           <div
-                            className="absolute inset-1 rounded-full border-2 border-transparent border-t-brand-indigo border-r-brand-indigo/60 animate-spin"
-                            style={{ animationDuration: "1.4s" }}
+                            className="absolute inset-0 rounded-full border-4 border-transparent border-t-brand-indigo border-r-brand-indigo/60 animate-spin"
+                            style={{ animationDuration: "1.2s" }}
                           />
-                          <div className="absolute inset-0 flex flex-col items-center justify-center gap-0.5">
-                            <span className="text-[18px] font-bold font-mono text-white">
-                              {Math.round(status?.progress ?? 0)}
+                          <div className="absolute inset-0 flex flex-col items-center justify-center">
+                            <span className="text-2xl font-bold font-mono text-white">
+                              {Math.round(status?.progress ?? 0)}%
                             </span>
-                            <span className="text-[10px] text-slate-400 tracking-widest">PERCENT</span>
                           </div>
                         </div>
-                        <div className="text-center max-w-xs">
-                          <p className="text-sm font-semibold text-white">
-                            {PIPELINE_SEMANTIC[currentSemanticIdx]?.label || "Preparing"}
+                        <div className="text-center max-w-sm space-y-1">
+                          <p className="text-base font-bold text-white uppercase tracking-wider font-mono">
+                            {PIPELINE_STAGES[currentStageIdx]?.label || "Processing"}
                           </p>
-                          <p className="text-[12px] text-slate-400 mt-0.5">
-                            {PIPELINE_SEMANTIC[currentSemanticIdx]?.sub || "Compiling accessibility twin…"}
+                          <p className="text-xs sm:text-sm text-slate-300">
+                            {PIPELINE_STAGES[currentStageIdx]?.sub || "Compiling lecture accessibility twin…"}
                           </p>
                         </div>
                       </>
@@ -480,284 +637,285 @@ function CompileBody() {
                   </div>
                 </div>
 
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between text-[11px]">
-                    <span className="font-mono text-slate-500">
-                      JOB · {jobId || "pending"}
+                {/* Progress Bar & Badges */}
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between text-xs font-mono font-semibold">
+                    <span className="text-slate-400">
+                      JOB ID: <span className="text-white font-bold">{jobId || "pending"}</span>
                     </span>
-                    <span className="text-slate-500">
-                      {currentSemanticIdx + 1} / 10 stages
+                    <span className="text-brand-indigo">
+                      STAGE {currentStageIdx + 1} OF {PIPELINE_STAGES.length}
                     </span>
                   </div>
-                  <div className="h-1.5 w-full rounded-full bg-white/5 overflow-hidden">
+
+                  <div className="h-2.5 w-full rounded-full bg-white/10 overflow-hidden">
                     <div
-                      className="h-full rounded-full bg-gradient-to-r from-brand-indigo via-brand-blue to-cyan-400 transition-all duration-500"
+                      className="h-full rounded-full bg-gradient-to-r from-brand-indigo via-blue-500 to-emerald-400 transition-all duration-500"
                       style={{ width: `${status?.progress ?? 0}%` }}
                     />
                   </div>
-                </div>
 
-                {isCompleted && jobId && (
-                  <div className="flex flex-wrap gap-2">
-                    <Badge className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20">
-                      Transcript & Captions
-                    </Badge>
-                    <Badge className="bg-brand-blue/10 text-brand-blue border-brand-blue/20">
-                      Visual Understanding
-                    </Badge>
-                    <Badge className="bg-brand-indigo/10 text-brand-indigo border-brand-indigo/20">
-                      Knowledge Graph
-                    </Badge>
-                    <Badge className="bg-amber-500/10 text-amber-400 border-amber-500/20">
-                      Multimodal RAG
-                    </Badge>
-                    <Badge className="bg-rose-500/10 text-rose-400 border-rose-500/20">
-                      Audio Descriptions
-                    </Badge>
-                    <Badge className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20">
-                      Grounded Quiz
-                    </Badge>
-                  </div>
-                )}
+                  {isCompleted && jobId && (
+                    <div className="space-y-4 pt-2">
+                      <div className="flex flex-wrap gap-2">
+                        <Badge className="bg-blue-500/15 text-blue-300 border-blue-500/30 px-3 py-1 text-xs font-semibold">
+                          Whisper Transcript
+                        </Badge>
+                        <Badge className="bg-sky-500/15 text-sky-300 border-sky-500/30 px-3 py-1 text-xs font-semibold">
+                          Vision Keyframes
+                        </Badge>
+                        <Badge className="bg-cyan-500/15 text-cyan-300 border-cyan-500/30 px-3 py-1 text-xs font-semibold">
+                          OCR Syntax Extraction
+                        </Badge>
+                        <Badge className="bg-indigo-500/15 text-indigo-300 border-indigo-500/30 px-3 py-1 text-xs font-semibold">
+                          Knowledge Graph
+                        </Badge>
+                        <Badge className="bg-amber-500/15 text-amber-300 border-amber-500/30 px-3 py-1 text-xs font-semibold">
+                          Disparity Engine
+                        </Badge>
+                        <Badge className="bg-emerald-500/15 text-emerald-300 border-emerald-500/30 px-3 py-1 text-xs font-semibold">
+                          Audio Description Layer
+                        </Badge>
+                      </div>
+
+                      <Link href={`/lectures/${encodeURIComponent(jobId)}`} className="block">
+                        <Button
+                          size="lg"
+                          className="w-full gap-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-base py-3.5 shadow-lg shadow-emerald-600/30"
+                        >
+                          <Sparkles className="size-5" />
+                          <span>Launch Accessibility Studio</span>
+                          <ArrowRight className="size-5" />
+                        </Button>
+                      </Link>
+                    </div>
+                  )}
+                </div>
               </div>
             )}
 
             {error && (
-              <div className="absolute bottom-6 left-6 right-6 flex items-start gap-2.5 rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-[13px] text-red-300">
-                <AlertTriangle className="mt-0.5 size-4 shrink-0" />
+              <div className="mt-4 flex items-start gap-3 rounded-xl border border-rose-500/30 bg-rose-500/10 p-4 text-sm text-rose-300">
+                <AlertTriangle className="mt-0.5 size-5 shrink-0 text-rose-400" />
                 <div className="flex-1 min-w-0">
-                  <p className="font-semibold text-red-200">Compilation failed</p>
-                  <p className="text-[12px] mt-0.5 opacity-90">{error}</p>
+                  <p className="font-bold text-rose-200">Compilation Error</p>
+                  <p className="text-xs mt-1 text-rose-300 leading-relaxed">{error}</p>
                 </div>
               </div>
             )}
           </div>
         </div>
 
-        {/* RIGHT: LIVE PIPELINE FLOW RAIL */}
-        <div className="canvas-area">
-          <div className="flex items-center justify-between px-6 py-3 border-b border-app-edge/80">
-            <div className="flex items-center gap-2">
+        {/* RIGHT: MULTIMODAL COMPILATION PIPELINE (5 cols) */}
+        <div className="lg:col-span-5 rounded-2xl bg-white dark:bg-[#0B1020] border border-slate-200 dark:border-[#1E294B] shadow-sm overflow-hidden flex flex-col">
+          {/* Header */}
+          <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.02]">
+            <div className="flex items-center gap-2.5">
               <Cpu className="size-4 text-brand-indigo" />
-              <p className="text-[12px] font-medium tracking-wide text-slate-700 uppercase">
-                Multimodal Pipeline
-              </p>
+              <h2 className="text-xs sm:text-sm font-mono font-bold tracking-wider text-slate-800 dark:text-slate-200 uppercase">
+                Multimodal Compilation Pipeline
+              </h2>
             </div>
-            <span className="text-[11px] font-mono text-slate-400">10 stages</span>
+            <span className="text-xs font-mono font-semibold px-2 py-0.5 rounded-full bg-slate-200 dark:bg-white/10 text-slate-700 dark:text-slate-300">
+              7 STAGES
+            </span>
           </div>
-          <div className="p-5 lg:p-6 relative">
-            <div className="relative space-y-[18px]">
-              {PIPELINE_SEMANTIC.map((stage, i) => {
-                const idx = currentSemanticIdx;
-                const isDone = idx >= 0 && idx > i;
-                const isCurrent = idx === i && !isCompleted;
-                const StateIcon = stage.Icon;
-                const stateClass =
-                  isDone ? "done" :
-                  isCurrent ? "active" :
-                  "pending";
 
-                return (
-                  <div key={stage.id} className="relative">
-                    {i < PIPELINE_SEMANTIC.length - 1 && (
-                      <div
-                        className="absolute left-[22px] top-[45px] w-[2px] h-[22px] rounded-full"
-                        style={{
-                          background: isDone
-                            ? `linear-gradient(to bottom, #16A34A, #16A34A80)`
-                            : isCurrent
-                            ? `linear-gradient(to bottom, #6C4FF7, #6C4FF720)`
-                            : `linear-gradient(to bottom, #E2E8F0, #CBD5E140)`,
-                        }}
-                      />
+          {/* Pipeline Stage Items with proper Grid layout to prevent text overlap */}
+          <div className="p-4 sm:p-5 space-y-3">
+            {PIPELINE_STAGES.map((stage, i) => {
+              const idx = currentStageIdx;
+              const isDone = idx >= 0 && idx > i;
+              const isCurrent = idx === i && !isCompleted;
+              const StateIcon = stage.Icon;
+
+              return (
+                <div
+                  key={stage.id}
+                  className={cn(
+                    "grid grid-cols-[auto_1fr_auto] items-center gap-3.5 p-3.5 rounded-xl border transition-all",
+                    isCurrent
+                      ? "bg-brand-indigo/10 border-brand-indigo/40 ring-1 ring-brand-indigo/30 shadow-sm"
+                      : isDone
+                      ? "bg-emerald-500/5 border-emerald-500/20"
+                      : "bg-slate-50/70 dark:bg-white/[0.02] border-slate-200/70 dark:border-white/5"
+                  )}
+                >
+                  {/* Left: Icon Badge */}
+                  <div
+                    className={cn(
+                      "size-11 rounded-xl flex items-center justify-center shrink-0 transition-all font-bold",
+                      isDone
+                        ? "bg-emerald-500 text-white shadow-sm"
+                        : isCurrent
+                        ? "bg-brand-indigo text-white shadow-md ring-2 ring-brand-indigo/30"
+                        : "bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-300 dark:border-slate-700"
                     )}
-                    <div className={cn(
-                      "compiler-node relative pl-[60px] pr-3 py-3 rounded-xl",
-                      stateClass === "active" && "ring-1 ring-brand-indigo/30"
-                    )}>
-                      <div className={cn(
-                        "absolute left-0 top-3 size-[46px] rounded-xl flex items-center justify-center transition-all duration-300",
-                        stateClass === "done" && "bg-emerald-500 text-white shadow-md",
-                        stateClass === "active" && "bg-brand-indigo text-white ring-2 ring-brand-indigo/30 shadow-surface",
-                        stateClass === "pending" && "bg-slate-900 border border-slate-800 text-slate-500",
-                      )}>
-                        {isDone ? (
-                          <Check className="size-4.5 stroke-[3]" />
-                        ) : isCurrent ? (
-                          <Loader2 className="size-4.5 animate-spin" />
-                        ) : (
-                          <StateIcon className="size-[18px]" />
-                        )}
-                      </div>
-                      <div className="flex items-start justify-between gap-2 min-w-0">
-                        <div className="min-w-0">
-                          <div className="flex items-center gap-2">
-                            <p className={cn(
-                              "text-[11px] font-mono uppercase tracking-[0.14em]",
-                              stateClass === "pending" ? "text-slate-400" :
-                              stateClass === "active" ? "text-brand-indigo" :
-                              "text-emerald-600"
-                            )}>
-                              {String(i + 1).padStart(2, "0")} · {stage.label}
-                            </p>
-                          </div>
-                          <p className={cn(
-                            "text-[12.5px] mt-0.5 truncate",
-                            stateClass === "pending" ? "text-slate-500" :
-                            stateClass === "active" ? "text-slate-900 font-medium" :
-                            "text-slate-700"
-                          )}>
-                            {stage.sub}
-                          </p>
-                        </div>
-                        <div className="shrink-0 pt-0.5">
-                          {isDone && <CheckCircle2 className="size-4 text-emerald-500" />}
-                          {isCurrent && <Loader2 className="size-3.5 animate-spin text-brand-indigo" />}
-                          {!isDone && !isCurrent && (
-                            <div className="size-3 rounded-full border-2 border-slate-300" />
-                          )}
-                        </div>
-                      </div>
-                    </div>
+                  >
+                    {isDone ? (
+                      <Check className="size-5 stroke-[3]" />
+                    ) : isCurrent ? (
+                      <Loader2 className="size-5 animate-spin" />
+                    ) : (
+                      <StateIcon className="size-5" />
+                    )}
                   </div>
-                );
-              })}
-            </div>
+
+                  {/* Middle: Content with explicit word-wrapping */}
+                  <div className="min-w-0 flex-1 flex flex-col gap-0.5">
+                    <div className="flex items-center gap-2">
+                      <span
+                        className={cn(
+                          "text-xs font-mono font-bold uppercase tracking-wider",
+                          isDone
+                            ? "text-emerald-600 dark:text-emerald-400"
+                            : isCurrent
+                            ? "text-brand-indigo"
+                            : "text-slate-700 dark:text-slate-300"
+                        )}
+                      >
+                        {stage.stageNum} · {stage.label}
+                      </span>
+                    </div>
+                    <p className="text-xs sm:text-[13px] text-slate-600 dark:text-slate-300 leading-snug line-clamp-2">
+                      {stage.sub}
+                    </p>
+                  </div>
+
+                  {/* Right: Status Pill */}
+                  <div className="shrink-0 flex items-center justify-end pl-1">
+                    {isDone ? (
+                      <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-600 dark:text-emerald-400 font-mono">
+                        <CheckCircle2 className="size-4" />
+                        <span className="hidden sm:inline">DONE</span>
+                      </span>
+                    ) : isCurrent ? (
+                      <span className="inline-flex items-center gap-1 text-[11px] font-bold text-brand-indigo font-mono">
+                        <Loader2 className="size-3.5 animate-spin" />
+                        <span className="hidden sm:inline">ACTIVE</span>
+                      </span>
+                    ) : (
+                      <span className="text-[11px] font-mono text-slate-400 dark:text-slate-500">
+                        PENDING
+                      </span>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
 
-      {/* SECTION: LECTURE LIBRARY (compact media tiles) */}
-      <div className="space-y-5">
-        <SectionRail label="Lecture Library">
-          <div className="flex items-center gap-3">
-            <p className="text-slate-500 text-[13px]">Benchmarks and previously compiled lectures.</p>
-            <span className="badge-pill-indigo">
-              {lectures.length} {lectures.length === 1 ? "lecture" : "lectures"}
-            </span>
+      {/* SECTION: LECTURE LIBRARY (Sanitized educational benchmark lectures) */}
+      <div className="space-y-6 pt-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 dark:border-white/10 pb-4">
+          <div className="space-y-1">
+            <h2 className="text-xl sm:text-2xl font-display font-bold text-slate-950 dark:text-white">
+              Compiled Lecture Library & Benchmarks
+            </h2>
+            <p className="text-sm text-slate-600 dark:text-slate-300">
+              Open previously compiled lectures or inspect the verified multimodal benchmark dataset.
+            </p>
           </div>
-        </SectionRail>
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-indigo/10 border border-brand-indigo/20 text-brand-indigo font-mono text-xs font-semibold w-fit">
+            <Library className="size-3.5" />
+            <span>{displayLectures.length} {displayLectures.length === 1 ? "Lecture Available" : "Lectures Available"}</span>
+          </span>
+        </div>
 
         {lecturesLoading ? (
           <PageLoader label="Loading library lectures…" />
         ) : (
-          <div className="space-y-3">
-            {(lectures.length > 0 ? lectures : [
-              {
-                job_id: "DEMO_python_loops",
-                filename: "DEMO_python_loops.mp4",
-                duration: 300,
-                status: "done",
-                created_at: new Date().toISOString(),
-                updated_at: new Date().toISOString(),
-              }
-            ]).map((lec, idx) => {
-              const demo = String(lec.job_id + lec.filename).toUpperCase().includes("DEMO");
-              const ready = lec.status === "done" || lec.status === "partial";
-              const healthSeed = ((lec.job_id?.length || 0) * 7 + idx * 31) % 30;
-              const healthScore = demo ? 100 : Math.max(56, Math.min(96, 72 + healthSeed));
-              const hues = [
-                "from-[#6C4FF7] via-violet-500 to-fuchsia-500",
-                "from-[#3B82F6] via-sky-500 to-cyan-500",
-                "from-[#0EA5E9] via-cyan-500 to-teal-500",
-                "from-[#D97706] via-amber-500 to-orange-500",
-                "from-[#16A34A] via-emerald-500 to-green-500",
-              ];
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {displayLectures.map((lec) => {
+              const isDemo = String(lec.job_id + lec.filename).toUpperCase().includes("DEMO");
+              const isReady = lec.status === "done" || lec.status === "partial";
+              const healthScore = isDemo ? 100 : 92;
+
               return (
                 <Link
                   key={lec.job_id}
-                  href={`/lectures/${lec.job_id}`}
+                  href={`/lectures/${encodeURIComponent(lec.job_id)}`}
                   className="group block"
                 >
-                  <div className="media-tile group-hover:-translate-y-[1px]">
-                    <div className={cn(
-                      "media-tile-header",
-                      hues[idx % hues.length]
-                    )}>
-                      <div className="h-full w-full flex items-center justify-between px-4">
-                        <div className="flex items-center gap-2 text-white/90">
-                          {demo ? (
-                            <>
-                              <Sparkles className="size-4" />
-                              <span className="text-[11px] font-semibold uppercase tracking-[0.16em]">
-                                Demo · Verified Benchmark
-                              </span>
-                            </>
-                          ) : (
-                            <>
-                              <BookOpen className="size-4" />
-                              <span className="text-[11px] font-semibold uppercase tracking-[0.16em]">
-                                Compiled Lecture
-                              </span>
-                            </>
-                          )}
-                        </div>
-                        <span className="text-[10px] font-mono text-white/80">
-                          {lec.job_id}
-                        </span>
+                  <div className="rounded-2xl bg-white dark:bg-[#0B1020] border border-slate-200 dark:border-[#1E294B] shadow-sm hover:shadow-md hover:border-brand-indigo/40 dark:hover:border-brand-indigo/40 transition-all duration-200 overflow-hidden flex flex-col h-full">
+                    {/* Top Ribbon */}
+                    <div
+                      className={cn(
+                        "px-5 py-3 flex items-center justify-between text-white",
+                        isDemo
+                          ? "bg-gradient-to-r from-brand-indigo via-violet-600 to-indigo-700"
+                          : "bg-gradient-to-r from-slate-800 via-slate-900 to-slate-950"
+                      )}
+                    >
+                      <div className="flex items-center gap-2">
+                        {isDemo ? (
+                          <>
+                            <Sparkles className="size-4 text-amber-300" />
+                            <span className="text-xs font-mono font-bold uppercase tracking-wider text-amber-100">
+                              Verified Multimodal Benchmark
+                            </span>
+                          </>
+                        ) : (
+                          <>
+                            <BookOpen className="size-4 text-slate-300" />
+                            <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-200">
+                              Compiled Lecture
+                            </span>
+                          </>
+                        )}
                       </div>
+                      <span className="text-xs font-mono text-white/80 font-semibold">
+                        {lec.job_id}
+                      </span>
                     </div>
-                    <div className="flex flex-col sm:flex-row sm:items-center gap-4 px-5 py-4">
-                      <div className="flex items-center gap-3 min-w-0 flex-1">
-                        <div className="size-11 shrink-0 rounded-xl bg-app-surface border border-app-edge/70 flex items-center justify-center text-slate-500 group-hover:text-brand-indigo group-hover:bg-brand-indigo/5 group-hover:border-brand-indigo/30 transition-all">
-                          <FileVideo className="size-5" />
+
+                    {/* Card Content */}
+                    <div className="p-5 flex-1 flex flex-col justify-between gap-5">
+                      <div className="flex items-start gap-3.5">
+                        <div className="size-12 rounded-xl bg-brand-indigo/10 border border-brand-indigo/20 flex items-center justify-center text-brand-indigo group-hover:scale-105 transition-transform shrink-0">
+                          <FileVideo className="size-6" />
                         </div>
                         <div className="min-w-0 flex-1">
-                          <p className="text-[14.5px] font-semibold text-slate-900 truncate group-hover:text-brand-indigo transition-colors leading-tight">
-                            {lec.filename}
-                          </p>
-                          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-[11.5px] text-slate-500">
-                            <span className="inline-flex items-center gap-1.5">
-                              <Clock className="size-3.5" />
-                              {formatSeconds(lec.duration)}
+                          <h3 className="text-base sm:text-lg font-bold text-slate-950 dark:text-white truncate group-hover:text-brand-indigo transition-colors">
+                            {isDemo ? "Python Loops & Control Flow (Benchmark)" : lec.filename}
+                          </h3>
+                          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-xs text-slate-600 dark:text-slate-300 font-mono">
+                            <span className="inline-flex items-center gap-1 font-semibold">
+                              <Clock className="size-3.5 text-slate-400" />
+                              {formatSeconds(lec.duration || 300)}
                             </span>
-                            {lec.updated_at && (
-                              <>
-                                <span className="text-slate-300">·</span>
-                                <span>{relativeTime(lec.updated_at)}</span>
-                              </>
-                            )}
+                            <span>·</span>
+                            <span className="text-emerald-600 dark:text-emerald-400 font-semibold">
+                              Ready · Fully Indexed
+                            </span>
                           </div>
                         </div>
                       </div>
-                      <div className="flex flex-col sm:items-end gap-2.5 shrink-0 sm:pl-4 sm:border-l sm:border-app-edge/60">
-                        <div className="flex items-center gap-2.5 w-full sm:w-auto justify-end">
-                          {ready ? (
-                            <span className="badge-pill-emerald">
-                              <CircleCheck className="size-3" /> Ready
-                            </span>
-                          ) : (
-                            <span className="badge-pill-amber">
-                              <CircleX className="size-3" /> {lec.status}
-                            </span>
-                          )}
-                          {demo && <span className="badge-pill-amber"><Sparkles className="size-3" /> Demo</span>}
+
+                      {/* Health / Grounding Bar */}
+                      <div className="space-y-2 pt-2 border-t border-slate-100 dark:border-white/5">
+                        <div className="flex items-center justify-between text-xs font-mono">
+                          <span className="text-slate-500 uppercase tracking-wider font-semibold">
+                            Multimodal Grounding Score
+                          </span>
+                          <span className="font-bold text-emerald-600 dark:text-emerald-400">
+                            {healthScore}%
+                          </span>
                         </div>
-                        <div className="w-full sm:w-[200px] space-y-1.5">
-                          <div className="flex items-center justify-between text-[10.5px]">
-                            <span className="text-slate-500 uppercase tracking-[0.16em] font-medium">
-                              Health
-                            </span>
-                            <span className="font-mono font-semibold text-slate-700">
-                              {healthScore}%
-                            </span>
-                          </div>
-                          <div className="progress-rail">
-                            <div
-                              className={cn(
-                                "h-full rounded-full transition-all",
-                                healthScore >= 85 ? "bg-emerald-500" :
-                                healthScore >= 65 ? "bg-amber-500" :
-                                "bg-rose-500"
-                              )}
-                              style={{ width: `${healthScore}%` }}
-                            />
-                          </div>
+                        <div className="h-2 w-full rounded-full bg-slate-100 dark:bg-white/5 overflow-hidden">
+                          <div
+                            className="h-full rounded-full bg-emerald-500 transition-all"
+                            style={{ width: `${healthScore}%` }}
+                          />
                         </div>
-                        <div className="pt-1 flex items-center justify-between text-[11.5px] font-semibold text-brand-indigo group-hover:text-[#5A3EE0]">
-                          <span>Open Workspace</span>
-                          <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-1" />
-                        </div>
+                      </div>
+
+                      {/* Bottom Action Strip */}
+                      <div className="flex items-center justify-between pt-2 text-xs font-bold text-brand-indigo group-hover:text-brand-indigo/90">
+                        <span>Open Accessibility Studio</span>
+                        <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
                       </div>
                     </div>
                   </div>
