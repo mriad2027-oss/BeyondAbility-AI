@@ -175,64 +175,64 @@ export function EvidenceLens({
       <div className="pointer-events-none absolute bottom-2 right-2 size-2 border-b border-r border-indigo-400/40" />
 
       {/* Header bar: Instrument Telemetry */}
-      <div className="relative flex items-center justify-between border-b border-slate-800/80 px-4 py-2.5 bg-slate-950/60">
-        <div className="flex items-center gap-2">
-          <Crosshair className="size-3.5 text-brand-cyan animate-spin-slow" aria-hidden />
-          <span className="font-mono text-[10.5px] font-bold uppercase tracking-[0.14em] text-slate-300">
+      <div className="relative flex items-center justify-between border-b border-slate-800 px-4 py-3 bg-slate-950/80">
+        <div className="flex items-center gap-2.5">
+          <Crosshair className="size-4 text-brand-cyan animate-spin-slow" aria-hidden />
+          <span className="font-mono text-xs font-bold uppercase tracking-[0.16em] text-slate-200">
             EVIDENCE LENS
           </span>
-          <span className="font-mono text-[9px] text-slate-500">v2.4</span>
+          <span className="font-mono text-[10px] text-slate-400 font-semibold">v2.4</span>
         </div>
 
         {/* Timestamp button */}
         <button
           type="button"
           onClick={() => onSeek?.(sampleData.timestamp)}
-          className="inline-flex items-center gap-1.5 rounded-lg border border-slate-700/80 bg-slate-900/90 px-2 py-0.5 font-mono text-[11px] font-bold text-sky-300 hover:border-sky-400/50 hover:bg-slate-800 transition"
+          className="inline-flex items-center gap-1.5 rounded-lg border border-slate-700 bg-slate-900 px-2.5 py-1 font-mono text-xs font-bold text-sky-300 hover:border-sky-400 hover:bg-slate-800 transition shadow-sm"
           title={`Seek video to ${formatClock(sampleData.timestamp)}`}
         >
-          <Play className="size-2.5 fill-sky-300" />
+          <Play className="size-3 fill-sky-300" />
           <span>{formatClock(sampleData.timestamp)}</span>
-          <span className="text-slate-500 text-[9px]">({sampleData.timestamp.toFixed(1)}s)</span>
+          <span className="text-slate-400 text-[10px]">({sampleData.timestamp.toFixed(1)}s)</span>
         </button>
       </div>
 
       {/* Main scientific telemetry body */}
-      <div className="p-4 space-y-3">
+      <div className="p-4.5 sm:p-5 space-y-3.5">
         {/* Modality and Status Row */}
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <div className={cn("inline-flex items-center gap-1.5 rounded-md border px-2 py-0.5 font-mono text-[10px] font-bold uppercase", modMeta.bg, modMeta.color)}>
-            <ModIcon className="size-3" />
+        <div className="flex flex-wrap items-center justify-between gap-2.5">
+          <div className={cn("inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 font-mono text-[11px] font-bold uppercase", modMeta.bg, modMeta.color)}>
+            <ModIcon className="size-3.5" />
             <span>{modMeta.label}</span>
           </div>
 
-          <div className={cn("inline-flex items-center gap-1.5 rounded-md border px-2 py-0.5 font-mono text-[9.5px] font-bold uppercase tracking-wider", statusMeta.bg, statusMeta.textColor)}>
-            <StatusIcon className="size-3" />
+          <div className={cn("inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 font-mono text-[10.5px] font-bold uppercase tracking-wider", statusMeta.bg, statusMeta.textColor)}>
+            <StatusIcon className="size-3.5" />
             <span>{statusMeta.label}</span>
           </div>
         </div>
 
         {/* Source citation */}
-        <div className="flex items-center gap-1.5 text-[10.5px] font-mono text-slate-400">
-          <span className="text-slate-500">SOURCE:</span>
-          <span className="text-slate-300 truncate">{sampleData.source}</span>
+        <div className="flex items-center gap-2 text-xs font-mono text-slate-300">
+          <span className="text-slate-400 font-semibold">SOURCE:</span>
+          <span className="text-slate-100 font-semibold truncate">{sampleData.source}</span>
         </div>
 
         {/* Evidence Snippet / Code block */}
-        <div className="rounded-xl border border-slate-800 bg-slate-950 p-3 space-y-2">
-          <div className="flex items-center justify-between text-[10px] font-mono">
-            <span className="text-slate-400">EXTRACTED GROUND TRUTH:</span>
+        <div className="rounded-xl border border-slate-800 bg-slate-950 p-3.5 space-y-2.5">
+          <div className="flex items-center justify-between text-[11px] font-mono">
+            <span className="text-slate-300 font-semibold">EXTRACTED GROUND TRUTH:</span>
             <span className="text-emerald-400 font-bold">
               CONFIDENCE: {(sampleData.confidence * 100).toFixed(1)}%
             </span>
           </div>
 
-          <p className="text-[11.5px] text-slate-200 leading-relaxed">
+          <p className="text-[13px] text-slate-100 leading-relaxed font-sans font-normal">
             {sampleData.evidence}
           </p>
 
           {sampleData.codeSnippet && (
-            <div className="rounded-lg bg-black/90 border border-slate-800/80 p-2.5 font-mono text-[11px] text-emerald-400 whitespace-pre leading-relaxed overflow-x-auto">
+            <div className="rounded-lg bg-black border border-slate-800 p-3 font-mono text-xs text-emerald-400 font-semibold whitespace-pre leading-relaxed overflow-x-auto">
               {sampleData.codeSnippet}
             </div>
           )}
@@ -240,17 +240,17 @@ export function EvidenceLens({
 
         {/* Disparity or Remediation Note */}
         {sampleData.remediation && (
-          <div className="rounded-lg border border-emerald-500/20 bg-emerald-500/5 p-2.5 text-[11px] space-y-1">
-            <div className="flex items-center gap-1 text-emerald-400 font-mono text-[10px] font-bold">
-              <Sparkles className="size-3" />
+          <div className="rounded-xl border border-emerald-500/30 bg-emerald-950/20 p-3 text-xs space-y-1.5">
+            <div className="flex items-center gap-1.5 text-emerald-300 font-mono text-[11px] font-bold">
+              <Sparkles className="size-3.5 text-emerald-400" />
               <span>GROUNDED REMEDIATION ACTION:</span>
             </div>
-            <p className="text-slate-300 leading-relaxed">{sampleData.remediation}</p>
+            <p className="text-slate-100 text-xs sm:text-[12.5px] leading-relaxed font-sans">{sampleData.remediation}</p>
           </div>
         )}
 
         {/* Telemetry metadata footer */}
-        <div className="flex items-center justify-between pt-1 border-t border-slate-800/60 font-mono text-[9.5px] text-slate-500">
+        <div className="flex items-center justify-between pt-2 border-t border-slate-800/80 font-mono text-[10.5px] text-slate-400 font-semibold">
           <span>DETERMINISTIC CITATION</span>
           <span>LATENCY: &lt;140ms</span>
         </div>

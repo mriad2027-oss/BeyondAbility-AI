@@ -267,53 +267,53 @@ export default function HeroCompilerVisual() {
       />
 
       {/* Top Header: System Instrument Bar */}
-      <div className="relative flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
-        <div className="flex items-center gap-2.5">
-          <div className="flex size-8 items-center justify-center rounded-xl bg-gradient-to-br from-brand-indigo to-brand-blue text-white shadow-sm shadow-brand-indigo/40">
-            <Cpu className="size-4 animate-pulse" />
+      <div className="relative flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3.5">
+        <div className="flex items-center gap-3">
+          <div className="flex size-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-indigo to-brand-blue text-white shadow-md shadow-brand-indigo/40">
+            <Cpu className="size-5 animate-pulse" />
           </div>
           <div>
-            <div className="flex items-center gap-2">
-              <h3 className="font-display text-[13.5px] font-bold tracking-tight text-white">
+            <div className="flex items-center gap-2.5">
+              <h3 className="font-display text-[14.5px] font-bold tracking-tight text-white">
                 EDUACCESS COMPILER CORE
               </h3>
-              <span className="rounded-full bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 text-[9px] font-mono font-bold text-emerald-400 uppercase tracking-wider">
+              <span className="rounded-full bg-emerald-500/15 border border-emerald-500/40 px-2.5 py-0.5 text-[10px] font-mono font-bold text-emerald-300 uppercase tracking-wider">
                 LIVE COMPILING
               </span>
             </div>
-            <p className="text-[10px] font-mono text-slate-400">
+            <p className="text-[11px] font-mono text-slate-300">
               Deterministic Video Ingestion → Multimodal Reasoning → Accessible Twin
             </p>
           </div>
         </div>
 
         {/* Telemetry controls */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2.5">
           <button
             type="button"
             onClick={() => setIsAutoCycling(!isAutoCycling)}
             className={cn(
-              "inline-flex items-center gap-1 rounded-md px-2 py-1 text-[10px] font-mono font-semibold border transition",
+              "inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-[11px] font-mono font-bold border transition",
               isAutoCycling
-                ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-300"
-                : "border-slate-700 bg-slate-800 text-slate-400"
+                ? "border-emerald-500/40 bg-emerald-500/15 text-emerald-300"
+                : "border-slate-700 bg-slate-800 text-slate-300"
             )}
             title="Toggle automatic stage progression"
           >
-            <RotateCw className={cn("size-3", isAutoCycling && "animate-spin-slow")} />
+            <RotateCw className={cn("size-3.5", isAutoCycling && "animate-spin-slow")} />
             <span>{isAutoCycling ? "AUTO" : "PAUSED"}</span>
           </button>
 
-          <span className="font-mono text-[11px] text-slate-400">
-            <span className="text-brand-indigo font-bold">{active.step}</span>
-            <span className="text-slate-600 mx-1">/</span>
+          <span className="font-mono text-xs text-slate-300 font-semibold">
+            <span className="text-brand-indigo font-bold text-sm">{active.step}</span>
+            <span className="text-slate-500 mx-1">/</span>
             <span>09</span>
           </span>
         </div>
       </div>
 
       {/* Interactive Horizontal Pipeline Stage Selector (9 Stages) */}
-      <div className="relative mt-3 grid grid-cols-9 gap-1 p-1 rounded-xl bg-slate-950/90 border border-slate-800/80">
+      <div className="relative mt-3.5 grid grid-cols-9 gap-1.5 p-1.5 rounded-xl bg-slate-950 border border-slate-800">
         {COMPILER_STAGES.map((st, i) => {
           const Icon = st.icon;
           const isCurrent = i === activeIdx;
@@ -328,17 +328,17 @@ export default function HeroCompilerVisual() {
                 setIsAutoCycling(false);
               }}
               className={cn(
-                "relative flex flex-col items-center justify-center py-1.5 px-0.5 rounded-lg transition-all duration-300 group",
+                "relative flex flex-col items-center justify-center py-2 px-1 rounded-lg transition-all duration-300 group",
                 isCurrent
-                  ? "bg-brand-indigo text-white shadow-md shadow-brand-indigo/30 scale-[1.04] z-10"
+                  ? "bg-brand-indigo text-white shadow-md shadow-brand-indigo/40 scale-[1.04] z-10"
                   : isPassed
                   ? "bg-slate-900 text-emerald-400 hover:bg-slate-800"
-                  : "bg-transparent text-slate-500 hover:text-slate-300 hover:bg-slate-900"
+                  : "bg-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-900"
               )}
               title={`${st.step}. ${st.label}`}
             >
-              <Icon className="size-3 sm:size-3.5" />
-              <span className="mt-0.5 font-mono text-[8px] sm:text-[9px] font-bold leading-none">
+              <Icon className="size-3.5 sm:size-4" />
+              <span className="mt-1 font-mono text-[9px] sm:text-[10px] font-bold leading-none">
                 {st.step}
               </span>
             </button>
@@ -349,56 +349,58 @@ export default function HeroCompilerVisual() {
       {/* Central Interactive Laboratory Workbench */}
       <div className="relative mt-4 grid gap-4 lg:grid-cols-12 items-stretch">
         {/* Left: Video / Modality Frame Simulation (5 cols) */}
-        <div className="lg:col-span-5 flex flex-col rounded-2xl border border-slate-800 bg-slate-950/80 p-3.5 space-y-2.5">
-          <div className="flex items-center justify-between text-[10px] font-mono text-slate-400">
-            <span className="flex items-center gap-1.5 text-slate-300">
-              <span className="size-1.5 rounded-full bg-rose-500 animate-ping" />
+        <div className="lg:col-span-5 flex flex-col rounded-2xl border border-slate-800 bg-slate-950 p-4 space-y-3">
+          <div className="flex items-center justify-between text-xs font-mono text-slate-300">
+            <span className="flex items-center gap-1.5 text-slate-200 font-semibold">
+              <span className="size-2 rounded-full bg-rose-500 animate-ping" />
               DEMO_python_loops.mp4
             </span>
-            <span className="text-sky-400 font-bold">00:26.0s</span>
+            <span className="text-sky-300 font-bold">00:26.0s</span>
           </div>
 
           {/* Simulated Video Slide Canvas with OCR Overlay */}
-          <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-slate-800 bg-[#080C1A] flex flex-col justify-between p-3 font-mono">
+          <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-slate-800 bg-[#080C1A] flex flex-col justify-between p-3.5 font-mono">
             {/* Slide title */}
             <div className="flex items-center justify-between">
-              <span className="text-[10px] text-slate-400 font-semibold tracking-wider uppercase">
+              <span className="text-[11px] text-slate-300 font-bold tracking-wider uppercase">
                 PYTHON 3.10 · FOR LOOPS
               </span>
-              <span className="rounded bg-indigo-500/20 border border-indigo-500/40 px-1.5 py-0.2 text-[8.5px] text-indigo-300">
+              <span className="rounded bg-indigo-500/25 border border-indigo-500/40 px-2 py-0.5 text-[9.5px] font-bold text-indigo-200">
                 KEYFRAME #04
               </span>
             </div>
 
             {/* Code Block in Slide */}
-            <div className="rounded-lg bg-black/80 border border-slate-800/80 p-2 text-[10px] text-emerald-400 leading-relaxed font-mono">
-              <div className="text-slate-500"># Iterating over sequence</div>
+            <div className="rounded-lg bg-black/90 border border-slate-800 p-2.5 text-[11px] sm:text-xs text-emerald-400 leading-relaxed font-mono">
+              <div className="text-slate-400"># Iterating over sequence</div>
               <div>fruits = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;]</div>
               <div className="text-amber-300 font-bold">for fruit in fruits:</div>
-              <div className="pl-3 text-sky-300">print(fruit)</div>
+              <div className="pl-3 text-sky-300 font-semibold">print(fruit)</div>
             </div>
 
             {/* Bottom active audio description overlay strip */}
-            <div className="rounded bg-emerald-950/80 border border-emerald-500/30 px-2 py-1 text-[9px] text-emerald-300 flex items-center justify-between">
-              <span className="flex items-center gap-1 truncate">
-                <Volume2 className="size-2.5 shrink-0" />
+            <div className="rounded-lg bg-emerald-950/90 border border-emerald-500/40 px-2.5 py-1.5 text-[10px] text-emerald-200 flex items-center justify-between font-semibold">
+              <span className="flex items-center gap-1.5 truncate">
+                <Volume2 className="size-3 shrink-0 text-emerald-300" />
                 AD #03: &ldquo;for fruit in fruits colon, print fruit&rdquo;
               </span>
-              <span className="font-bold text-[8px] text-emerald-400 shrink-0">ACTIVE</span>
+              <span className="font-bold text-[9px] text-emerald-400 shrink-0 bg-emerald-900/60 px-1.5 py-0.5 rounded">
+                ACTIVE
+              </span>
             </div>
           </div>
 
           {/* Modality Stream Waveform Indicator */}
-          <div className="flex items-center justify-between px-1 text-[9.5px] font-mono text-slate-400">
-            <span className="flex items-center gap-1">
-              <Mic className="size-3 text-blue-400" /> Speech Stream
+          <div className="flex items-center justify-between px-1 text-[11px] font-mono text-slate-300">
+            <span className="flex items-center gap-1.5 font-semibold text-slate-200">
+              <Mic className="size-3.5 text-blue-400" /> Speech Stream
             </span>
-            <div className="flex items-center gap-0.5">
+            <div className="flex items-center gap-1">
               {[35, 60, 20, 85, 45, 95, 30, 70, 40, 80, 50, 90, 25, 65].map((h, idx) => (
                 <span
                   key={idx}
-                  className="inline-block w-1 rounded-full bg-blue-400/80 transition-all duration-300"
-                  style={{ height: `${(h / 100) * 14}px` }}
+                  className="inline-block w-1 rounded-full bg-blue-400 transition-all duration-300"
+                  style={{ height: `${(h / 100) * 16}px` }}
                 />
               ))}
             </div>
@@ -406,36 +408,36 @@ export default function HeroCompilerVisual() {
         </div>
 
         {/* Right: Active Stage Telemetry & Deep Grounding (7 cols) */}
-        <div className="lg:col-span-7 flex flex-col justify-between rounded-2xl border border-slate-800 bg-slate-950/90 p-4 space-y-3">
+        <div className="lg:col-span-7 flex flex-col justify-between rounded-2xl border border-slate-800 bg-slate-950 p-4 space-y-3.5">
           {/* Active Stage Header */}
-          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800/80 pb-2.5">
-            <div className="flex items-center gap-2.5">
+          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+            <div className="flex items-center gap-3">
               <span
                 className={cn(
-                  "flex size-8 items-center justify-center rounded-xl border bg-gradient-to-br text-white shadow-sm",
+                  "flex size-9 items-center justify-center rounded-xl border bg-gradient-to-br text-white shadow-md",
                   active.color
                 )}
               >
-                <ActiveIcon className="size-4" />
+                <ActiveIcon className="size-4.5" />
               </span>
               <div>
-                <p className="text-[13px] font-bold text-white leading-tight">
+                <p className="text-sm font-bold text-white leading-tight">
                   {active.label}
                 </p>
-                <p className="text-[10px] text-slate-400 font-mono">{active.subtitle}</p>
+                <p className="text-[11px] text-slate-300 font-mono mt-0.5">{active.subtitle}</p>
               </div>
             </div>
 
-            <span className={cn("rounded-full border px-2.5 py-0.5 font-mono text-[9.5px] font-bold uppercase tracking-wider", active.color)}>
+            <span className={cn("rounded-full border px-3 py-1 font-mono text-[10.5px] font-bold uppercase tracking-wider", active.color)}>
               {active.category}
             </span>
           </div>
 
           {/* Telemetry Live Feed Block */}
-          <div className="rounded-xl border border-slate-800/90 bg-black/60 p-3 font-mono text-[11px] space-y-2 flex-1 flex flex-col justify-center">
-            <div className="flex items-center justify-between text-[10px]">
-              <span className="flex items-center gap-1.5 text-brand-cyan font-semibold">
-                <Activity className="size-3 text-brand-cyan animate-pulse" />
+          <div className="rounded-xl border border-slate-800 bg-black/70 p-3.5 font-mono text-xs space-y-2.5 flex-1 flex flex-col justify-center">
+            <div className="flex items-center justify-between text-[11px]">
+              <span className="flex items-center gap-2 text-brand-cyan font-bold">
+                <Activity className="size-3.5 text-brand-cyan animate-pulse" />
                 {active.telemetry.title}
               </span>
               <span className="text-emerald-400 font-bold">
@@ -445,35 +447,35 @@ export default function HeroCompilerVisual() {
 
             {/* Dynamic Content: Spoken Transcript, Extracted Code, or Narration Action */}
             {active.telemetry.spoken && (
-              <div className="rounded-lg bg-blue-950/30 border border-blue-500/20 p-2 text-blue-200 text-[11px] leading-relaxed italic">
+              <div className="rounded-lg bg-blue-950/40 border border-blue-500/30 p-2.5 text-blue-100 text-xs leading-relaxed italic">
                 {active.telemetry.spoken}
               </div>
             )}
 
             {active.telemetry.code && (
-              <div className="rounded-lg bg-black/90 border border-slate-800 p-2.5 text-emerald-400 text-[10.5px] leading-relaxed whitespace-pre font-mono">
+              <div className="rounded-lg bg-black border border-slate-800 p-3 text-emerald-400 text-[11.5px] leading-relaxed whitespace-pre font-mono font-semibold">
                 {active.telemetry.code}
               </div>
             )}
 
             {active.telemetry.action && (
-              <div className="rounded-lg bg-emerald-950/40 border border-emerald-500/30 p-2 text-emerald-300 text-[11px] leading-relaxed font-semibold">
+              <div className="rounded-lg bg-emerald-950/50 border border-emerald-500/40 p-2.5 text-emerald-200 text-xs leading-relaxed font-semibold">
                 {active.telemetry.action}
               </div>
             )}
 
-            <p className="text-slate-300 text-[11px] leading-relaxed">
+            <p className="text-slate-200 text-xs leading-relaxed font-sans">
               {active.telemetry.detail}
             </p>
           </div>
 
           {/* Grounding & Causality Footer */}
-          <div className="flex items-center justify-between pt-2 border-t border-slate-800/60 text-[10px] text-slate-400 font-mono">
-            <span className="flex items-center gap-1 text-emerald-400 font-semibold">
-              <ShieldCheck className="size-3.5" />
+          <div className="flex items-center justify-between pt-2.5 border-t border-slate-800 text-[11px] text-slate-300 font-mono">
+            <span className="flex items-center gap-1.5 text-emerald-400 font-bold">
+              <ShieldCheck className="size-4" />
               Verified in Ground Truth Media
             </span>
-            <span className="text-slate-500">{active.telemetry.timestamp}</span>
+            <span className="text-slate-400 font-semibold">{active.telemetry.timestamp}</span>
           </div>
         </div>
       </div>
