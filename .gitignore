@@ -1,9 +1,11 @@
 .venv/
+.venv*/
 venv/
 __pycache__/
 *.pyc
 .env
 .env.local
+.env.*.local
 .pytest_cache/
 node_modules/
 frontend/next-app/node_modules/
@@ -12,11 +14,20 @@ frontend/next-app/.next/
 frontend/next-app/out/
 *.log
 qa_*.png
+qa_screenshots*/
+frontend/next-app/qa_screenshots*/
+*_visual_qa.mjs
+judge_audit.mjs
+diagnose.mjs
+qa_suite.mjs
+refined_judge_audit.mjs
+*.tsbuildinfo
+frontend/next-app/tsconfig.tsbuildinfo
+.browser-agent/
 .trae/
 .vscode/
 scratch/
 WhatsApp*
-
 
 # Generated data (keep folders & DEMO fixtures)
 data/videos/*
@@ -33,5 +44,6 @@ data/outputs/*
 !data/outputs/DEMO_python_loops*
 data/jobs/*
 !data/jobs/.gitkeep
+
 
 
