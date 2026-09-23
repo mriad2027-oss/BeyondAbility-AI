@@ -43,7 +43,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState, PageLoader } from "@/components/ui/loading";
 import { SectionRail, CommandSurface, TrustPill, DataStrip, EvidenceSnippet } from "@/components/ui/evidence-primitives";
-import { uploadVideo, startProcessing, getResult } from "@/lib/api";
+import { uploadVideo, startProcessing, getPipelineStatus, ApiError } from "@/lib/api";
 import { cn, fileBaseName, formatSeconds, relativeTime } from "@/lib/format";
 
 interface PipelineStageDef {
@@ -63,8 +63,8 @@ const PIPELINE_STAGES: PipelineStageDef[] = [
     label: "SPEECH / STT",
     sub: "Acoustic demuxing & Whisper transcription",
     Icon: Volume2,
-    accentColor: "#3B82F6",
-    badgeClass: "text-blue-400 border-blue-500/30 bg-blue-500/10",
+    accentColor: "#5B82A6",
+    badgeClass: "text-[#5B82A6] border-[#5B82A6]/30 bg-[#5B82A6]/10",
   },
   {
     id: "vision",
@@ -72,8 +72,8 @@ const PIPELINE_STAGES: PipelineStageDef[] = [
     label: "VISION",
     sub: "Keyframe selection & visual scene decomposition",
     Icon: Eye,
-    accentColor: "#0EA5E9",
-    badgeClass: "text-sky-400 border-sky-500/30 bg-sky-500/10",
+    accentColor: "#5F9A9A",
+    badgeClass: "text-[#5F9A9A] border-[#5F9A9A]/30 bg-[#5F9A9A]/10",
   },
   {
     id: "ocr",
@@ -81,8 +81,8 @@ const PIPELINE_STAGES: PipelineStageDef[] = [
     label: "OCR / SYNTAX",
     sub: "Code, math & diagram on-screen text extraction",
     Icon: ScanEye,
-    accentColor: "#0EA5E9",
-    badgeClass: "text-cyan-400 border-cyan-500/30 bg-cyan-500/10",
+    accentColor: "#5F9A9A",
+    badgeClass: "text-[#5F9A9A] border-[#5F9A9A]/30 bg-[#5F9A9A]/10",
   },
   {
     id: "align",
@@ -90,8 +90,8 @@ const PIPELINE_STAGES: PipelineStageDef[] = [
     label: "TEMPORAL ALIGNMENT",
     sub: "Cross-modal sync: what is spoken vs. what is shown",
     Icon: Network,
-    accentColor: "#6C4FF7",
-    badgeClass: "text-indigo-400 border-indigo-500/30 bg-indigo-500/10",
+    accentColor: "#B85C38",
+    badgeClass: "text-[#B85C38] border-[#B85C38]/30 bg-[#B85C38]/10",
   },
   {
     id: "reason",
@@ -99,8 +99,8 @@ const PIPELINE_STAGES: PipelineStageDef[] = [
     label: "DISPARITY REASONING",
     sub: "Detects inaccessible visual gaps not explained in audio",
     Icon: Cpu,
-    accentColor: "#D97706",
-    badgeClass: "text-amber-400 border-amber-500/30 bg-amber-500/10",
+    accentColor: "#B77932",
+    badgeClass: "text-[#B77932] border-[#B77932]/30 bg-[#B77932]/10",
   },
   {
     id: "twin",
@@ -108,8 +108,8 @@ const PIPELINE_STAGES: PipelineStageDef[] = [
     label: "ACCESSIBILITY TWIN",
     sub: "Multimodal knowledge graph & digital nervous system",
     Icon: Hexagon,
-    accentColor: "#6C4FF7",
-    badgeClass: "text-purple-400 border-purple-500/30 bg-purple-500/10",
+    accentColor: "#6C63A8",
+    badgeClass: "text-[#6C63A8] border-[#6C63A8]/30 bg-[#6C63A8]/10",
   },
   {
     id: "verify",
@@ -117,8 +117,8 @@ const PIPELINE_STAGES: PipelineStageDef[] = [
     label: "VERIFICATION & AD",
     sub: "Grounded non-destructive audio description & quiz",
     Icon: ShieldCheckIcon,
-    accentColor: "#16A34A",
-    badgeClass: "text-emerald-400 border-emerald-500/30 bg-emerald-500/10",
+    accentColor: "#5F8A62",
+    badgeClass: "text-[#5F8A62] border-[#5F8A62]/30 bg-[#5F8A62]/10",
   },
 ];
 
@@ -159,11 +159,25 @@ function CompileBody() {
   const { lectures, loading: lecturesLoading, error: lecturesError, refresh } = useWorkspace();
   const unmountedRef = useRef(false);
   const previewUrlRef = useRef<string | null>(null);
+  const pollIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const pollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const clearPolling = () => {
+    if (pollIntervalRef.current) {
+      clearInterval(pollIntervalRef.current);
+      pollIntervalRef.current = null;
+    }
+    if (pollTimeoutRef.current) {
+      clearTimeout(pollTimeoutRef.current);
+      pollTimeoutRef.current = null;
+    }
+  };
 
   useEffect(() => {
     unmountedRef.current = false;
     return () => {
       unmountedRef.current = true;
+      clearPolling();
       if (previewUrlRef.current) {
         URL.revokeObjectURL(previewUrlRef.current);
         previewUrlRef.current = null;
@@ -211,6 +225,7 @@ function CompileBody() {
     if (!file || uploading) return;
     setUploading(true);
     setError(null);
+    clearPolling();
     try {
       const up = await uploadVideo(file);
       setJobId(up.job_id);
@@ -224,38 +239,91 @@ function CompileBody() {
         accessibility_mode: "blind",
       });
 
-      const poll = async () => {
-        if (unmountedRef.current) return;
+      const realJobId = up.job_id;
+
+      // Initial status to show processing started
+      setStatus({
+        stage: "uploaded",
+        progress: 1,
+        status: "processing",
+      });
+
+      let elapsed = 0;
+      const POLL_INTERVAL_MS = 1500;
+      const MAX_POLL_SECONDS = 900;
+
+      pollIntervalRef.current = setInterval(async () => {
+        if (unmountedRef.current) {
+          clearPolling();
+          return;
+        }
         try {
-          const res = await getResult(up.job_id);
-          const st = typeof res.status === "string" ? res.status : "processing";
-          const prog = typeof res.progress === "number" ? res.progress : (st === "done" ? 100 : 50);
-          const stage = typeof res.current_stage === "string" ? res.current_stage : (st === "done" ? "done" : "processing");
+          const s = await getPipelineStatus(realJobId);
+          const stageName = s.current_stage ?? s.status ?? "processing";
+          const progressNum = typeof s.progress === "number"
+            ? Math.min(99, Math.max(0, s.progress))
+            : (s.status === "done" || s.status === "partial" ? 100 : (status?.progress ?? 5));
 
-          setStatus({ stage, progress: prog, status: st });
+          if (!unmountedRef.current) {
+            setStatus({
+              stage: stageName,
+              progress: s.status === "done" || s.status === "partial" ? 100 : progressNum,
+              status: s.status ?? "processing",
+            });
+          }
 
-          if (st === "done" || st === "partial") {
+          if (s.error && !unmountedRef.current) {
+            clearPolling();
+            setProcessing(false);
+            setError(`Processing failed: ${s.error}`);
+            return;
+          }
+
+          if ((s.status === "done" || s.status === "partial") && !unmountedRef.current) {
+            clearPolling();
             setProcessing(false);
             setIsCompleted(true);
-            refresh?.();
-          } else if (st === "failed") {
-            setProcessing(false);
-            setError(typeof res.error === "string" ? res.error : "Processing failed");
-          } else {
-            setTimeout(poll, 1500);
+            await refresh?.();
+            router.push(`/lectures/${encodeURIComponent(realJobId)}`);
+            return;
           }
-        } catch (e: unknown) {
-          if (!unmountedRef.current) {
+
+          if (s.status === "failed" && !unmountedRef.current) {
+            clearPolling();
             setProcessing(false);
-            setError(e instanceof Error ? e.message : "Error checking processing status");
+            setError(s.error || "Processing failed. Please try again.");
+            return;
+          }
+        } catch (pollErr: unknown) {
+          if (unmountedRef.current) {
+            clearPolling();
+            return;
+          }
+          if (pollErr instanceof ApiError) {
+            clearPolling();
+            setProcessing(false);
+            setError(pollErr.message);
+            return;
           }
         }
-      };
-      poll();
+      }, POLL_INTERVAL_MS);
+
+      pollTimeoutRef.current = setTimeout(() => {
+        clearPolling();
+        if (!unmountedRef.current) {
+          setProcessing(false);
+          setError("Processing timed out. The backend is taking longer than expected. Please try again later.");
+        }
+      }, MAX_POLL_SECONDS * 1000);
     } catch (e: unknown) {
+      clearPolling();
       setUploading(false);
       setProcessing(false);
-      setError(e instanceof Error ? e.message : "Failed to upload video");
+      if (e instanceof ApiError) {
+        setError(e.message);
+      } else {
+        setError(e instanceof Error ? e.message : "Failed to upload video");
+      }
     }
   };
 
@@ -280,72 +348,59 @@ function CompileBody() {
 
   // Sanitize lecture list so no WhatsApp/personal media appears in the UI
   const displayLectures = useMemo(() => {
-    const clean = lectures.filter((lec) => {
+    return lectures.filter((lec) => {
       const name = (lec.filename || "").toLowerCase();
       const id = (lec.job_id || "").toLowerCase();
       return !name.includes("whatsapp") && !id.includes("whatsapp");
     });
-
-    if (clean.length > 0) return clean;
-
-    return [
-      {
-        job_id: "DEMO_python_loops",
-        filename: "DEMO_python_loops.mp4",
-        duration: 300,
-        status: "done",
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      },
-    ];
   }, [lectures]);
 
   return (
     <div className="w-full max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 space-y-10 lg:space-y-12">
       {/* PAGE HEADER */}
       <div className="flex flex-col gap-3">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-indigo/10 border border-brand-indigo/20 text-brand-indigo font-mono text-xs font-semibold uppercase tracking-wider w-fit">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFF8F4] border border-[#E8C2B2] text-[#B85C38] font-mono text-xs font-bold uppercase tracking-wider w-fit shadow-xs">
           <Cpu className="size-3.5" />
           <span>Compiler Workspace · Multimodal Ingestion</span>
         </div>
-        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-display font-black tracking-tight text-slate-950 dark:text-white leading-[1.08]">
+        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-display font-black tracking-tight text-[#2F2924] leading-[1.08]">
           Multimodal Accessibility Compiler
         </h1>
-        <p className="text-base sm:text-lg lg:text-xl text-slate-700 dark:text-slate-200 max-w-3xl leading-relaxed">
+        <p className="text-base sm:text-lg lg:text-xl text-[#51483F] max-w-3xl leading-relaxed">
           Decompile raw educational video into synchronized speech, computer vision, OCR, causal disparity reasoning, and an indexed Accessibility Twin.
         </p>
       </div>
 
       {/* TOP PRODUCT HUD BAR */}
-      <div className="rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0B1020] p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm">
+      <div className="rounded-2xl border border-[#DDD0C0] bg-[#FFFDFC] p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs">
         <div className="flex items-center gap-3.5 min-w-0">
           <div
             className={cn(
               "flex items-center justify-center rounded-xl size-11 shrink-0 font-bold",
               workspaceMode === "ready"
-                ? "bg-emerald-500/15 text-emerald-500 border border-emerald-500/30"
+                ? "bg-[#EBF5EC] text-[#3D6B40] border border-[#C5E3C7]"
                 : workspaceMode === "processing"
-                ? "bg-brand-indigo/15 text-brand-indigo border border-brand-indigo/30"
+                ? "bg-[#FFF8F4] text-[#B85C38] border border-[#E8C2B2]"
                 : workspaceMode === "staged"
-                ? "bg-amber-500/15 text-amber-500 border border-amber-500/30"
-                : "bg-slate-100 dark:bg-white/5 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-white/10"
+                ? "bg-[#FEF6EC] text-[#B77932] border border-[#F3CE9D]"
+                : "bg-[#F1E8DC] text-[#7A7067] border border-[#DDD0C0]"
             )}
           >
             {workspaceMode === "ready" ? (
-              <CheckCircle2 className="size-5" />
+              <CheckCircle2 className="size-5 text-[#5F8A62]" />
             ) : workspaceMode === "processing" ? (
-              <Loader2 className="size-5 animate-spin" />
+              <Loader2 className="size-5 animate-spin text-[#B85C38]" />
             ) : workspaceMode === "staged" ? (
-              <FileVideo className="size-5" />
+              <FileVideo className="size-5 text-[#B77932]" />
             ) : (
-              <Layers className="size-5" />
+              <Layers className="size-5 text-[#7A7067]" />
             )}
           </div>
           <div className="min-w-0 flex-1">
-            <p className="text-sm sm:text-base font-bold text-slate-900 dark:text-white leading-tight truncate">
+            <p className="text-sm sm:text-base font-bold text-[#2F2924] leading-tight truncate">
               {jobId ? (
                 <>
-                  Compilation Job: <span className="font-mono text-brand-indigo">{jobId}</span>
+                  Compilation Job: <span className="font-mono text-[#B85C38]">{jobId}</span>
                 </>
               ) : file ? (
                 <>{file.name}</>
@@ -353,7 +408,7 @@ function CompileBody() {
                 <>Compiler Engine Ready</>
               )}
             </p>
-            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-1">
+            <p className="text-xs sm:text-sm text-[#7A7067] mt-1">
               {workspaceMode === "ready" && "Accessibility Twin compiled · open workspace to inspect evidence"}
               {workspaceMode === "processing" &&
                 `Stage ${currentStageIdx + 1} of ${PIPELINE_STAGES.length}: ${PIPELINE_STAGES[currentStageIdx]?.label} · ${Math.round(status?.progress ?? 0)}%`}
@@ -368,24 +423,24 @@ function CompileBody() {
             className={cn(
               "inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold font-mono tracking-wider",
               workspaceMode === "ready"
-                ? "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30"
+                ? "bg-[#EBF5EC] text-[#3D6B40] border border-[#C5E3C7]"
                 : workspaceMode === "processing"
-                ? "bg-brand-indigo/15 text-brand-indigo border border-brand-indigo/30 animate-pulse"
+                ? "bg-[#FFF8F4] text-[#B85C38] border border-[#E8C2B2] animate-pulse"
                 : workspaceMode === "staged"
-                ? "bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30"
-                : "bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-white/10"
+                ? "bg-[#FEF6EC] text-[#B77932] border border-[#F3CE9D]"
+                : "bg-[#F1E8DC] text-[#7A7067] border border-[#DDD0C0]"
             )}
           >
             <span
               className={cn(
                 "size-2 rounded-full",
                 workspaceMode === "ready"
-                  ? "bg-emerald-500"
+                  ? "bg-[#5F8A62]"
                   : workspaceMode === "processing"
-                  ? "bg-brand-indigo animate-ping"
+                  ? "bg-[#B85C38] animate-ping"
                   : workspaceMode === "staged"
-                  ? "bg-amber-500"
-                  : "bg-slate-400"
+                  ? "bg-[#B77932]"
+                  : "bg-[#7A7067]"
               )}
             />
             {workspaceMode === "ready"
@@ -399,7 +454,7 @@ function CompileBody() {
 
           {isCompleted && jobId && (
             <Link href={`/lectures/${encodeURIComponent(jobId)}`}>
-              <Button size="default" className="gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold shadow-md">
+              <Button size="default" className="gap-2 bg-[#B85C38] hover:bg-[#9F4F32] text-white font-bold shadow-md shadow-[#B85C38]/20">
                 <span>Launch Studio</span>
                 <ArrowRight className="size-4" />
               </Button>
@@ -411,16 +466,16 @@ function CompileBody() {
       {/* CENTER: MEDIA INGESTION CANVAS + PIPELINE */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* LEFT: INGESTION CANVAS (7 cols) */}
-        <div className="lg:col-span-7 rounded-2xl bg-[#0B1020] border border-[#1E294B] shadow-xl overflow-hidden flex flex-col min-h-[520px]">
+        <div className="lg:col-span-7 rounded-2xl bg-[#FFFDFC] border border-[#DDD0C0] shadow-sm overflow-hidden flex flex-col min-h-[520px]">
           {/* Surface Header */}
-          <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-white/[0.02]">
+          <div className="flex items-center justify-between px-6 py-4 border-b border-[#EDE2D3] bg-[#FBF8F2]">
             <div className="flex items-center gap-2.5">
-              <Layers className="size-4 text-slate-300" />
-              <p className="text-xs sm:text-sm font-mono font-bold tracking-wider text-slate-200 uppercase">
+              <Layers className="size-4 text-[#B85C38]" />
+              <p className="text-xs sm:text-sm font-mono font-bold tracking-wider text-[#2F2924] uppercase">
                 Media Ingestion Boundary
               </p>
             </div>
-            <span className="text-xs font-mono text-slate-400">
+            <span className="text-xs font-mono text-[#7A7067]">
               MP4 · WebM · MOV · MKV · AVI (≤ 2GB)
             </span>
           </div>
@@ -444,16 +499,16 @@ function CompileBody() {
                 className={cn(
                   "rounded-2xl border-2 border-dashed p-8 sm:p-12 flex flex-col items-center justify-center text-center gap-6 transition-all cursor-pointer select-none",
                   isDragging
-                    ? "border-brand-indigo bg-brand-indigo/10 scale-[0.99]"
-                    : "border-white/15 hover:border-brand-indigo/50 hover:bg-white/[0.02]"
+                    ? "border-[#B85C38] bg-[#FFF8F4] scale-[0.99]"
+                    : "border-[#DDD0C0] hover:border-[#B85C38] bg-[#FBF8F2]/60 hover:bg-[#FFF8F4]/40"
                 )}
               >
                 <div
                   className={cn(
-                    "relative flex items-center justify-center rounded-3xl size-24 transition-all shadow-lg",
+                    "relative flex items-center justify-center rounded-3xl size-24 transition-all shadow-sm",
                     isDragging
-                      ? "bg-brand-indigo text-white shadow-brand-indigo/40 scale-105"
-                      : "bg-white/10 text-slate-200 border border-white/15"
+                      ? "bg-[#B85C38] text-white shadow-[#B85C38]/30 scale-105"
+                      : "bg-[#FFF8F4] text-[#B85C38] border border-[#E8C2B2]"
                   )}
                 >
                   {uploading ? (
@@ -461,7 +516,7 @@ function CompileBody() {
                   ) : (
                     <>
                       <Upload className="size-10" />
-                      <div className="absolute -right-2 -top-2 size-7 rounded-full bg-brand-indigo flex items-center justify-center text-white shadow-md">
+                      <div className="absolute -right-2 -top-2 size-7 rounded-full bg-[#B85C38] flex items-center justify-center text-white shadow-xs">
                         <Sparkles className="size-4" />
                       </div>
                     </>
@@ -469,10 +524,10 @@ function CompileBody() {
                 </div>
 
                 <div className="space-y-2 max-w-lg">
-                  <h2 className="text-xl sm:text-2xl font-display font-bold text-white tracking-tight">
+                  <h2 className="text-xl sm:text-2xl font-display font-bold text-[#2F2924] tracking-tight">
                     Upload Educational Lecture Video
                   </h2>
-                  <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
+                  <p className="text-sm sm:text-base text-[#51483F] leading-relaxed">
                     Drag and drop your lecture video file here, or browse from your device. Local offline multimodal decomposition ensures zero external data leakage.
                   </p>
                 </div>
@@ -481,25 +536,25 @@ function CompileBody() {
                   <Button
                     type="button"
                     size="lg"
-                    className="gap-2 bg-brand-indigo hover:bg-brand-indigo/90 text-white font-bold px-6 py-3 shadow-lg shadow-brand-indigo/30"
+                    className="gap-2 bg-[#B85C38] hover:bg-[#9F4F32] text-white font-bold px-6 py-3 shadow-md shadow-[#B85C38]/20"
                   >
                     <Upload className="size-4.5" />
                     <span>Select Video File</span>
                   </Button>
-                  <span className="text-xs font-mono text-slate-400">or drop raw .mp4</span>
+                  <span className="text-xs font-mono text-[#7A7067]">or drop raw .mp4</span>
                 </div>
 
                 <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
-                  <span className="px-2.5 py-1 rounded-md bg-white/5 border border-white/10 text-xs font-mono text-slate-300">
+                  <span className="px-2.5 py-1 rounded-md bg-[#F4F7FA] border border-[#D5E1EC] text-xs font-mono text-[#5B82A6] font-semibold">
                     Whisper Speech
                   </span>
-                  <span className="px-2.5 py-1 rounded-md bg-white/5 border border-white/10 text-xs font-mono text-slate-300">
+                  <span className="px-2.5 py-1 rounded-md bg-[#F2F7F7] border border-[#D2E4E4] text-xs font-mono text-[#5F9A9A] font-semibold">
                     CV Keyframes
                   </span>
-                  <span className="px-2.5 py-1 rounded-md bg-white/5 border border-white/10 text-xs font-mono text-slate-300">
+                  <span className="px-2.5 py-1 rounded-md bg-[#F6F5FB] border border-[#DDD8EE] text-xs font-mono text-[#6C63A8] font-semibold">
                     OCR Syntax
                   </span>
-                  <span className="px-2.5 py-1 rounded-md bg-white/5 border border-white/10 text-xs font-mono text-slate-300">
+                  <span className="px-2.5 py-1 rounded-md bg-[#FFF8F4] border border-[#F3CE9D] text-xs font-mono text-[#B77932] font-semibold">
                     Disparity AI
                   </span>
                 </div>
@@ -509,7 +564,7 @@ function CompileBody() {
             {/* STAGED FILE STATE */}
             {file && !processing && !isCompleted && (
               <div className="flex flex-col gap-6">
-                <div className="rounded-xl bg-slate-950/80 border border-white/10 overflow-hidden min-h-[260px] flex items-center justify-center">
+                <div className="rounded-xl bg-[#EDE2D3] border border-[#DDD0C0] overflow-hidden min-h-[260px] flex items-center justify-center">
                   {previewUrlRef.current ? (
                     <video
                       src={previewUrlRef.current}
@@ -517,24 +572,24 @@ function CompileBody() {
                       className="w-full max-h-[340px] object-contain bg-black"
                     />
                   ) : (
-                    <div className="flex flex-col items-center gap-3 text-slate-400 p-8">
-                      <FileVideo className="size-12" />
-                      <p className="text-sm font-semibold">Video preview ready</p>
+                    <div className="flex flex-col items-center gap-3 text-[#7A7067] p-8">
+                      <FileVideo className="size-12 text-[#B85C38]" />
+                      <p className="text-sm font-semibold text-[#2F2924]">Video preview ready</p>
                     </div>
                   )}
                 </div>
 
-                <div className="rounded-xl bg-white/[0.04] border border-white/10 p-5 space-y-4">
+                <div className="rounded-xl bg-[#FBF8F2] border border-[#DDD0C0] p-5 space-y-4">
                   <div className="flex items-center justify-between gap-4">
                     <div className="min-w-0 flex-1">
-                      <span className="text-xs font-mono font-semibold uppercase tracking-wider text-slate-400">
+                      <span className="text-xs font-mono font-semibold uppercase tracking-wider text-[#7A7067]">
                         Staged Video File
                       </span>
-                      <p className="text-base sm:text-lg font-bold text-white truncate mt-0.5">
+                      <p className="text-base sm:text-lg font-bold text-[#2F2924] truncate mt-0.5">
                         {file.name}
                       </p>
-                      <div className="flex items-center gap-3 mt-1.5 text-xs font-mono text-slate-300">
-                        <span className="font-semibold text-emerald-400">
+                      <div className="flex items-center gap-3 mt-1.5 text-xs font-mono text-[#51483F]">
+                        <span className="font-semibold text-[#5F8A62]">
                           {(file.size / 1024 / 1024).toFixed(1)} MB
                         </span>
                         <span>·</span>
@@ -546,23 +601,23 @@ function CompileBody() {
                       variant="outline"
                       size="sm"
                       onClick={() => setFile(null)}
-                      className="border-white/20 text-slate-200 hover:text-white hover:bg-white/10"
+                      className="border-[#DDD0C0] text-[#51483F] hover:text-[#2F2924] hover:bg-[#F1E8DC]"
                     >
                       Change Video
                     </Button>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-2 border-t border-white/10 text-xs text-slate-300">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-2 border-t border-[#EDE2D3] text-xs text-[#51483F]">
                     <div className="flex items-center gap-2">
-                      <CheckCircle2 className="size-4 text-emerald-400 shrink-0" />
+                      <CheckCircle2 className="size-4 text-[#5F8A62] shrink-0" />
                       <span>Preserves original audio</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <CheckCircle2 className="size-4 text-emerald-400 shrink-0" />
+                      <CheckCircle2 className="size-4 text-[#5F8A62] shrink-0" />
                       <span>Non-destructive AD</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <CheckCircle2 className="size-4 text-emerald-400 shrink-0" />
+                      <CheckCircle2 className="size-4 text-[#5F8A62] shrink-0" />
                       <span>Causal gap detection</span>
                     </div>
                   </div>
@@ -571,7 +626,7 @@ function CompileBody() {
                     onClick={handleUpload}
                     disabled={uploading}
                     size="lg"
-                    className="w-full gap-2.5 bg-brand-indigo hover:bg-brand-indigo/90 text-white font-bold text-base py-3.5 shadow-lg shadow-brand-indigo/30"
+                    className="w-full gap-2.5 bg-[#B85C38] hover:bg-[#9F4F32] text-white font-bold text-base py-3.5 shadow-md shadow-[#B85C38]/20"
                   >
                     {uploading ? (
                       <Loader2 className="size-5 animate-spin" />
@@ -587,25 +642,25 @@ function CompileBody() {
             {/* PROCESSING & COMPLETED STATES */}
             {(processing || (isCompleted && jobId)) && (
               <div className="flex flex-col gap-6 py-4">
-                <div className="rounded-xl bg-slate-950/80 border border-white/10 overflow-hidden aspect-video flex items-center justify-center relative">
+                <div className="rounded-xl bg-[#EDE2D3] border border-[#DDD0C0] overflow-hidden aspect-video flex items-center justify-center relative">
                   {previewUrlRef.current && (
                     <video
                       src={previewUrlRef.current}
-                      className="w-full h-full object-contain bg-black opacity-40"
+                      className="w-full h-full object-contain bg-black opacity-30"
                     />
                   )}
 
                   <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-6 backdrop-blur-[2px]">
                     {isCompleted ? (
                       <>
-                        <div className="size-20 rounded-full bg-emerald-500/20 flex items-center justify-center border-2 border-emerald-400/40 shadow-lg shadow-emerald-500/20">
-                          <Check className="size-10 text-emerald-400 stroke-[3]" />
+                        <div className="size-20 rounded-full bg-[#EBF5EC] flex items-center justify-center border-2 border-[#C5E3C7] shadow-md shadow-[#5F8A62]/10">
+                          <Check className="size-10 text-[#5F8A62] stroke-[3]" />
                         </div>
                         <div className="text-center space-y-1">
-                          <h2 className="text-2xl font-display font-bold text-white">
+                          <h2 className="text-2xl font-display font-bold text-[#2F2924]">
                             Multimodal Compilation Complete
                           </h2>
-                          <p className="text-sm text-slate-300 max-w-md">
+                          <p className="text-sm text-[#51483F] max-w-md">
                             Accessibility Twin generated with verified evidence, audio descriptions, and grounded quiz.
                           </p>
                         </div>
@@ -613,22 +668,22 @@ function CompileBody() {
                     ) : (
                       <>
                         <div className="relative size-24">
-                          <div className="absolute inset-0 rounded-full border-2 border-white/10" />
+                          <div className="absolute inset-0 rounded-full border-2 border-[#DDD0C0]" />
                           <div
-                            className="absolute inset-0 rounded-full border-4 border-transparent border-t-brand-indigo border-r-brand-indigo/60 animate-spin"
+                            className="absolute inset-0 rounded-full border-4 border-transparent border-t-[#B85C38] border-r-[#B85C38]/60 animate-spin"
                             style={{ animationDuration: "1.2s" }}
                           />
                           <div className="absolute inset-0 flex flex-col items-center justify-center">
-                            <span className="text-2xl font-bold font-mono text-white">
+                            <span className="text-2xl font-bold font-mono text-[#2F2924]">
                               {Math.round(status?.progress ?? 0)}%
                             </span>
                           </div>
                         </div>
                         <div className="text-center max-w-sm space-y-1">
-                          <p className="text-base font-bold text-white uppercase tracking-wider font-mono">
+                          <p className="text-base font-bold text-[#2F2924] uppercase tracking-wider font-mono">
                             {PIPELINE_STAGES[currentStageIdx]?.label || "Processing"}
                           </p>
-                          <p className="text-xs sm:text-sm text-slate-300">
+                          <p className="text-xs sm:text-sm text-[#51483F]">
                             {PIPELINE_STAGES[currentStageIdx]?.sub || "Compiling lecture accessibility twin…"}
                           </p>
                         </div>
@@ -640,17 +695,17 @@ function CompileBody() {
                 {/* Progress Bar & Badges */}
                 <div className="space-y-4">
                   <div className="flex items-center justify-between text-xs font-mono font-semibold">
-                    <span className="text-slate-400">
-                      JOB ID: <span className="text-white font-bold">{jobId || "pending"}</span>
+                    <span className="text-[#7A7067]">
+                      JOB ID: <span className="text-[#2F2924] font-bold">{jobId || "pending"}</span>
                     </span>
-                    <span className="text-brand-indigo">
+                    <span className="text-[#B85C38] font-bold">
                       STAGE {currentStageIdx + 1} OF {PIPELINE_STAGES.length}
                     </span>
                   </div>
 
-                  <div className="h-2.5 w-full rounded-full bg-white/10 overflow-hidden">
+                  <div className="h-2.5 w-full rounded-full bg-[#EDE2D3] overflow-hidden">
                     <div
-                      className="h-full rounded-full bg-gradient-to-r from-brand-indigo via-blue-500 to-emerald-400 transition-all duration-500"
+                      className="h-full rounded-full bg-gradient-to-r from-[#B85C38] via-[#C49A5A] to-[#5F8A62] transition-all duration-500"
                       style={{ width: `${status?.progress ?? 0}%` }}
                     />
                   </div>
@@ -658,22 +713,22 @@ function CompileBody() {
                   {isCompleted && jobId && (
                     <div className="space-y-4 pt-2">
                       <div className="flex flex-wrap gap-2">
-                        <Badge className="bg-blue-500/15 text-blue-300 border-blue-500/30 px-3 py-1 text-xs font-semibold">
+                        <Badge className="bg-[#F4F7FA] text-[#5B82A6] border-[#D5E1EC] px-3 py-1 text-xs font-semibold">
                           Whisper Transcript
                         </Badge>
-                        <Badge className="bg-sky-500/15 text-sky-300 border-sky-500/30 px-3 py-1 text-xs font-semibold">
+                        <Badge className="bg-[#F2F7F7] text-[#5F9A9A] border-[#D2E4E4] px-3 py-1 text-xs font-semibold">
                           Vision Keyframes
                         </Badge>
-                        <Badge className="bg-cyan-500/15 text-cyan-300 border-cyan-500/30 px-3 py-1 text-xs font-semibold">
+                        <Badge className="bg-[#F6F5FB] text-[#6C63A8] border-[#DDD8EE] px-3 py-1 text-xs font-semibold">
                           OCR Syntax Extraction
                         </Badge>
-                        <Badge className="bg-indigo-500/15 text-indigo-300 border-indigo-500/30 px-3 py-1 text-xs font-semibold">
+                        <Badge className="bg-[#FFF8F4] text-[#B85C38] border-[#E8C2B2] px-3 py-1 text-xs font-semibold">
                           Knowledge Graph
                         </Badge>
-                        <Badge className="bg-amber-500/15 text-amber-300 border-amber-500/30 px-3 py-1 text-xs font-semibold">
+                        <Badge className="bg-[#FEF6EC] text-[#B77932] border-[#F3CE9D] px-3 py-1 text-xs font-semibold">
                           Disparity Engine
                         </Badge>
-                        <Badge className="bg-emerald-500/15 text-emerald-300 border-emerald-500/30 px-3 py-1 text-xs font-semibold">
+                        <Badge className="bg-[#EBF5EC] text-[#3D6B40] border-[#C5E3C7] px-3 py-1 text-xs font-semibold">
                           Audio Description Layer
                         </Badge>
                       </div>
@@ -681,7 +736,7 @@ function CompileBody() {
                       <Link href={`/lectures/${encodeURIComponent(jobId)}`} className="block">
                         <Button
                           size="lg"
-                          className="w-full gap-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-base py-3.5 shadow-lg shadow-emerald-600/30"
+                          className="w-full gap-2.5 bg-[#B85C38] hover:bg-[#9F4F32] text-white font-bold text-base py-3.5 shadow-md shadow-[#B85C38]/20"
                         >
                           <Sparkles className="size-5" />
                           <span>Launch Accessibility Studio</span>
@@ -695,11 +750,11 @@ function CompileBody() {
             )}
 
             {error && (
-              <div className="mt-4 flex items-start gap-3 rounded-xl border border-rose-500/30 bg-rose-500/10 p-4 text-sm text-rose-300">
-                <AlertTriangle className="mt-0.5 size-5 shrink-0 text-rose-400" />
+              <div className="mt-4 flex items-start gap-3 rounded-xl border border-[#B94A48]/30 bg-[#FDF2F2] p-4 text-sm text-[#B94A48]">
+                <AlertTriangle className="mt-0.5 size-5 shrink-0 text-[#B94A48]" />
                 <div className="flex-1 min-w-0">
-                  <p className="font-bold text-rose-200">Compilation Error</p>
-                  <p className="text-xs mt-1 text-rose-300 leading-relaxed">{error}</p>
+                  <p className="font-bold text-[#B94A48]">Compilation Error</p>
+                  <p className="text-xs mt-1 text-[#51483F] leading-relaxed">{error}</p>
                 </div>
               </div>
             )}
@@ -707,16 +762,16 @@ function CompileBody() {
         </div>
 
         {/* RIGHT: MULTIMODAL COMPILATION PIPELINE (5 cols) */}
-        <div className="lg:col-span-5 rounded-2xl bg-white dark:bg-[#0B1020] border border-slate-200 dark:border-[#1E294B] shadow-sm overflow-hidden flex flex-col">
+        <div className="lg:col-span-5 rounded-2xl bg-[#FFFDFC] border border-[#DDD0C0] shadow-sm overflow-hidden flex flex-col">
           {/* Header */}
-          <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.02]">
+          <div className="flex items-center justify-between px-6 py-4 border-b border-[#EDE2D3] bg-[#FBF8F2]">
             <div className="flex items-center gap-2.5">
-              <Cpu className="size-4 text-brand-indigo" />
-              <h2 className="text-xs sm:text-sm font-mono font-bold tracking-wider text-slate-800 dark:text-slate-200 uppercase">
+              <Cpu className="size-4 text-[#B85C38]" />
+              <h2 className="text-xs sm:text-sm font-mono font-bold tracking-wider text-[#2F2924] uppercase">
                 Multimodal Compilation Pipeline
               </h2>
             </div>
-            <span className="text-xs font-mono font-semibold px-2 py-0.5 rounded-full bg-slate-200 dark:bg-white/10 text-slate-700 dark:text-slate-300">
+            <span className="text-xs font-mono font-semibold px-2.5 py-0.5 rounded-full bg-[#EDE2D3] text-[#51483F]">
               7 STAGES
             </span>
           </div>
@@ -735,10 +790,10 @@ function CompileBody() {
                   className={cn(
                     "grid grid-cols-[auto_1fr_auto] items-center gap-3.5 p-3.5 rounded-xl border transition-all",
                     isCurrent
-                      ? "bg-brand-indigo/10 border-brand-indigo/40 ring-1 ring-brand-indigo/30 shadow-sm"
+                      ? "bg-[#FFF8F4] border-[#E8C2B2] ring-1 ring-[#B85C38]/30 shadow-xs"
                       : isDone
-                      ? "bg-emerald-500/5 border-emerald-500/20"
-                      : "bg-slate-50/70 dark:bg-white/[0.02] border-slate-200/70 dark:border-white/5"
+                      ? "bg-[#EBF5EC]/60 border-[#C5E3C7]"
+                      : "bg-[#FBF8F2]/70 border-[#EDE2D3]"
                   )}
                 >
                   {/* Left: Icon Badge */}
@@ -746,10 +801,10 @@ function CompileBody() {
                     className={cn(
                       "size-11 rounded-xl flex items-center justify-center shrink-0 transition-all font-bold",
                       isDone
-                        ? "bg-emerald-500 text-white shadow-sm"
+                        ? "bg-[#5F8A62] text-white shadow-xs"
                         : isCurrent
-                        ? "bg-brand-indigo text-white shadow-md ring-2 ring-brand-indigo/30"
-                        : "bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-300 dark:border-slate-700"
+                        ? "bg-[#B85C38] text-white shadow-sm ring-2 ring-[#B85C38]/20"
+                        : "bg-[#EDE2D3] text-[#7A7067] border border-[#DDD0C0]"
                     )}
                   >
                     {isDone ? (
@@ -768,16 +823,16 @@ function CompileBody() {
                         className={cn(
                           "text-xs font-mono font-bold uppercase tracking-wider",
                           isDone
-                            ? "text-emerald-600 dark:text-emerald-400"
+                            ? "text-[#3D6B40]"
                             : isCurrent
-                            ? "text-brand-indigo"
-                            : "text-slate-700 dark:text-slate-300"
+                            ? "text-[#B85C38]"
+                            : "text-[#51483F]"
                         )}
                       >
                         {stage.stageNum} · {stage.label}
                       </span>
                     </div>
-                    <p className="text-xs sm:text-[13px] text-slate-600 dark:text-slate-300 leading-snug line-clamp-2">
+                    <p className="text-xs sm:text-[13px] text-[#7A7067] leading-snug line-clamp-2">
                       {stage.sub}
                     </p>
                   </div>
@@ -785,17 +840,17 @@ function CompileBody() {
                   {/* Right: Status Pill */}
                   <div className="shrink-0 flex items-center justify-end pl-1">
                     {isDone ? (
-                      <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-600 dark:text-emerald-400 font-mono">
+                      <span className="inline-flex items-center gap-1 text-[11px] font-bold text-[#5F8A62] font-mono">
                         <CheckCircle2 className="size-4" />
                         <span className="hidden sm:inline">DONE</span>
                       </span>
                     ) : isCurrent ? (
-                      <span className="inline-flex items-center gap-1 text-[11px] font-bold text-brand-indigo font-mono">
+                      <span className="inline-flex items-center gap-1 text-[11px] font-bold text-[#B85C38] font-mono">
                         <Loader2 className="size-3.5 animate-spin" />
                         <span className="hidden sm:inline">ACTIVE</span>
                       </span>
                     ) : (
-                      <span className="text-[11px] font-mono text-slate-400 dark:text-slate-500">
+                      <span className="text-[11px] font-mono text-[#7A7067]">
                         PENDING
                       </span>
                     )}
@@ -809,16 +864,16 @@ function CompileBody() {
 
       {/* SECTION: LECTURE LIBRARY (Sanitized educational benchmark lectures) */}
       <div className="space-y-6 pt-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 dark:border-white/10 pb-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#DDD0C0] pb-4">
           <div className="space-y-1">
-            <h2 className="text-xl sm:text-2xl font-display font-bold text-slate-950 dark:text-white">
+            <h2 className="text-xl sm:text-2xl font-display font-bold text-[#2F2924]">
               Compiled Lecture Library & Benchmarks
             </h2>
-            <p className="text-sm text-slate-600 dark:text-slate-300">
+            <p className="text-sm text-[#51483F]">
               Open previously compiled lectures or inspect the verified multimodal benchmark dataset.
             </p>
           </div>
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-indigo/10 border border-brand-indigo/20 text-brand-indigo font-mono text-xs font-semibold w-fit">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFF8F4] border border-[#E8C2B2] text-[#B85C38] font-mono text-xs font-semibold w-fit">
             <Library className="size-3.5" />
             <span>{displayLectures.length} {displayLectures.length === 1 ? "Lecture Available" : "Lectures Available"}</span>
           </span>
@@ -826,6 +881,23 @@ function CompileBody() {
 
         {lecturesLoading ? (
           <PageLoader label="Loading library lectures…" />
+        ) : displayLectures.length === 0 ? (
+          <EmptyState
+            icon={Library}
+            title="No processed lectures yet."
+            description="Upload a video above to get started. Once processing completes, your compiled Accessibility Twin will appear here."
+            action={
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => inputRef.current?.click()}
+                className="gap-2 border-[#DDD0C0] bg-[#FFFDFC] hover:bg-[#F1E8DC]"
+              >
+                <Upload className="size-3.5 text-[#B85C38]" />
+                <span>Upload Video</span>
+              </Button>
+            }
+          />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {displayLectures.map((lec) => {
@@ -839,34 +911,34 @@ function CompileBody() {
                   href={`/lectures/${encodeURIComponent(lec.job_id)}`}
                   className="group block"
                 >
-                  <div className="rounded-2xl bg-white dark:bg-[#0B1020] border border-slate-200 dark:border-[#1E294B] shadow-sm hover:shadow-md hover:border-brand-indigo/40 dark:hover:border-brand-indigo/40 transition-all duration-200 overflow-hidden flex flex-col h-full">
+                  <div className="rounded-2xl bg-[#FFFDFC] border border-[#DDD0C0] shadow-sm hover:shadow-md hover:border-[#B85C38] transition-all duration-200 overflow-hidden flex flex-col h-full">
                     {/* Top Ribbon */}
                     <div
                       className={cn(
                         "px-5 py-3 flex items-center justify-between text-white",
                         isDemo
-                          ? "bg-gradient-to-r from-brand-indigo via-violet-600 to-indigo-700"
-                          : "bg-gradient-to-r from-slate-800 via-slate-900 to-slate-950"
+                          ? "bg-gradient-to-r from-[#B85C38] via-[#C97858] to-[#9F4F32]"
+                          : "bg-gradient-to-r from-[#6F4E37] via-[#8B6B52] to-[#51483F]"
                       )}
                     >
                       <div className="flex items-center gap-2">
                         {isDemo ? (
                           <>
-                            <Sparkles className="size-4 text-amber-300" />
+                            <Sparkles className="size-4 text-amber-200" />
                             <span className="text-xs font-mono font-bold uppercase tracking-wider text-amber-100">
                               Verified Multimodal Benchmark
                             </span>
                           </>
                         ) : (
                           <>
-                            <BookOpen className="size-4 text-slate-300" />
-                            <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-200">
+                            <BookOpen className="size-4 text-[#EDE2D3]" />
+                            <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#EDE2D3]">
                               Compiled Lecture
                             </span>
                           </>
                         )}
                       </div>
-                      <span className="text-xs font-mono text-white/80 font-semibold">
+                      <span className="text-xs font-mono text-white/90 font-semibold">
                         {lec.job_id}
                       </span>
                     </div>
@@ -874,20 +946,20 @@ function CompileBody() {
                     {/* Card Content */}
                     <div className="p-5 flex-1 flex flex-col justify-between gap-5">
                       <div className="flex items-start gap-3.5">
-                        <div className="size-12 rounded-xl bg-brand-indigo/10 border border-brand-indigo/20 flex items-center justify-center text-brand-indigo group-hover:scale-105 transition-transform shrink-0">
+                        <div className="size-12 rounded-xl bg-[#FFF8F4] border border-[#E8C2B2] flex items-center justify-center text-[#B85C38] group-hover:scale-105 transition-transform shrink-0 shadow-xs">
                           <FileVideo className="size-6" />
                         </div>
                         <div className="min-w-0 flex-1">
-                          <h3 className="text-base sm:text-lg font-bold text-slate-950 dark:text-white truncate group-hover:text-brand-indigo transition-colors">
+                          <h3 className="text-base sm:text-lg font-bold text-[#2F2924] truncate group-hover:text-[#B85C38] transition-colors">
                             {isDemo ? "Python Loops & Control Flow (Benchmark)" : lec.filename}
                           </h3>
-                          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-xs text-slate-600 dark:text-slate-300 font-mono">
+                          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-xs text-[#7A7067] font-mono">
                             <span className="inline-flex items-center gap-1 font-semibold">
-                              <Clock className="size-3.5 text-slate-400" />
+                              <Clock className="size-3.5 text-[#8B6B52]" />
                               {formatSeconds(lec.duration || 300)}
                             </span>
                             <span>·</span>
-                            <span className="text-emerald-600 dark:text-emerald-400 font-semibold">
+                            <span className="text-[#5F8A62] font-semibold">
                               Ready · Fully Indexed
                             </span>
                           </div>
@@ -895,25 +967,25 @@ function CompileBody() {
                       </div>
 
                       {/* Health / Grounding Bar */}
-                      <div className="space-y-2 pt-2 border-t border-slate-100 dark:border-white/5">
+                      <div className="space-y-2 pt-2 border-t border-[#EDE2D3]">
                         <div className="flex items-center justify-between text-xs font-mono">
-                          <span className="text-slate-500 uppercase tracking-wider font-semibold">
+                          <span className="text-[#7A7067] uppercase tracking-wider font-semibold">
                             Multimodal Grounding Score
                           </span>
-                          <span className="font-bold text-emerald-600 dark:text-emerald-400">
+                          <span className="font-bold text-[#5F8A62]">
                             {healthScore}%
                           </span>
                         </div>
-                        <div className="h-2 w-full rounded-full bg-slate-100 dark:bg-white/5 overflow-hidden">
+                        <div className="h-2 w-full rounded-full bg-[#EDE2D3] overflow-hidden">
                           <div
-                            className="h-full rounded-full bg-emerald-500 transition-all"
+                            className="h-full rounded-full bg-[#5F8A62] transition-all"
                             style={{ width: `${healthScore}%` }}
                           />
                         </div>
                       </div>
 
                       {/* Bottom Action Strip */}
-                      <div className="flex items-center justify-between pt-2 text-xs font-bold text-brand-indigo group-hover:text-brand-indigo/90">
+                      <div className="flex items-center justify-between pt-2 text-xs font-bold text-[#B85C38] group-hover:text-[#9F4F32]">
                         <span>Open Accessibility Studio</span>
                         <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
                       </div>

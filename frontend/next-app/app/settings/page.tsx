@@ -40,7 +40,7 @@ const MODES: ModeDefinition[] = [
     desc: "Prioritizes synchronized Audio Descriptions and synthesized speech at natural lecture pauses to deliver semantic visual context audibly.",
     Icon: Volume2,
     badgeText: "Audio Description Priority",
-    accentColor: "text-blue-500 dark:text-blue-400",
+    accentColor: "text-[#5B82A6]",
   },
   {
     id: "low_vision",
@@ -48,7 +48,7 @@ const MODES: ModeDefinition[] = [
     desc: "Provides synchronized audio descriptions alongside high-contrast formatted OCR code and mathematical syntax extraction.",
     Icon: Eye,
     badgeText: "High Contrast + Audio",
-    accentColor: "text-sky-500 dark:text-sky-400",
+    accentColor: "text-[#5F9A9A]",
   },
   {
     id: "hearing",
@@ -56,7 +56,7 @@ const MODES: ModeDefinition[] = [
     desc: "Multi-modal synchronized captions + timestamped transcripts + visual concept mapping. (Egyptian Sign Language is Future Scope).",
     Icon: Ear,
     badgeText: "Captions + Concept Maps",
-    accentColor: "text-indigo-500 dark:text-indigo-400",
+    accentColor: "text-[#6C63A8]",
   },
   {
     id: "cognitive",
@@ -64,7 +64,7 @@ const MODES: ModeDefinition[] = [
     desc: "Structured concept chunking, distraction-free navigation, and clear Next Best Action (NBA) learning guidance.",
     Icon: Brain,
     badgeText: "Concept Chunking + NBA",
-    accentColor: "text-purple-500 dark:text-purple-400",
+    accentColor: "text-[#7A8061]",
   },
   {
     id: "standard",
@@ -72,7 +72,7 @@ const MODES: ModeDefinition[] = [
     desc: "Balanced multimodal accessibility without specific sensory adaptations.",
     Icon: Sliders,
     badgeText: "Standard Multimodal",
-    accentColor: "text-emerald-500 dark:text-emerald-400",
+    accentColor: "text-[#B85C38]",
   },
 ];
 
@@ -154,43 +154,43 @@ function SettingsBody() {
   };
 
   return (
-    <div className="w-full max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 space-y-10 min-w-0 overflow-x-hidden">
+    <div className="w-full max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 space-y-10 min-w-0 overflow-x-hidden text-[#2F2924]">
       {/* PAGE HEADER */}
       <div className="flex flex-col gap-3.5 min-w-0">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-indigo/10 border border-brand-indigo/20 text-brand-indigo font-mono text-xs font-semibold uppercase tracking-wider w-fit">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFF8F4] border border-[#E8C2B2] text-[#B85C38] font-mono text-xs font-bold uppercase tracking-wider w-fit shadow-xs">
           <Settings className="size-3.5" />
           <span>Personalization Layer · Accessibility Configuration</span>
         </div>
-        <h1 className="text-3xl sm:text-5xl font-display font-black tracking-tight text-slate-950 dark:text-[#F8FAFC] leading-[1.1]">
+        <h1 className="text-3xl sm:text-5xl font-display font-black tracking-tight text-[#2F2924] leading-[1.1]">
           Learner Profile &amp; Accessibility Settings
         </h1>
-        <p className="text-base sm:text-lg lg:text-[19px] text-[#374151] dark:text-[#D1D5DB] max-w-3xl leading-relaxed font-normal">
+        <p className="text-base sm:text-lg lg:text-[19px] text-[#51483F] max-w-3xl leading-relaxed font-normal">
           Personalize how EduAccess AI adapts video intelligence, audio description, and learning guidance for each learner.
         </p>
       </div>
 
       {/* SECTION 1: ACTIVE STUDENT PROFILE */}
-      <div className="rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0B1020] p-6 sm:p-8 shadow-sm space-y-6">
-        <div className="space-y-1.5 border-b border-slate-200 dark:border-white/10 pb-4">
-          <h2 className="text-xl sm:text-2xl font-display font-bold text-slate-900 dark:text-[#F8FAFC] flex items-center gap-2.5">
-            <User className="size-5 text-brand-indigo" />
+      <div className="rounded-2xl border border-[#DDD0C0] bg-[#FFFDFC] p-6 sm:p-8 shadow-xs space-y-6">
+        <div className="space-y-1.5 border-b border-[#EDE2D3] pb-4">
+          <h2 className="text-xl sm:text-2xl font-display font-bold text-[#2F2924] flex items-center gap-2.5">
+            <User className="size-5 text-[#B85C38]" />
             <span>Active Student Profile</span>
           </h2>
-          <p className="text-sm sm:text-base text-[#374151] dark:text-[#D1D5DB] leading-relaxed">
+          <p className="text-sm sm:text-base text-[#51483F] leading-relaxed">
             Configure the active student persona and display name to calibrate personal knowledge graph tracking and recommendations.
           </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div className="space-y-2">
-            <label htmlFor="student" className="block text-xs font-mono font-bold uppercase tracking-wider text-slate-700 dark:text-[#D1D5DB]">
+            <label htmlFor="student" className="block text-xs font-mono font-bold uppercase tracking-wider text-[#51483F]">
               Select Student Record
             </label>
             <select
               id="student"
               value={studentId}
               onChange={(e) => setStudentId(e.target.value)}
-              className="w-full h-12 rounded-xl border border-slate-300 dark:border-white/15 bg-slate-50 dark:bg-[#0D1224] px-4 text-sm font-semibold text-slate-900 dark:text-[#F8FAFC] focus:border-brand-indigo focus:ring-2 focus:ring-brand-indigo/20 focus:outline-none transition shadow-sm"
+              className="w-full h-12 rounded-xl border border-[#DDD0C0] bg-[#FBF8F2] px-4 text-sm font-semibold text-[#2F2924] focus:border-[#B85C38] focus:ring-2 focus:ring-[#B85C38]/20 focus:outline-none transition shadow-xs"
             >
               {students.length > 0 ? (
                 students.map((s) => (
@@ -205,7 +205,7 @@ function SettingsBody() {
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="name" className="block text-xs font-mono font-bold uppercase tracking-wider text-slate-700 dark:text-[#D1D5DB]">
+            <label htmlFor="name" className="block text-xs font-mono font-bold uppercase tracking-wider text-[#51483F]">
               Display Name
             </label>
             <input
@@ -214,7 +214,7 @@ function SettingsBody() {
               value={String(profile?.name ?? "")}
               onChange={(e) => set("name", e.target.value)}
               placeholder="Student Name"
-              className="w-full h-12 rounded-xl border border-slate-300 dark:border-white/15 bg-slate-50 dark:bg-[#0D1224] px-4 text-sm font-semibold text-slate-900 dark:text-[#F8FAFC] placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-brand-indigo focus:ring-2 focus:ring-brand-indigo/20 focus:outline-none transition shadow-sm"
+              className="w-full h-12 rounded-xl border border-[#DDD0C0] bg-[#FBF8F2] px-4 text-sm font-semibold text-[#2F2924] placeholder:text-[#7A7067] focus:border-[#B85C38] focus:ring-2 focus:ring-[#B85C38]/20 focus:outline-none transition shadow-xs"
             />
           </div>
         </div>
@@ -223,13 +223,13 @@ function SettingsBody() {
       {profile && (
         <>
           {/* SECTION 2: ACCESSIBILITY MODE (CORE) */}
-          <div className="rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0B1020] p-6 sm:p-8 shadow-sm space-y-6">
-            <div className="space-y-1.5 border-b border-slate-200 dark:border-white/10 pb-4">
-              <h2 className="text-xl sm:text-2xl font-display font-bold text-slate-900 dark:text-[#F8FAFC] flex items-center gap-2.5">
-                <Sliders className="size-5 text-brand-indigo" />
+          <div className="rounded-2xl border border-[#DDD0C0] bg-[#FFFDFC] p-6 sm:p-8 shadow-xs space-y-6">
+            <div className="space-y-1.5 border-b border-[#EDE2D3] pb-4">
+              <h2 className="text-xl sm:text-2xl font-display font-bold text-[#2F2924] flex items-center gap-2.5">
+                <Sliders className="size-5 text-[#B85C38]" />
                 <span>Accessibility Mode</span>
               </h2>
-              <p className="text-sm sm:text-base text-[#374151] dark:text-[#D1D5DB] leading-relaxed">
+              <p className="text-sm sm:text-base text-[#51483F] leading-relaxed">
                 Select your preferred accessibility profile so EduAccess can adapt multimodal understanding, audio description, and learning guidance.
               </p>
             </div>
@@ -249,44 +249,44 @@ function SettingsBody() {
                     className={cn(
                       "rounded-2xl border p-5 sm:p-6 text-left transition-all flex flex-col justify-between gap-4 cursor-pointer relative",
                       active
-                        ? "border-2 border-brand-indigo bg-brand-indigo/15 ring-2 ring-brand-indigo/30 shadow-md"
-                        : "border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.02] hover:border-brand-indigo/40 hover:bg-brand-indigo/5"
+                        ? "border-2 border-[#B85C38] bg-[#FFF8F4] ring-2 ring-[#B85C38]/20 shadow-sm"
+                        : "border-[#DDD0C0] bg-[#FBF8F2] hover:border-[#B85C38]/40 hover:bg-[#FFF8F4]/30"
                     )}
                   >
                     <div className="flex items-start justify-between gap-3 w-full">
                       <div className="flex items-center gap-3">
                         <div
                           className={cn(
-                            "size-12 rounded-xl flex items-center justify-center font-bold shrink-0 transition-all",
+                            "size-12 rounded-xl flex items-center justify-center font-bold shrink-0 transition-all shadow-xs",
                             active
-                              ? "bg-brand-indigo text-white shadow-sm"
-                              : "bg-white dark:bg-white/10 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-white/10"
+                              ? "bg-[#B85C38] text-white"
+                              : "bg-[#FFFDFC] text-[#51483F] border border-[#DDD0C0]"
                           )}
                         >
                           <IconComponent className="size-5" />
                         </div>
                         <div>
-                          <span className="text-base sm:text-lg font-bold text-slate-900 dark:text-[#F8FAFC] block">
+                          <span className="text-base sm:text-lg font-bold text-[#2F2924] block">
                             {m.label}
                           </span>
-                          <span className="text-xs font-mono font-medium text-slate-600 dark:text-[#AAB4C3]">
+                          <span className="text-xs font-mono font-medium text-[#7A7067]">
                             {m.badgeText}
                           </span>
                         </div>
                       </div>
 
                       {active ? (
-                        <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-brand-indigo text-white shadow-sm flex items-center gap-1.5 shrink-0">
+                        <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#B85C38] text-white shadow-xs flex items-center gap-1.5 shrink-0">
                           <Check className="size-3.5 stroke-[3]" /> ACTIVE
                         </span>
                       ) : (
-                        <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-semibold text-slate-500 dark:text-slate-400 bg-slate-200/50 dark:bg-white/5 shrink-0">
+                        <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-semibold text-[#7A7067] bg-[#EDE2D3] shrink-0">
                           Select
                         </span>
                       )}
                     </div>
 
-                    <p className="text-sm sm:text-[15px] text-[#374151] dark:text-[#D1D5DB] leading-relaxed">
+                    <p className="text-sm sm:text-[15px] text-[#51483F] leading-relaxed">
                       {m.desc}
                     </p>
                   </button>
@@ -295,28 +295,28 @@ function SettingsBody() {
             </div>
 
             {/* Honest Limitation Disclaimer for EgSL */}
-            <div className="rounded-2xl border border-amber-500/30 bg-amber-500/10 p-5 sm:p-6 space-y-2.5 text-sm text-[#374151] dark:text-[#D1D5DB]">
-              <p className="font-bold text-amber-900 dark:text-amber-300 flex items-center gap-2 text-sm sm:text-base">
-                <ShieldAlert className="size-5 text-amber-500 shrink-0" />
+            <div className="rounded-2xl border border-[#F3CE9D] bg-[#FEF6EC] p-5 sm:p-6 space-y-2.5 text-sm text-[#7A4B10] shadow-xs">
+              <p className="font-bold text-[#7A4B10] flex items-center gap-2 text-sm sm:text-base">
+                <ShieldAlert className="size-5 text-[#B77932] shrink-0" />
                 <span>Honest Capability Scope: Deaf / Hard of Hearing</span>
               </p>
-              <p className="leading-relaxed text-[#111827] dark:text-[#F8FAFC]">
+              <p className="leading-relaxed text-[#2F2924]">
                 <strong>Currently Supported:</strong> Whisper multilingual synchronized captions, timestamped searchable transcripts, and visual concept maps.
               </p>
-              <p className="leading-relaxed text-[#374151] dark:text-[#D1D5DB]">
+              <p className="leading-relaxed text-[#51483F]">
                 <strong>Explicit Scope Boundary:</strong> Egyptian Sign Language (EgSL) automated avatar translation is <em>future scope (not implemented in this version)</em> and represents an active area for future research.
               </p>
             </div>
           </div>
 
           {/* SECTION 3: CONTENT PREFERENCES */}
-          <div className="rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0B1020] p-6 sm:p-8 shadow-sm space-y-6">
-            <div className="space-y-1.5 border-b border-slate-200 dark:border-white/10 pb-4">
-              <h2 className="text-xl sm:text-2xl font-display font-bold text-slate-900 dark:text-[#F8FAFC] flex items-center gap-2.5">
-                <Gauge className="size-5 text-brand-indigo" />
+          <div className="rounded-2xl border border-[#DDD0C0] bg-[#FFFDFC] p-6 sm:p-8 shadow-xs space-y-6">
+            <div className="space-y-1.5 border-b border-[#EDE2D3] pb-4">
+              <h2 className="text-xl sm:text-2xl font-display font-bold text-[#2F2924] flex items-center gap-2.5">
+                <Gauge className="size-5 text-[#B85C38]" />
                 <span>Content Preferences</span>
               </h2>
-              <p className="text-sm sm:text-base text-[#374151] dark:text-[#D1D5DB] leading-relaxed">
+              <p className="text-sm sm:text-base text-[#51483F] leading-relaxed">
                 Configure audio description narration speed, detail density, adaptive difficulty, and interface language.
               </p>
             </div>
@@ -324,14 +324,14 @@ function SettingsBody() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {/* Audio Description Detail */}
               <div className="space-y-2">
-                <label htmlFor="desc-detail" className="block text-xs font-mono font-bold uppercase tracking-wider text-slate-700 dark:text-[#D1D5DB]">
+                <label htmlFor="desc-detail" className="block text-xs font-mono font-bold uppercase tracking-wider text-[#51483F]">
                   Audio Description Detail Density
                 </label>
                 <select
                   id="desc-detail"
                   value={String(profile.description_detail ?? "medium")}
                   onChange={(e) => set("description_detail", e.target.value)}
-                  className="w-full h-12 rounded-xl border border-slate-300 dark:border-white/15 bg-slate-50 dark:bg-[#0D1224] px-4 text-sm font-semibold text-slate-900 dark:text-[#F8FAFC] focus:border-brand-indigo focus:ring-2 focus:ring-brand-indigo/20 focus:outline-none transition shadow-sm"
+                  className="w-full h-12 rounded-xl border border-[#DDD0C0] bg-[#FBF8F2] px-4 text-sm font-semibold text-[#2F2924] focus:border-[#B85C38] focus:ring-2 focus:ring-[#B85C38]/20 focus:outline-none transition shadow-xs"
                 >
                   {DETAILS.map((d) => (
                     <option key={d} value={d}>
@@ -339,7 +339,7 @@ function SettingsBody() {
                     </option>
                   ))}
                 </select>
-                <p className="text-xs sm:text-sm text-slate-600 dark:text-[#AAB4C3]">
+                <p className="text-xs sm:text-sm text-[#7A7067]">
                   Controls how densely visual descriptions are synthesized during pauses.
                 </p>
               </div>
@@ -347,10 +347,10 @@ function SettingsBody() {
               {/* Narration Speech Rate */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <label htmlFor="speech-rate" className="block text-xs font-mono font-bold uppercase tracking-wider text-slate-700 dark:text-[#D1D5DB]">
+                  <label htmlFor="speech-rate" className="block text-xs font-mono font-bold uppercase tracking-wider text-[#51483F]">
                     Narration Speech Rate
                   </label>
-                  <span className="font-mono text-sm font-bold text-brand-indigo bg-brand-indigo/10 px-2.5 py-0.5 rounded-md">
+                  <span className="font-mono text-sm font-bold text-[#B85C38] bg-[#FFF8F4] border border-[#E8C2B2] px-2.5 py-0.5 rounded-md">
                     {Number(profile.speech_rate ?? 1.0).toFixed(1)}x speed
                   </span>
                 </div>
@@ -363,24 +363,24 @@ function SettingsBody() {
                     step={0.1}
                     value={Number(profile.speech_rate ?? 1.0)}
                     onChange={(e) => set("speech_rate", Number(e.target.value))}
-                    className="w-full accent-brand-indigo cursor-pointer h-2 bg-slate-200 dark:bg-white/10 rounded-lg"
+                    className="w-full accent-[#B85C38] cursor-pointer h-2 bg-[#EDE2D3] rounded-lg"
                   />
                 </div>
-                <p className="text-xs sm:text-sm text-slate-600 dark:text-[#AAB4C3]">
+                <p className="text-xs sm:text-sm text-[#7A7067]">
                   Adjusts the playback speed of synthesized audio description audio.
                 </p>
               </div>
 
               {/* Adaptive Quiz Difficulty */}
               <div className="space-y-2">
-                <label htmlFor="quiz-diff" className="block text-xs font-mono font-bold uppercase tracking-wider text-slate-700 dark:text-[#D1D5DB]">
+                <label htmlFor="quiz-diff" className="block text-xs font-mono font-bold uppercase tracking-wider text-[#51483F]">
                   Adaptive Quiz Difficulty
                 </label>
                 <select
                   id="quiz-diff"
                   value={String(profile.quiz_difficulty ?? "adaptive")}
                   onChange={(e) => set("quiz_difficulty", e.target.value)}
-                  className="w-full h-12 rounded-xl border border-slate-300 dark:border-white/15 bg-slate-50 dark:bg-[#0D1224] px-4 text-sm font-semibold text-slate-900 dark:text-[#F8FAFC] focus:border-brand-indigo focus:ring-2 focus:ring-brand-indigo/20 focus:outline-none transition shadow-sm"
+                  className="w-full h-12 rounded-xl border border-[#DDD0C0] bg-[#FBF8F2] px-4 text-sm font-semibold text-[#2F2924] focus:border-[#B85C38] focus:ring-2 focus:ring-[#B85C38]/20 focus:outline-none transition shadow-xs"
                 >
                   {DIFFICULTY.map((d) => (
                     <option key={d} value={d}>
@@ -388,14 +388,14 @@ function SettingsBody() {
                     </option>
                   ))}
                 </select>
-                <p className="text-xs sm:text-sm text-slate-600 dark:text-[#AAB4C3]">
+                <p className="text-xs sm:text-sm text-[#7A7067]">
                   Determines how assessment questions dynamically calibrate to your mastery.
                 </p>
               </div>
 
               {/* Interface Language */}
               <div className="space-y-2">
-                <label htmlFor="pref-lang" className="block text-xs font-mono font-bold uppercase tracking-wider text-slate-700 dark:text-[#D1D5DB]">
+                <label htmlFor="pref-lang" className="block text-xs font-mono font-bold uppercase tracking-wider text-[#51483F]">
                   Interface Language &amp; Reading Direction
                 </label>
                 <select
@@ -406,7 +406,7 @@ function SettingsBody() {
                     set("preferred_language", language);
                     setLanguage(language);
                   }}
-                  className="w-full h-12 rounded-xl border border-slate-300 dark:border-white/15 bg-slate-50 dark:bg-[#0D1224] px-4 text-sm font-semibold text-slate-900 dark:text-[#F8FAFC] focus:border-brand-indigo focus:ring-2 focus:ring-brand-indigo/20 focus:outline-none transition shadow-sm"
+                  className="w-full h-12 rounded-xl border border-[#DDD0C0] bg-[#FBF8F2] px-4 text-sm font-semibold text-[#2F2924] focus:border-[#B85C38] focus:ring-2 focus:ring-[#B85C38]/20 focus:outline-none transition shadow-xs"
                 >
                   {LANGUAGES.map((l) => (
                     <option key={l} value={l}>
@@ -414,7 +414,7 @@ function SettingsBody() {
                     </option>
                   ))}
                 </select>
-                <p className="text-xs sm:text-sm text-slate-600 dark:text-[#AAB4C3]">
+                <p className="text-xs sm:text-sm text-[#7A7067]">
                   Switches layout direction and primary system captions language.
                 </p>
               </div>
@@ -427,15 +427,15 @@ function SettingsBody() {
               onClick={save}
               disabled={saving}
               size="lg"
-              className="w-full sm:w-auto gap-2.5 bg-brand-indigo hover:bg-brand-indigo/90 text-white font-bold text-base px-8 py-4 h-12 rounded-xl shadow-lg shadow-brand-indigo/30 transition-all hover:scale-[1.01]"
+              className="w-full sm:w-auto gap-2.5 bg-[#B85C38] hover:bg-[#9F4F32] text-white font-bold text-base px-8 py-4 h-12 rounded-xl shadow-md shadow-[#B85C38]/20 transition-all hover:scale-[1.01]"
             >
               {saving ? <Spinner className="size-5" /> : <Save className="size-5" />}
               <span>Save Profile Preferences</span>
             </Button>
 
             {saved && (
-              <p className="text-sm sm:text-base font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-2">
-                <CheckCircle2 className="size-5" />
+              <p className="text-sm sm:text-base font-bold text-[#3D6B40] flex items-center gap-2">
+                <CheckCircle2 className="size-5 text-[#5F8A62]" />
                 <span>Preferences saved successfully to local intelligence profile.</span>
               </p>
             )}
@@ -445,4 +445,3 @@ function SettingsBody() {
     </div>
   );
 }
-

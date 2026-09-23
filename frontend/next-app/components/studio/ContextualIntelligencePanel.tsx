@@ -36,8 +36,8 @@ interface SectionDef {
   id: "shown" | "said" | "ocr" | "missing" | "generated" | "evidence";
   label: string;
   Icon: typeof Eye;
-  accent: "blue" | "cyan" | "indigo" | "amber" | "emerald" | "slate";
   colorCls: string;
+  bgCls: string;
 }
 
 const SECTIONS: SectionDef[] = [
@@ -45,43 +45,43 @@ const SECTIONS: SectionDef[] = [
     id: "shown",
     label: "WHAT WAS SHOWN",
     Icon: Eye,
-    accent: "blue",
-    colorCls: "text-brand-blue",
+    colorCls: "text-[#5F9A9A]",
+    bgCls: "bg-[#F2F7F7]",
   },
   {
     id: "said",
     label: "WHAT WAS SAID",
     Icon: Mic,
-    accent: "cyan",
-    colorCls: "text-brand-cyan",
+    colorCls: "text-[#5B82A6]",
+    bgCls: "bg-[#F4F7FA]",
   },
   {
     id: "ocr",
     label: "OCR FOUND",
     Icon: ScanText,
-    accent: "indigo",
-    colorCls: "text-brand-indigo",
+    colorCls: "text-[#6C63A8]",
+    bgCls: "bg-[#F6F5FB]",
   },
   {
     id: "missing",
     label: "WHAT IS MISSING",
     Icon: AlertTriangle,
-    accent: "amber",
-    colorCls: "text-brand-amber",
+    colorCls: "text-[#B77932]",
+    bgCls: "bg-[#FEF6EC]",
   },
   {
     id: "generated",
     label: "EDUACCESS GENERATED",
     Icon: Sparkles,
-    accent: "emerald",
-    colorCls: "text-brand-emerald",
+    colorCls: "text-[#5F8A62]",
+    bgCls: "bg-[#EBF5EC]",
   },
   {
     id: "evidence",
     label: "EVIDENCE & TRUST",
     Icon: ShieldCheck,
-    accent: "slate",
-    colorCls: "text-slate-600",
+    colorCls: "text-[#B85C38]",
+    bgCls: "bg-[#FFF8F4]",
   },
 ];
 
@@ -149,28 +149,28 @@ export function ContextualIntelligencePanel({
     const Icon = section.Icon;
     return (
       <div
-        className="rounded-xl border border-slate-200/70 bg-white shadow-surface overflow-hidden"
+        className="rounded-xl border border-[#DDD0C0] bg-[#FFFDFC] shadow-xs overflow-hidden"
         key={section.id}
       >
         <button
           type="button"
           onClick={() => toggle(section.id)}
-          className="w-full flex items-center gap-2.5 px-3 py-2.5 hover:bg-slate-50/60 transition"
+          className="w-full flex items-center gap-2.5 px-3.5 py-2.5 hover:bg-[#FBF8F2] transition text-left"
         >
-          <div className={cn("shrink-0 size-7 rounded-lg flex items-center justify-center bg-slate-50", section.colorCls)}>
+          <div className={cn("shrink-0 size-7 rounded-lg flex items-center justify-center", section.bgCls, section.colorCls)}>
             <Icon className="size-3.5" aria-hidden />
           </div>
-          <span className="meta-label text-slate-600">{section.label}</span>
+          <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-[#51483F]">{section.label}</span>
           <div className="ml-auto flex items-center gap-1.5">
             {isCollapsed ? (
-              <ChevronRight className="size-3.5 text-slate-400" aria-hidden />
+              <ChevronRight className="size-3.5 text-[#7A7067]" aria-hidden />
             ) : (
-              <ChevronDown className="size-3.5 text-slate-400" aria-hidden />
+              <ChevronDown className="size-3.5 text-[#7A7067]" aria-hidden />
             )}
           </div>
         </button>
         {!isCollapsed && (
-          <div className="px-3 pb-3 pt-0.5 space-y-2 animate-fade-in border-t border-slate-100">
+          <div className="px-3.5 pb-3.5 pt-0.5 space-y-2 border-t border-[#EDE2D3]">
             {content}
           </div>
         )}
@@ -181,34 +181,34 @@ export function ContextualIntelligencePanel({
   return (
     <aside
       className={cn(
-        "flex h-full flex-col gap-3 bg-app-surface/50 p-3 overflow-y-auto scrollbar-thin",
+        "flex h-full flex-col gap-3 bg-transparent p-0 overflow-y-auto scrollbar-thin text-[#2F2924]",
         className
       )}
     >
       {/* Panel Identity */}
-      <div className="rounded-2xl border border-slate-200/70 bg-white shadow-surface p-3">
-        <div className="flex items-center gap-2.5 mb-2">
-          <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-brand-indigo to-brand-blue text-white shadow-sm">
+      <div className="rounded-2xl border border-[#DDD0C0] bg-[#FFFDFC] shadow-xs p-3.5">
+        <div className="flex items-center gap-2.5 mb-2.5">
+          <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-[#FFF8F4] border border-[#E8C2B2] text-[#B85C38] shadow-xs">
             <BrainCircuit className="size-4.5" aria-hidden />
           </div>
           <div className="min-w-0">
-            <p className="text-[13px] font-bold tracking-tight text-slate-900 leading-none">
+            <p className="text-[13px] font-bold tracking-tight text-[#2F2924] leading-none">
               Contextual Intelligence
             </p>
-            <p className="meta-label mt-1">
-              <Clock className="size-2.5" aria-hidden />
+            <p className="font-mono text-[10.5px] text-[#7A7067] mt-1 flex items-center gap-1">
+              <Clock className="size-2.5 text-[#8B6B52]" aria-hidden />
               Synced to {formatClock(currentTime)}
             </p>
           </div>
         </div>
-        <div className="flex items-center justify-between rounded-lg bg-slate-50 border border-slate-200/60 px-2.5 py-1.5">
+        <div className="flex items-center justify-between rounded-lg bg-[#FBF8F2] border border-[#EDE2D3] px-2.5 py-1.5">
           <div className="flex items-center gap-2">
-            <Gauge className="size-3 text-brand-indigo" aria-hidden />
-            <span className="text-[11px] font-semibold text-slate-600">
+            <Gauge className="size-3 text-[#B85C38]" aria-hidden />
+            <span className="text-[11px] font-semibold text-[#51483F]">
               Active inference window
             </span>
           </div>
-          <span className="font-mono text-[10px] text-slate-500 tabular-nums">
+          <span className="font-mono text-[10px] text-[#7A7067] tabular-nums font-bold">
             ±{range}s
           </span>
         </div>
@@ -220,9 +220,9 @@ export function ContextualIntelligencePanel({
         activeVisual ? (
           <div className="space-y-2">
             <div className="flex flex-wrap items-center gap-1.5">
-              <span className="badge-pill-cyan">{activeVisual.type || "VISUAL"}</span>
+              <span className="inline-flex items-center rounded-full px-2.5 py-0.5 text-[10.5px] font-mono font-bold bg-[#F2F7F7] text-[#5F9A9A] border border-[#D2E4E4]">{activeVisual.type || "VISUAL"}</span>
               {activeVisual.importance !== undefined && (
-                <span className="badge-pill-slate">
+                <span className="inline-flex items-center rounded-full px-2 py-0.5 text-[10.5px] font-mono text-[#7A7067] bg-[#F1E8DC]">
                   importance {activeVisual.importance}
                 </span>
               )}
@@ -230,6 +230,7 @@ export function ContextualIntelligencePanel({
                 seconds={activeVisual.start}
                 onSeek={jumpTo}
                 source="KEYFRAME"
+                tone="cyan"
               />
             </div>
             <EvidenceSnippet
@@ -237,12 +238,12 @@ export function ContextualIntelligencePanel({
               text={activeVisual.description || activeVisual.ocr_text || "Visual content frame detected."}
             />
             {activeVisual.ocr_text && (
-              <div className="rounded-lg border border-indigo-200/50 bg-indigo-50/40 p-2.5 space-y-1">
-                <span className="meta-label text-indigo-600 inline-flex items-center gap-1">
+              <div className="rounded-lg border border-[#DDD8EE] bg-[#F6F5FB] p-2.5 space-y-1">
+                <span className="font-mono text-[10px] font-bold text-[#6C63A8] inline-flex items-center gap-1 uppercase tracking-wider">
                   <ScanText className="size-2.5" aria-hidden />
                   INLINE OCR
                 </span>
-                <p className="text-[11.5px] font-mono text-indigo-950 leading-relaxed whitespace-pre-wrap">
+                <p className="text-[11.5px] font-mono text-[#2F2924] leading-relaxed whitespace-pre-wrap">
                   {activeVisual.ocr_text}
                 </p>
               </div>
@@ -262,6 +263,7 @@ export function ContextualIntelligencePanel({
               seconds={activeSegment.start}
               onSeek={jumpTo}
               source="WHISPER TRANSCRIPT"
+              tone="blue"
             />
             <EvidenceSnippet variant="speech" text={activeSegment.text} />
           </div>
@@ -276,7 +278,7 @@ export function ContextualIntelligencePanel({
         activeAnalysis?.ocr_text ? (
           <div className="space-y-2">
             <div className="flex flex-wrap items-center gap-1.5">
-              <span className="badge-pill-indigo">OCR EXTRACTED</span>
+              <span className="inline-flex items-center rounded-full px-2.5 py-0.5 text-[10.5px] font-mono font-bold bg-[#F6F5FB] text-[#6C63A8] border border-[#DDD8EE]">OCR EXTRACTED</span>
               {activeAnalysis.trust && (
                 <TrustPill
                   trust={
@@ -288,11 +290,11 @@ export function ContextualIntelligencePanel({
                 />
               )}
               {activeAnalysis.start !== undefined && (
-                <EvidenceTimestamp seconds={activeAnalysis.start} onSeek={jumpTo} source="FRAME" />
+                <EvidenceTimestamp seconds={activeAnalysis.start} onSeek={jumpTo} source="FRAME" tone="indigo" />
               )}
             </div>
-            <div className="rounded-lg border border-indigo-200/50 bg-indigo-50/30 p-2.5">
-              <p className="text-[11.5px] font-mono text-indigo-950 leading-relaxed whitespace-pre-wrap">
+            <div className="rounded-lg border border-[#DDD8EE] bg-[#F6F5FB] p-2.5">
+              <p className="text-[11.5px] font-mono text-[#2F2924] leading-relaxed whitespace-pre-wrap">
                 {activeAnalysis.ocr_text}
               </p>
             </div>
@@ -308,16 +310,16 @@ export function ContextualIntelligencePanel({
         activeGap ? (
           <div className="space-y-2">
             <div className="flex flex-wrap items-center gap-1.5">
-              <span className="badge-pill-amber">ACCESSIBILITY GAP</span>
+              <span className="inline-flex items-center rounded-full px-2.5 py-0.5 text-[10.5px] font-mono font-bold bg-[#FEF6EC] text-[#B77932] border border-[#F3CE9D]">ACCESSIBILITY GAP</span>
               {activeGap.severity && (
                 <span
                   className={cn(
-                    "badge-pill",
+                    "inline-flex items-center rounded-full px-2 py-0.5 text-[10.5px] font-mono font-semibold border",
                     activeGap.severity === "high"
-                      ? "badge-pill-rose"
+                      ? "bg-[#FDF2F2] text-[#B94A48] border-[#B94A48]/30"
                       : activeGap.severity === "low"
-                      ? "badge-pill-cyan"
-                      : "badge-pill-amber"
+                      ? "bg-[#F2F7F7] text-[#5F9A9A] border-[#D2E4E4]"
+                      : "bg-[#FEF6EC] text-[#B77932] border-[#F3CE9D]"
                   )}
                 >
                   {String(activeGap.severity).toUpperCase()} SEVERITY
@@ -327,6 +329,7 @@ export function ContextualIntelligencePanel({
                 seconds={activeGap.timestamp_start ?? activeGap.timestamp}
                 onSeek={jumpTo}
                 source="DISPARITY"
+                tone="amber"
               />
             </div>
             <EvidenceSnippet
@@ -341,8 +344,8 @@ export function ContextualIntelligencePanel({
               }
             />
             {activeGap.why_it_matters && (
-              <p className="text-[11.5px] leading-relaxed text-slate-600 px-1">
-                <span className="font-semibold text-slate-800">Why it matters: </span>
+              <p className="text-[11.5px] leading-relaxed text-[#51483F] px-1">
+                <span className="font-semibold text-[#2F2924]">Why it matters: </span>
                 {activeGap.why_it_matters}
               </p>
             )}
@@ -350,20 +353,20 @@ export function ContextualIntelligencePanel({
               onClick={() =>
                 jumpTo(activeGap.timestamp_start ?? activeGap.timestamp ?? 0)
               }
-              className="inline-flex items-center gap-1.5 rounded-lg bg-brand-amber text-white px-2.5 py-1.5 text-[11px] font-semibold hover:bg-amber-600 transition"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-[#B85C38] text-white px-2.5 py-1.5 text-[11px] font-bold hover:bg-[#9F4F32] transition shadow-xs"
             >
               <Play className="size-3 fill-current" aria-hidden />
               Jump to gap moment
             </button>
           </div>
         ) : (
-          <div className="rounded-xl border border-emerald-200/70 bg-emerald-50/50 p-2.5 flex items-start gap-2">
-            <ShieldCheck className="size-4 text-emerald-600 shrink-0 mt-0.5" aria-hidden />
+          <div className="rounded-xl border border-[#C5E3C7] bg-[#EBF5EC] p-2.5 flex items-start gap-2">
+            <ShieldCheck className="size-4 text-[#5F8A62] shrink-0 mt-0.5" aria-hidden />
             <div>
-              <p className="text-[11.5px] font-semibold text-emerald-950">
+              <p className="text-[11.5px] font-bold text-[#2D5A30]">
                 No accessibility gap at this timestamp.
               </p>
-              <p className="text-[10.5px] text-emerald-900/80">
+              <p className="text-[10.5px] text-[#3D6B40]">
                 Spoken and visual modalities appear aligned.
               </p>
             </div>
@@ -377,11 +380,11 @@ export function ContextualIntelligencePanel({
         activeAd ? (
           <div className="space-y-2">
             <div className="flex flex-wrap items-center gap-1.5">
-              <span className="badge-pill-emerald">
+              <span className="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[10.5px] font-mono font-bold bg-[#EBF5EC] text-[#3D6B40] border border-[#C5E3C7]">
                 <Volume2 className="size-2.5" aria-hidden />
                 AUDIO DESCRIPTION CUE
               </span>
-              <EvidenceTimestamp seconds={activeAd.start} onSeek={jumpTo} source="AD LAYER" />
+              <EvidenceTimestamp seconds={activeAd.start} onSeek={jumpTo} source="AD LAYER" tone="emerald" />
               {activeAd.confidence !== undefined && (
                 <TrustPill
                   trust={activeAd.confidence > 0.75 ? "VERIFIED" : "UNCERTAIN"}
@@ -394,7 +397,7 @@ export function ContextualIntelligencePanel({
               text={activeAd.description || activeAd.transcript || "[Non-destructive audio description narration]"}
             />
             {activeAd.should_describe && (
-              <p className="text-[11px] text-emerald-900/80 px-1">
+              <p className="text-[11px] text-[#3D6B40] px-1 font-medium">
                 EduAccess layered this cue non-destructively over the original lecture audio.
               </p>
             )}
@@ -409,54 +412,54 @@ export function ContextualIntelligencePanel({
         SECTIONS[5],
         <div className="space-y-2">
           <div className="grid grid-cols-2 gap-1.5">
-            <div className="rounded-lg bg-slate-50 border border-slate-200/60 p-2">
-              <span className="meta-label block text-[9px]">MODALITIES</span>
+            <div className="rounded-lg bg-[#FBF8F2] border border-[#EDE2D3] p-2">
+              <span className="font-mono text-[9px] font-bold uppercase tracking-wider text-[#7A7067] block">MODALITIES</span>
               <div className="mt-1 space-y-1">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10.5px] text-slate-600">Speech</span>
-                  <span className={cn("size-1.5 rounded-full", activeSegment ? "bg-brand-cyan" : "bg-slate-300")} />
+                  <span className="text-[10.5px] text-[#51483F]">Speech</span>
+                  <span className={cn("size-1.5 rounded-full", activeSegment ? "bg-[#5B82A6]" : "bg-[#DDD0C0]")} />
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-[10.5px] text-slate-600">Vision</span>
-                  <span className={cn("size-1.5 rounded-full", activeVisual ? "bg-brand-blue" : "bg-slate-300")} />
+                  <span className="text-[10.5px] text-[#51483F]">Vision</span>
+                  <span className={cn("size-1.5 rounded-full", activeVisual ? "bg-[#5F9A9A]" : "bg-[#DDD0C0]")} />
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-[10.5px] text-slate-600">OCR</span>
-                  <span className={cn("size-1.5 rounded-full", activeAnalysis?.ocr_text ? "bg-brand-indigo" : "bg-slate-300")} />
+                  <span className="text-[10.5px] text-[#51483F]">OCR</span>
+                  <span className={cn("size-1.5 rounded-full", activeAnalysis?.ocr_text ? "bg-[#6C63A8]" : "bg-[#DDD0C0]")} />
                 </div>
               </div>
             </div>
-            <div className="rounded-lg bg-slate-50 border border-slate-200/60 p-2">
-              <span className="meta-label block text-[9px]">ACCESSIBILITY</span>
+            <div className="rounded-lg bg-[#FBF8F2] border border-[#EDE2D3] p-2">
+              <span className="font-mono text-[9px] font-bold uppercase tracking-wider text-[#7A7067] block">ACCESSIBILITY</span>
               <div className="mt-1 space-y-1">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10.5px] text-slate-600">Gap</span>
-                  <span className={cn("size-1.5 rounded-full", activeGap ? "bg-brand-amber" : "bg-slate-300")} />
+                  <span className="text-[10.5px] text-[#51483F]">Gap</span>
+                  <span className={cn("size-1.5 rounded-full", activeGap ? "bg-[#B77932]" : "bg-[#DDD0C0]")} />
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-[10.5px] text-slate-600">AD</span>
-                  <span className={cn("size-1.5 rounded-full", activeAd ? "bg-brand-emerald" : "bg-slate-300")} />
+                  <span className="text-[10.5px] text-[#51483F]">AD</span>
+                  <span className={cn("size-1.5 rounded-full", activeAd ? "bg-[#5F8A62]" : "bg-[#DDD0C0]")} />
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-[10.5px] text-slate-600">Events</span>
-                  <span className="size-1.5 rounded-full bg-brand-rose/30" />
+                  <span className="text-[10.5px] text-[#51483F]">Events</span>
+                  <span className="size-1.5 rounded-full bg-[#B85C38]" />
                 </div>
               </div>
             </div>
           </div>
 
           <SectionRail
-            label={<span className="meta-label text-[9px]">TIMESTAMPED EVIDENCE</span>}
+            label={<span className="font-mono text-[9px] font-bold uppercase tracking-wider text-[#7A7067]">TIMESTAMPED EVIDENCE</span>}
           />
           <div className="flex flex-wrap items-center gap-1.5">
-            <EvidenceTimestamp seconds={Math.max(0, currentTime - 2)} onSeek={jumpTo} source="-2s" />
-            <EvidenceTimestamp seconds={currentTime} onSeek={jumpTo} source="NOW" trust="VERIFIED" />
-            <EvidenceTimestamp seconds={currentTime + 2} onSeek={jumpTo} source="+2s" />
+            <EvidenceTimestamp seconds={Math.max(0, currentTime - 2)} onSeek={jumpTo} source="-2s" tone="slate" />
+            <EvidenceTimestamp seconds={currentTime} onSeek={jumpTo} source="NOW" trust="VERIFIED" tone="terracotta" />
+            <EvidenceTimestamp seconds={currentTime + 2} onSeek={jumpTo} source="+2s" tone="slate" />
           </div>
 
-          <p className="text-[10.5px] leading-relaxed text-slate-500 px-1">
+          <p className="text-[10.5px] leading-relaxed text-[#7A7067] px-1">
             All EduAccess outputs are grounded in the source lecture material and marked with
-            a trust level. Use <span className="font-semibold text-slate-700">Jump to moment</span> to
+            a trust level. Use <span className="font-semibold text-[#2F2924]">Jump to moment</span> to
             verify any AI claim against the original video.
           </p>
         </div>,
@@ -468,9 +471,9 @@ export function ContextualIntelligencePanel({
 
 function EmptyState({ label, hint }: { label: string; hint: string }) {
   return (
-    <div className="rounded-xl border border-slate-200/50 bg-slate-50/40 p-3 text-center">
-      <p className="text-[11.5px] font-medium text-slate-600">{label}</p>
-      <p className="text-[10px] text-slate-500 mt-0.5">{hint}</p>
+    <div className="rounded-xl border border-[#EDE2D3] bg-[#FBF8F2] p-3 text-center">
+      <p className="text-[11.5px] font-medium text-[#51483F]">{label}</p>
+      <p className="text-[10px] text-[#7A7067] mt-0.5">{hint}</p>
     </div>
   );
 }

@@ -17,9 +17,13 @@ function AudioRedirectBody() {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    const job = searchParams.get("job") || searchParams.get("jobId") || "DEMO_python_loops";
-    router.replace(`/lectures/${encodeURIComponent(job)}?tab=audio`);
+    const job = searchParams.get("job") || searchParams.get("jobId");
+    if (job) {
+      router.replace(`/lectures/${encodeURIComponent(job)}?tab=audio`);
+    } else {
+      router.replace("/lectures");
+    }
   }, [router, searchParams]);
 
-  return <PageLoader label="Redirecting to Accessibility Workspace (Audio Description)..." />;
+  return <PageLoader label="Opening Audio Description Studio..." />;
 }

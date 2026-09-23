@@ -122,13 +122,13 @@ function WorkspaceRoute({ jobId }: { jobId: string }) {
   if (loading) {
     return (
       <div className="mx-auto max-w-[1500px] p-6 space-y-6">
-        <div className="h-9 w-3/5 animate-pulse rounded-lg bg-slate-200" />
-        <div className="h-8 w-full animate-pulse rounded-lg bg-slate-100" />
+        <div className="h-9 w-3/5 animate-pulse rounded-lg bg-[#EDE2D3]" />
+        <div className="h-8 w-full animate-pulse rounded-lg bg-[#F1E8DC]" />
         <div className="grid gap-6 lg:grid-cols-[1.6fr_1fr]">
-          <div className="h-[460px] animate-pulse rounded-2xl bg-slate-200" />
-          <div className="h-[460px] animate-pulse rounded-2xl bg-slate-200" />
+          <div className="h-[460px] animate-pulse rounded-2xl bg-[#EDE2D3]" />
+          <div className="h-[460px] animate-pulse rounded-2xl bg-[#EDE2D3]" />
         </div>
-        <div className="h-48 animate-pulse rounded-2xl bg-slate-200" />
+        <div className="h-48 animate-pulse rounded-2xl bg-[#EDE2D3]" />
       </div>
     );
   }
@@ -136,7 +136,7 @@ function WorkspaceRoute({ jobId }: { jobId: string }) {
   if (!selected) {
     return (
       <div className="mx-auto max-w-3xl py-16 text-center">
-        <p className="text-app-soft">Lecture &ldquo;{jobId}&rdquo; was not found.</p>
+        <p className="text-[#7A7067]">Lecture &ldquo;{jobId}&rdquo; was not found.</p>
         <Link href="/upload" className="mt-4 inline-block">
           <Button variant="secondary">Back to Compile &amp; Lectures</Button>
         </Link>
@@ -398,47 +398,47 @@ function WorkspaceBody() {
   const breakdown = data.score?.breakdown;
 
   return (
-    <div className="w-full max-w-[1600px] mx-auto px-3 sm:px-5 lg:px-8 py-5 lg:py-6 space-y-4">
+    <div className="w-full max-w-[1600px] mx-auto px-3 sm:px-5 lg:px-8 py-5 lg:py-6 space-y-4 text-[#2F2924]">
       {/* TOP PRODUCT BAR */}
-      <div className="top-bar">
+      <div className="rounded-2xl border border-[#DDD0C0] bg-[#FFFDFC] p-3 sm:p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
         <div className="flex items-center gap-3 min-w-0 flex-1">
           <div className="relative">
             <button
               onClick={() => setLecturePickerOpen((s) => !s)}
               className={cn(
-                "flex items-center gap-2.5 rounded-lg transition",
-                lecturePickerOpen ? "bg-slate-100" : "hover:bg-slate-50"
+                "flex items-center gap-2.5 rounded-xl px-2 py-1.5 transition",
+                lecturePickerOpen ? "bg-[#F1E8DC]" : "hover:bg-[#FBF8F2]"
               )}
             >
-              <div className="flex size-10 items-center justify-center rounded-xl bg-gradient-to-br from-brand-indigo/15 to-violet-500/10 text-brand-indigo ring-1 ring-brand-indigo/10">
-                <Video className="size-[18px]" />
+              <div className="flex size-10 items-center justify-center rounded-xl bg-[#FFF8F4] border border-[#E8C2B2] text-[#B85C38] shadow-xs">
+                <Video className="size-5" />
               </div>
               <div className="text-left min-w-0 max-w-[420px]">
-                <h1 className="text-[14px] font-semibold text-slate-900 leading-tight truncate pr-1">
+                <h1 className="text-[14px] font-bold text-[#2F2924] leading-tight truncate pr-1">
                   {lec.filename}
                 </h1>
-                <p className="text-[11px] text-slate-500 mt-0.5 leading-tight">
-                  <span className="font-mono">{lec.job_id}</span>
-                  <span className="mx-1.5 text-slate-400">·</span>
+                <p className="text-[11px] text-[#7A7067] mt-0.5 leading-tight">
+                  <span className="font-mono text-[#B85C38]">{lec.job_id}</span>
+                  <span className="mx-1.5 text-[#DDD0C0]">·</span>
                   <span>{formatSeconds(lec.duration)}</span>
                   {demo && (
                     <>
-                      <span className="mx-1.5 text-slate-400">·</span>
-                      <span className="inline-flex items-center gap-1 text-amber-600 font-semibold">
+                      <span className="mx-1.5 text-[#DDD0C0]">·</span>
+                      <span className="inline-flex items-center gap-1 text-[#B85C38] font-semibold">
                         <SparklesIcon className="size-3" /> Live Demo
                       </span>
                     </>
                   )}
                 </p>
               </div>
-              <ChevronDown className={cn("size-4 text-slate-400 mr-1.5 transition-transform", lecturePickerOpen && "rotate-180")} />
+              <ChevronDown className={cn("size-4 text-[#7A7067] mr-1.5 transition-transform", lecturePickerOpen && "rotate-180")} />
             </button>
             {lecturePickerOpen && (
               <>
                 <div className="fixed inset-0 z-20" onClick={() => setLecturePickerOpen(false)} />
-                <div className="absolute left-0 top-full mt-2 z-30 w-[320px] rounded-xl bg-white shadow-lg shadow-slate-900/10 ring-1 ring-app-edge/80 overflow-hidden">
-                  <div className="px-3.5 py-2.5 border-b border-app-edge/80 flex items-center justify-between">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">Lecture Workspace</p>
+                <div className="absolute left-0 top-full mt-2 z-30 w-[320px] rounded-xl bg-[#FFFDFC] shadow-lg border border-[#DDD0C0] overflow-hidden">
+                  <div className="px-3.5 py-2.5 border-b border-[#EDE2D3] bg-[#FBF8F2] flex items-center justify-between">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#7A7067]">Lecture Workspace</p>
                     <Badge variant="muted" className="text-[10px]">Switch</Badge>
                   </div>
                   <div className="p-2 max-h-[320px] overflow-y-auto space-y-0.5">
@@ -448,15 +448,15 @@ function WorkspaceBody() {
               </>
             )}
           </div>
-          <div className="h-8 w-px bg-app-edge/60 mx-1 hidden sm:block" />
+          <div className="h-8 w-px bg-[#DDD0C0] mx-1 hidden sm:block" />
           <div className="hidden md:flex items-center gap-2">
-            <span className="badge-pill-emerald">
-              <Activity className="size-3" /> Live · {formatClock(time)}
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#EBF5EC] border border-[#C5E3C7] text-[#3D6B40] px-3 py-1 text-xs font-mono font-bold">
+              <Activity className="size-3 text-[#5F8A62]" /> Live · {formatClock(time)}
             </span>
             {data.score && (
               <span className={cn(
-                "badge-pill",
-                healthScore >= 80 ? "badge-pill-emerald" : healthScore >= 60 ? "badge-pill-amber" : "badge-pill-rose"
+                "inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-mono font-bold border",
+                healthScore >= 80 ? "bg-[#EBF5EC] text-[#3D6B40] border-[#C5E3C7]" : healthScore >= 60 ? "bg-[#FEF6EC] text-[#B77932] border-[#F3CE9D]" : "bg-[#FDF2F2] text-[#B94A48] border-[#B94A48]/30"
               )}>
                 <ShieldCheck className="size-3" /> Health {healthScore}%
               </span>
@@ -474,10 +474,10 @@ function WorkspaceBody() {
                 aria-label="Toggle Audio Description"
               />
               <div className={cn(
-                "flex items-center gap-1.5 px-2.5 h-8 rounded-full border transition text-[11.5px] font-semibold",
+                "flex items-center gap-1.5 px-3 h-8 rounded-full border transition text-[11.5px] font-semibold",
                 adMode
-                  ? "bg-emerald-500 border-emerald-500 text-white"
-                  : "bg-white border-app-edge/80 text-slate-600 hover:border-emerald-400 hover:text-emerald-600"
+                  ? "bg-[#5F8A62] border-[#5F8A62] text-white shadow-xs"
+                  : "bg-[#FFFDFC] border-[#DDD0C0] text-[#51483F] hover:border-[#5F8A62] hover:text-[#5F8A62]"
               )}>
                 <AudioLines className="size-3.5" />
                 AD Layer
@@ -485,12 +485,12 @@ function WorkspaceBody() {
             </label>
           )}
           <Link href="/learning">
-            <Button size="sm" variant="ghost" className="gap-1.5 h-8 text-[12px] text-slate-700 hover:text-brand-indigo">
+            <Button size="sm" variant="ghost" className="gap-1.5 h-8 text-[12px] text-[#51483F] hover:text-[#B85C38] hover:bg-[#F1E8DC]">
               <BrainCircuit className="size-3.5" /> Learning
             </Button>
           </Link>
           <Link href="/upload">
-            <Button size="sm" className="gap-1.5 h-8 text-[12px] shadow-sm">
+            <Button size="sm" className="gap-1.5 h-8 text-[12px] bg-[#B85C38] hover:bg-[#9F4F32] text-white font-semibold shadow-xs">
               <Layers className="size-3.5" /> Compiler
             </Button>
           </Link>
@@ -515,16 +515,16 @@ function WorkspaceBody() {
               className={cn(
                 "group shrink-0 flex items-center gap-2 h-9 px-3 rounded-lg text-[12.5px] font-semibold transition relative",
                 active
-                  ? "bg-slate-900 text-white shadow-sm"
-                  : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+                  ? "bg-[#B85C38] text-white shadow-xs"
+                  : "text-[#51483F] hover:text-[#2F2924] hover:bg-[#F1E8DC]"
               )}
             >
-              <Icon className={cn("size-4", active ? "text-white/90" : "text-slate-400 group-hover:text-slate-600")} />
+              <Icon className={cn("size-4", active ? "text-white" : "text-[#7A7067] group-hover:text-[#2F2924]")} />
               {tab.label}
               {typeof badge === "number" && badge > 0 && (
                 <span className={cn(
                   "inline-flex items-center justify-center min-w-[18px] h-[18px] px-1.5 rounded-full text-[10px] font-bold",
-                  active ? "bg-white/20 text-white" : "bg-slate-200 text-slate-700 group-hover:bg-slate-300"
+                  active ? "bg-white/25 text-white" : "bg-[#EDE2D3] text-[#51483F] group-hover:bg-[#DDD0C0]"
                 )}>
                   {badge}
                 </span>
@@ -533,7 +533,7 @@ function WorkspaceBody() {
           );
         })}
         <div className="flex-1" />
-        <p className="text-[11px] text-slate-400 hidden lg:block pr-1">
+        <p className="text-[11px] text-[#7A7067] hidden lg:block pr-1 font-mono">
           {TAB_ORDER.find((t) => t.id === activeTab)?.hint}
         </p>
       </div>
@@ -541,32 +541,32 @@ function WorkspaceBody() {
       {/* 2-COL WORKSPACE */}
       <div className="grid gap-4 lg:gap-5 lg:grid-cols-[1.6fr_1fr] items-start">
         {/* L+C: VIDEO CANVAS */}
-        <div className="canvas-area-dark p-0 overflow-hidden">
-          <div className="flex items-center justify-between px-5 py-3 border-b border-white/5">
+        <div className="rounded-2xl border border-[#DDD0C0] bg-[#FFFDFC] shadow-sm p-0 overflow-hidden">
+          <div className="flex items-center justify-between px-5 py-3 border-b border-[#EDE2D3] bg-[#FBF8F2]">
             <div className="flex items-center gap-2">
-              <MonitorPlay className="size-4 text-slate-400" />
-              <p className="text-[12px] font-medium tracking-wide text-slate-300 uppercase">
+              <MonitorPlay className="size-4 text-[#B85C38]" />
+              <p className="text-[12px] font-mono font-bold tracking-wider text-[#2F2924] uppercase">
                 Lecture Analysis Canvas
               </p>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-[10.5px] font-mono text-slate-500">
+              <span className="text-[10.5px] font-mono text-[#7A7067]">
                 {formatClock(time)} / {formatClock(duration)}
               </span>
               {adMode && (
-                <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 text-emerald-300 px-2 py-0.5 text-[10.5px] font-semibold border border-emerald-400/20">
+                <span className="inline-flex items-center gap-1 rounded-full bg-[#EBF5EC] text-[#3D6B40] px-2.5 py-0.5 text-[10.5px] font-semibold border border-[#C5E3C7]">
                   <AudioLines className="size-3" /> AD ACTIVE
                 </span>
               )}
               {playing && (
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-indigo/15 text-brand-indigo px-2 py-0.5 text-[10.5px] font-semibold">
-                  <span className="size-1.5 rounded-full bg-brand-indigo animate-pulse" />
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FFF8F4] text-[#B85C38] border border-[#E8C2B2] px-2.5 py-0.5 text-[10.5px] font-semibold">
+                  <span className="size-1.5 rounded-full bg-[#B85C38] animate-pulse" />
                   Playing
                 </span>
               )}
             </div>
           </div>
-          <div className="p-4 lg:p-5">
+          <div className="p-4 lg:p-5 space-y-4">
             <VideoPlayer
               ref={videoRef}
               src={src}
@@ -585,24 +585,24 @@ function WorkspaceBody() {
               }}
             />
             {adError && (
-              <div className="mt-3 flex items-start gap-2 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-[12px] text-amber-200">
+              <div className="mt-3 flex items-start gap-2 rounded-lg border border-[#B77932]/30 bg-[#FEF6EC] px-3 py-2 text-[12px] text-[#B77932]">
                 <AlertTriangle className="size-4 shrink-0 mt-0.5" />
                 {adError}
               </div>
             )}
             {activeSegment && (
-              <div className="mt-3 flex items-start gap-3 rounded-xl bg-white/[0.03] border border-white/5 px-4 py-3">
-                <div className="size-7 shrink-0 mt-0.5 rounded-lg bg-brand-blue/15 text-brand-blue flex items-center justify-center">
+              <div className="mt-3 flex items-start gap-3 rounded-xl bg-[#F4F7FA] border border-[#D5E1EC] px-4 py-3 shadow-xs">
+                <div className="size-7 shrink-0 mt-0.5 rounded-lg bg-[#5B82A6]/15 text-[#5B82A6] flex items-center justify-center">
                   <Quote className="size-3.5" />
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">
-                    <span className="text-[10.5px] font-semibold uppercase tracking-[0.14em] text-brand-blue">
+                    <span className="text-[10.5px] font-semibold uppercase tracking-[0.14em] text-[#5B82A6]">
                       Now Saying
                     </span>
                     <EvidenceTimestamp seconds={activeSegment.start} onSeek={jumpTo} tone="blue" />
                   </div>
-                  <p className="mt-1 text-[13.5px] leading-relaxed text-slate-200" dir="auto">
+                  <p className="mt-1 text-[13.5px] leading-relaxed text-[#2F2924]" dir="auto">
                     {activeSegment.text}
                   </p>
                 </div>
@@ -612,16 +612,16 @@ function WorkspaceBody() {
         </div>
 
         {/* R: INTELLIGENCE PANEL */}
-        <div className="canvas-area p-0 overflow-hidden min-h-[600px] lg:min-h-[680px] flex flex-col">
+        <div className="rounded-2xl border border-[#DDD0C0] bg-[#FFFDFC] shadow-sm p-0 overflow-hidden min-h-[600px] lg:min-h-[680px] flex flex-col">
           {/* Header of right panel */}
-          <div className="px-5 py-3 border-b border-app-edge/80 flex items-center justify-between">
+          <div className="px-5 py-3 border-b border-[#EDE2D3] bg-[#FBF8F2] flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <BrainCircuit className="size-4 text-brand-indigo" />
-              <p className="text-[12px] font-medium tracking-wide text-slate-700 uppercase">
+              <BrainCircuit className="size-4 text-[#B85C38]" />
+              <p className="text-[12px] font-mono font-bold tracking-wider text-[#2F2924] uppercase">
                 {TAB_ORDER.find((t) => t.id === activeTab)?.label} Intelligence
               </p>
             </div>
-            <div className="text-[11px] font-mono text-slate-400">
+            <div className="text-[11px] font-mono text-[#7A7067]">
               t = {formatClock(time)}
             </div>
           </div>
@@ -653,22 +653,22 @@ function WorkspaceBody() {
                 />
                 <div className="space-y-2.5">
                   <SectionRail label="All Visual Events">
-                    <span className="text-[12px] text-slate-500">{data.analysis.length} keyframes · click to seek</span>
+                    <span className="text-[12px] text-[#7A7067]">{data.analysis.length} keyframes · click to seek</span>
                   </SectionRail>
                   <div className="space-y-1.5 max-h-[360px] overflow-y-auto pr-1 scrollbar-thin">
                     {data.analysis.map((a, i) => (
                       <button
                         key={i}
                         onClick={() => jumpTo(Number(a.start ?? 0))}
-                        className="w-full text-left flex items-start gap-3 px-3 py-2.5 rounded-lg hover:bg-app-surface transition"
+                        className="w-full text-left flex items-start gap-3 px-3 py-2.5 rounded-lg hover:bg-[#F1E8DC] transition"
                       >
-                        <EvidenceTimestamp seconds={Number(a.start ?? 0)} onSeek={() => {}} tone={trustOf(a.trust) === "VERIFIED" ? "indigo" : "cyan"} />
+                        <EvidenceTimestamp seconds={Number(a.start ?? 0)} onSeek={() => {}} tone={trustOf(a.trust) === "VERIFIED" ? "emerald" : "cyan"} />
                         <div className="min-w-0 flex-1">
                           <div className="flex items-center gap-1.5">
                             <Badge variant="info" className="text-[10px] h-5 px-1.5">{a.type || "visual"}</Badge>
                             <TrustPill trust={trustOf(a.trust)} />
                           </div>
-                          <p className="mt-1 text-[12.5px] text-slate-700 line-clamp-2 leading-relaxed">{a.description || a.ocr_text}</p>
+                          <p className="mt-1 text-[12.5px] text-[#51483F] line-clamp-2 leading-relaxed">{a.description || a.ocr_text}</p>
                         </div>
                       </button>
                     ))}
@@ -678,20 +678,20 @@ function WorkspaceBody() {
             )}
             {activeTab === "audio" && (
               <div className="space-y-5">
-                <div className="rounded-xl border border-emerald-200/80 bg-gradient-to-br from-emerald-50/90 via-white to-emerald-50/50 p-4">
-                  <div className="flex items-center gap-2 font-bold text-[13px] text-emerald-900 mb-1.5">
-                    <AudioLines className="size-4 text-emerald-600" />
+                <div className="rounded-xl border border-[#C5E3C7] bg-gradient-to-br from-[#EBF5EC] via-[#FFFDFC] to-[#EBF5EC]/60 p-4">
+                  <div className="flex items-center gap-2 font-bold text-[13px] text-[#2D5A30] mb-1.5">
+                    <AudioLines className="size-4 text-[#5F8A62]" />
                     Layered Dual-Audio Architecture
                   </div>
-                  <p className="text-[12px] text-slate-600 leading-relaxed">
+                  <p className="text-[12px] text-[#51483F] leading-relaxed">
                     Original lecture audio stays audible. Synchronized narration cues overlay non-destructively at visual moments.
                   </p>
                   <div className="mt-3 flex flex-wrap items-center gap-1.5 font-mono text-[10.5px]">
-                    <span className="rounded-md bg-white border border-slate-200 px-2 py-0.5 font-semibold">Lecture Audio</span>
-                    <span className="text-slate-400 font-sans">+</span>
-                    <span className="rounded-md bg-emerald-100 border border-emerald-300 px-2 py-0.5 font-bold text-emerald-900">AD Narration</span>
-                    <span className="text-slate-400 font-sans">→</span>
-                    <span className="rounded-md bg-brand-indigo/10 border border-brand-indigo/20 px-2 py-0.5 font-bold text-brand-indigo">Non-Destructive</span>
+                    <span className="rounded-md bg-[#FFFDFC] border border-[#DDD0C0] px-2 py-0.5 font-semibold text-[#2F2924]">Lecture Audio</span>
+                    <span className="text-[#7A7067] font-sans">+</span>
+                    <span className="rounded-md bg-[#EBF5EC] border border-[#C5E3C7] px-2 py-0.5 font-bold text-[#2D5A30]">AD Narration</span>
+                    <span className="text-[#7A7067] font-sans">→</span>
+                    <span className="rounded-md bg-[#FFF8F4] border border-[#E8C2B2] px-2 py-0.5 font-bold text-[#B85C38]">Non-Destructive</span>
                   </div>
                 </div>
 
@@ -708,7 +708,7 @@ function WorkspaceBody() {
 
                 {data.narration && (
                   <div className="space-y-2">
-                    <p className="meta-label text-slate-500 uppercase tracking-[0.16em] text-[10.5px] pl-1">
+                    <p className="meta-label text-[#7A7067] uppercase tracking-[0.16em] text-[10.5px] pl-1">
                       Full AD Track
                     </p>
                     <audio controls src={data.narration} className="w-full" aria-label="Full audio description" />
@@ -717,11 +717,11 @@ function WorkspaceBody() {
 
                 <div className="space-y-2.5">
                   <SectionRail label="Cue Timeline">
-                    <span className="text-[12px] text-slate-500">{data.adCues.length} synchronized moments</span>
+                    <span className="text-[12px] text-[#7A7067]">{data.adCues.length} synchronized moments</span>
                   </SectionRail>
                   {data.adCues.length === 0 ? (
-                    <div className="py-6 text-center space-y-1 rounded-xl border border-dashed border-app-edge/80 bg-app-surface/50">
-                      <p className="text-[13px] font-medium text-slate-700">
+                    <div className="py-6 text-center space-y-1 rounded-xl border border-dashed border-[#DDD0C0] bg-[#FBF8F2]">
+                      <p className="text-[13px] font-medium text-[#7A7067]">
                         {data.adReason || "No narration cues were generated for this lecture."}
                       </p>
                     </div>
@@ -744,12 +744,12 @@ function WorkspaceBody() {
             )}
             {activeTab === "missing" && (
               <div className="space-y-4">
-                <div className="rounded-xl border border-amber-200/80 bg-gradient-to-br from-amber-50/90 via-white to-amber-50/50 p-4">
-                  <div className="flex items-center gap-2 font-bold text-[13px] text-amber-900 mb-1.5">
-                    <EyeOff className="size-4 text-amber-600" />
+                <div className="rounded-xl border border-[#F3CE9D] bg-gradient-to-br from-[#FEF6EC] via-[#FFFDFC] to-[#FEF6EC]/60 p-4">
+                  <div className="flex items-center gap-2 font-bold text-[13px] text-[#7A4B10] mb-1.5">
+                    <EyeOff className="size-4 text-[#B77932]" />
                     Cross-Modal Difference Engine
                   </div>
-                  <p className="text-[12px] text-slate-600 leading-relaxed">
+                  <p className="text-[12px] text-[#51483F] leading-relaxed">
                     Speech × visual OCR × visual interpretation are cross-referenced to detect pedagogical disparities.
                   </p>
                 </div>
@@ -764,19 +764,19 @@ function WorkspaceBody() {
               <div className="space-y-4">
                 <div className="grid grid-cols-3 gap-2.5 text-center">
                   {[
-                    { k: "Speech",    v: data.segments.length, c: "bg-rail-speech/20 text-brand-blue border-rail-speech/30" },
-                    { k: "Visual",    v: data.analysis.length, c: "bg-rail-visual/20 text-brand-cyan border-rail-visual/30" },
-                    { k: "Gaps",      v: data.missing.length,  c: "bg-rail-gaps/20 text-amber-700 border-rail-gaps/30" },
+                    { k: "Speech",    v: data.segments.length, c: "bg-[#F4F7FA] text-[#5B82A6] border-[#D5E1EC]" },
+                    { k: "Visual",    v: data.analysis.length, c: "bg-[#F2F7F7] text-[#5F9A9A] border-[#D2E4E4]" },
+                    { k: "Gaps",      v: data.missing.length,  c: "bg-[#FEF6EC] text-[#B77932] border-[#F3CE9D]" },
                   ].map((x) => (
-                    <div key={x.k} className={cn("rounded-lg border px-2 py-2.5", x.c)}>
+                    <div key={x.k} className={cn("rounded-xl border px-2 py-2.5 shadow-xs", x.c)}>
                       <p className="text-[18px] font-bold leading-none">{x.v}</p>
-                      <p className="text-[10.5px] mt-1 uppercase tracking-wider opacity-80">{x.k}</p>
+                      <p className="text-[10.5px] mt-1 uppercase tracking-wider opacity-90 font-semibold">{x.k}</p>
                     </div>
                   ))}
                 </div>
                 <div className="space-y-2.5">
                   <SectionRail label="Transcript Rail">
-                    <span className="text-[12px] text-slate-500">{data.segments.length} synchronized segments</span>
+                    <span className="text-[12px] text-[#7A7067]">{data.segments.length} synchronized segments</span>
                   </SectionRail>
                   <TranscriptRail segments={data.segments} activeTime={time} jumpTo={jumpTo} playing={playing} />
                 </div>
@@ -787,7 +787,7 @@ function WorkspaceBody() {
             )}
             {activeTab === "report" && (
               <div className="space-y-5">
-                <div className="rounded-xl bg-gradient-to-br from-app-surface via-white to-app-canvas border border-app-edge/80 p-5">
+                <div className="rounded-xl bg-gradient-to-br from-[#FBF8F2] via-[#FFFDFC] to-[#F1E8DC] border border-[#DDD0C0] p-5 shadow-xs">
                   <div className="flex flex-col items-center sm:flex-row sm:justify-around gap-5">
                     <ScoreRing
                       score={data.score?.score ?? 0}
@@ -796,10 +796,10 @@ function WorkspaceBody() {
                     />
                     {data.score?.trust?.trust && (
                       <div className="flex flex-col items-center gap-2 text-center max-w-xs">
-                        <p className="text-[10.5px] font-semibold uppercase tracking-[0.16em] text-slate-500">Overall Evidence Trust</p>
+                        <p className="text-[10.5px] font-semibold uppercase tracking-[0.16em] text-[#7A7067]">Overall Evidence Trust</p>
                         <TrustBadge trust={data.score.trust.trust} />
                         {data.score.trust.reason && (
-                          <p className="text-[12px] text-slate-500 leading-relaxed">{data.score.trust.reason}</p>
+                          <p className="text-[12px] text-[#51483F] leading-relaxed">{data.score.trust.reason}</p>
                         )}
                       </div>
                     )}
@@ -809,52 +809,52 @@ function WorkspaceBody() {
                 {breakdown && (
                   <div className="space-y-2.5">
                     <SectionRail label="Health Progression">
-                      <span className="text-[12px] text-slate-500">Baseline → Disparities → Remediation → Final</span>
+                      <span className="text-[12px] text-[#7A7067]">Baseline → Disparities → Remediation → Final</span>
                     </SectionRail>
-                    <div className="rounded-xl border border-app-edge/80 p-4 bg-app-surface/40 space-y-3.5">
+                    <div className="rounded-xl border border-[#DDD0C0] p-4 bg-[#FBF8F2] space-y-3.5">
                       <div className="grid gap-3 sm:grid-cols-3 text-[11.5px]">
-                        <div className="rounded-xl border border-indigo-200/80 bg-indigo-50/60 p-3">
-                          <span className="font-semibold text-slate-700">1 · Baseline</span>
-                          <p className="text-[22px] font-bold text-brand-indigo mt-1 leading-none">
+                        <div className="rounded-xl border border-[#D5E1EC] bg-[#F4F7FA] p-3">
+                          <span className="font-semibold text-[#5B82A6]">1 · Baseline</span>
+                          <p className="text-[22px] font-bold text-[#5B82A6] mt-1 leading-none">
                             +{Math.round(breakdown.modality_baseline * 100)}%
                           </p>
                         </div>
-                        <div className="rounded-xl border border-amber-200/80 bg-amber-50/60 p-3">
-                          <span className="font-semibold text-amber-900">2 · Disparities</span>
-                          <p className="text-[22px] font-bold text-amber-700 mt-1 leading-none">
+                        <div className="rounded-xl border border-[#F3CE9D] bg-[#FEF6EC] p-3">
+                          <span className="font-semibold text-[#B77932]">2 · Disparities</span>
+                          <p className="text-[22px] font-bold text-[#B77932] mt-1 leading-none">
                             −{Math.round(breakdown.unresolved_disparities_penalty * 100)}%
                           </p>
                         </div>
-                        <div className="rounded-xl border border-emerald-200/80 bg-emerald-50/60 p-3">
-                          <span className="font-semibold text-emerald-900">3 · Remediation</span>
-                          <p className="text-[22px] font-bold text-emerald-700 mt-1 leading-none">
+                        <div className="rounded-xl border border-[#C5E3C7] bg-[#EBF5EC] p-3">
+                          <span className="font-semibold text-[#3D6B40]">3 · Remediation</span>
+                          <p className="text-[22px] font-bold text-[#3D6B40] mt-1 leading-none">
                             +{Math.round(breakdown.verified_remediation_benefit * 100)}%
                           </p>
                         </div>
                       </div>
                       <div className="pt-1 space-y-1.5">
-                        <div className="flex items-center justify-between text-[11px] text-slate-500 px-0.5">
+                        <div className="flex items-center justify-between text-[11px] text-[#7A7067] px-0.5">
                           <span>0</span>
                           <span className="font-mono">Formula: Baseline − Penalty + Verified AD</span>
                           <span>100%</span>
                         </div>
-                        <div className="relative h-4 w-full rounded-full bg-slate-100 overflow-hidden">
+                        <div className="relative h-4 w-full rounded-full bg-[#EDE2D3] overflow-hidden">
                           <div
-                            className="absolute inset-y-0 left-0 bg-brand-indigo/30"
+                            className="absolute inset-y-0 left-0 bg-[#5B82A6]/40"
                             style={{ width: `${breakdown.modality_baseline * 100}%` }}
                           />
                           <div
-                            className="absolute inset-y-0 bg-amber-500/60"
+                            className="absolute inset-y-0 bg-[#B77932]/60"
                             style={{
                               left: `${Math.max(0, (breakdown.modality_baseline - breakdown.unresolved_disparities_penalty) * 100)}%`,
                               width: `${breakdown.unresolved_disparities_penalty * 100}%`,
                             }}
                           />
                           <div
-                            className="absolute inset-y-0 bg-gradient-to-r from-emerald-400 to-emerald-500 shadow-inner shadow-emerald-900/10"
+                            className="absolute inset-y-0 bg-[#5F8A62]"
                             style={{ width: `${Math.max(0, (breakdown.modality_baseline - breakdown.unresolved_disparities_penalty + breakdown.verified_remediation_benefit) * 100)}%` }}
                           />
-                          <div className="absolute top-0 bottom-0 w-0.5 bg-slate-900/70" style={{ left: `${healthScore}%` }} />
+                          <div className="absolute top-0 bottom-0 w-0.5 bg-[#2F2924]" style={{ left: `${healthScore}%` }} />
                         </div>
                       </div>
                     </div>
@@ -864,25 +864,25 @@ function WorkspaceBody() {
                 {data.score?.components && (
                   <div className="space-y-2.5">
                     <SectionRail label="Evidence Components">
-                      <span className="text-[12px] text-slate-500">Pipeline-derived inputs</span>
+                      <span className="text-[12px] text-[#7A7067]">Pipeline-derived inputs</span>
                     </SectionRail>
-                    <div className="overflow-x-auto rounded-xl border border-app-edge/80">
+                    <div className="overflow-x-auto rounded-xl border border-[#DDD0C0] bg-[#FFFDFC]">
                       <table className="w-full text-left text-[12px]">
                         <thead>
-                          <tr className="bg-app-surface/60 border-b border-app-edge/80 text-slate-500">
+                          <tr className="bg-[#FBF8F2] border-b border-[#EDE2D3] text-[#7A7067]">
                             <th className="py-2.5 px-3 font-semibold">Component</th>
                             <th className="py-2.5 px-3 font-semibold">Evidence</th>
                             <th className="py-2.5 px-3 font-semibold text-right">Value</th>
                             <th className="py-2.5 px-3 font-semibold text-right">Contribution</th>
                           </tr>
                         </thead>
-                        <tbody className="divide-y divide-app-edge/60">
+                        <tbody className="divide-y divide-[#EDE2D3]">
                           {Object.entries(data.score.components).map(([key, comp]) => (
-                            <tr key={key} className="text-slate-800">
+                            <tr key={key} className="text-[#2F2924]">
                               <td className="py-2 px-3 font-semibold capitalize">{comp.label || key.replace(/_/g, " ")}</td>
-                              <td className="py-2 px-3 text-slate-600 text-[11.5px]">{comp.detail}</td>
+                              <td className="py-2 px-3 text-[#51483F] text-[11.5px]">{comp.detail}</td>
                               <td className="py-2 px-3 text-right font-mono text-[11.5px]">{Math.round((comp.value ?? 0) * 100)}%</td>
-                              <td className="py-2 px-3 text-right font-mono font-bold text-brand-indigo text-[11.5px]">+{Math.round((comp.contribution ?? 0) * 100)}%</td>
+                              <td className="py-2 px-3 text-right font-mono font-bold text-[#B85C38] text-[11.5px]">+{Math.round((comp.contribution ?? 0) * 100)}%</td>
                             </tr>
                           ))}
                         </tbody>
@@ -893,7 +893,7 @@ function WorkspaceBody() {
 
                 <div className="space-y-2.5">
                   <SectionRail label="Accessibility Twin">
-                    <ConceptBadge label="Compiled Model" accent="indigo" />
+                    <ConceptBadge label="Compiled Model" accent="terracotta" />
                   </SectionRail>
                   <AccessibilityTwin
                     metrics={{
@@ -916,22 +916,22 @@ function WorkspaceBody() {
       </div>
 
       {/* BOTTOM: MULTIMODAL TIMELINE (full width) */}
-      <div className="canvas-area p-0 overflow-hidden">
-        <div className="flex items-center justify-between px-5 py-3 border-b border-app-edge/80">
+      <div className="rounded-2xl border border-[#DDD0C0] bg-[#FFFDFC] shadow-sm p-0 overflow-hidden">
+        <div className="flex items-center justify-between px-5 py-3 border-b border-[#EDE2D3] bg-[#FBF8F2]">
           <div className="flex items-center gap-2">
-            <ListVideo className="size-4 text-brand-indigo" />
-            <p className="text-[12px] font-medium tracking-wide text-slate-700 uppercase">
+            <ListVideo className="size-4 text-[#B85C38]" />
+            <p className="text-[12px] font-mono font-bold tracking-wider text-[#2F2924] uppercase">
               Multimodal Timeline
             </p>
           </div>
-          <div className="flex items-center gap-3 text-[11px] text-slate-500">
-            <span className="inline-flex items-center gap-1"><span className="size-2 rounded-full bg-rail-speech" /> Speech</span>
-            <span className="inline-flex items-center gap-1"><span className="size-2 rounded-full bg-rail-visual" /> Visual</span>
-            <span className="inline-flex items-center gap-1"><span className="size-2 rounded-full bg-rail-ocr" /> OCR</span>
-            <span className="inline-flex items-center gap-1"><span className="size-2 rounded-full bg-rail-ad" /> AD</span>
-            <span className="inline-flex items-center gap-1"><span className="size-2 rounded-full bg-rail-gaps" /> Gaps</span>
-            <span className="inline-flex items-center gap-1"><span className="size-2 rounded-full bg-rail-events" /> Events</span>
-            <span className="inline-flex items-center gap-1"><span className="size-2 rounded-full bg-rail-assessment" /> Assessment</span>
+          <div className="flex items-center gap-3 text-[11px] text-[#7A7067] font-mono">
+            <span className="inline-flex items-center gap-1"><span className="size-2 rounded-full bg-[#5B82A6]" /> Speech</span>
+            <span className="inline-flex items-center gap-1"><span className="size-2 rounded-full bg-[#5F9A9A]" /> Visual</span>
+            <span className="inline-flex items-center gap-1"><span className="size-2 rounded-full bg-[#6C63A8]" /> OCR</span>
+            <span className="inline-flex items-center gap-1"><span className="size-2 rounded-full bg-[#5F8A62]" /> AD</span>
+            <span className="inline-flex items-center gap-1"><span className="size-2 rounded-full bg-[#B77932]" /> Gaps</span>
+            <span className="inline-flex items-center gap-1"><span className="size-2 rounded-full bg-[#B85C38]" /> Events</span>
+            <span className="inline-flex items-center gap-1"><span className="size-2 rounded-full bg-[#7A8061]" /> Assessment</span>
           </div>
         </div>
         <div className="p-4 lg:p-5">
@@ -985,15 +985,15 @@ function LectureListInline({ onSelect }: { onSelect: () => void }) {
             }}
             className={cn(
               "flex w-full items-center gap-2 rounded-lg px-2.5 py-2 text-start text-[12.5px] transition",
-              active ? "bg-brand-indigo/10 font-semibold text-brand-indigo" : "text-slate-700 hover:bg-slate-100"
+              active ? "bg-[#FFF8F4] font-semibold text-[#B85C38]" : "text-[#51483F] hover:bg-[#F1E8DC]"
             )}
           >
-            <Video className={cn("size-4 shrink-0", active ? "text-brand-indigo" : "text-slate-400")} />
+            <Video className={cn("size-4 shrink-0", active ? "text-[#B85C38]" : "text-[#7A7067]")} />
             <div className="min-w-0 flex-1">
               <p className="truncate leading-tight">{lec.filename}</p>
-              <p className="text-[10.5px] text-slate-400 mt-0.5 truncate font-mono">{lec.job_id}</p>
+              <p className="text-[10.5px] text-[#7A7067] mt-0.5 truncate font-mono">{lec.job_id}</p>
             </div>
-            {demo && <SparklesIcon className="size-3 text-amber-500 shrink-0" />}
+            {demo && <SparklesIcon className="size-3 text-[#B85C38] shrink-0" />}
           </button>
         );
       })}
@@ -1024,7 +1024,7 @@ function TranscriptRail({
   return (
     <div ref={listRef} className="max-h-[420px] overflow-y-auto pr-1 scrollbar-thin space-y-1">
       {segments.length === 0 ? (
-        <p className="p-4 text-center text-[12.5px] text-slate-500">No transcript.</p>
+        <p className="p-4 text-center text-[12.5px] text-[#7A7067]">No transcript.</p>
       ) : (
         segments.map((seg, i) => {
           const isActive = activeIndex === i;
@@ -1035,10 +1035,10 @@ function TranscriptRail({
               onClick={() => jumpTo(seg.start)}
               className={cn(
                 "flex w-full items-start gap-3 rounded-lg px-3 py-2 text-start transition",
-                isActive ? "bg-brand-indigo/8 ring-1 ring-brand-indigo/20 font-medium text-slate-900" : "text-slate-600 hover:bg-slate-100/70"
+                isActive ? "bg-[#FFF8F4] ring-1 ring-[#E8C2B2] font-semibold text-[#2F2924]" : "text-[#51483F] hover:bg-[#F1E8DC]/70"
               )}
             >
-              <EvidenceTimestamp seconds={seg.start} onSeek={() => {}} tone={isActive ? "indigo" : "slate"} />
+              <EvidenceTimestamp seconds={seg.start} onSeek={() => {}} tone={isActive ? "terracotta" : "slate"} />
               <span dir="auto" className="text-[12.5px] leading-relaxed flex-1">
                 {seg.text}
               </span>
@@ -1075,10 +1075,10 @@ function VisualCompanion({
 }) {
   const meta =
     trust.toUpperCase() === "VERIFIED"
-      ? { icon: ShieldCheck, cls: "text-emerald-700 bg-emerald-50 border-emerald-200", label: "VERIFIED EVIDENCE" }
+      ? { icon: ShieldCheck, cls: "text-[#3D6B40] bg-[#EBF5EC] border-[#C5E3C7]", label: "VERIFIED EVIDENCE" }
       : trust.toUpperCase() === "UNCERTAIN"
-      ? { icon: AlertTriangle, cls: "text-amber-700 bg-amber-50 border-amber-200", label: "UNCERTAIN EVIDENCE" }
-      : { icon: CircleHelp, cls: "text-slate-700 bg-slate-50 border-slate-200", label: "UNAVAILABLE" };
+      ? { icon: AlertTriangle, cls: "text-[#7A4B10] bg-[#FEF6EC] border-[#F3CE9D]", label: "UNCERTAIN EVIDENCE" }
+      : { icon: CircleHelp, cls: "text-[#51483F] bg-[#F1E8DC] border-[#DDD0C0]", label: "UNAVAILABLE" };
   const Icon = meta.icon;
 
   const [showClaims, setShowClaims] = useState(true);
@@ -1087,13 +1087,13 @@ function VisualCompanion({
   const numClaims = understanding?.visual_claims?.length ?? 0;
 
   return (
-    <div className="rounded-xl border border-app-edge/80 overflow-hidden">
-      <div className="flex items-center gap-2 border-b border-app-edge/80 px-4 py-3 bg-app-surface/50">
-        <span className="flex size-7 items-center justify-center rounded-lg bg-brand-indigo/10 text-brand-indigo">
+    <div className="rounded-xl border border-[#DDD0C0] bg-[#FFFDFC] overflow-hidden shadow-xs">
+      <div className="flex items-center gap-2 border-b border-[#EDE2D3] px-4 py-3 bg-[#FBF8F2]">
+        <span className="flex size-7 items-center justify-center rounded-lg bg-[#FFF8F4] text-[#B85C38] border border-[#E8C2B2]">
           <ImageIcon className="size-4" />
         </span>
-        <span className="text-[13px] font-semibold text-slate-900">Visual Intelligence</span>
-        <span className="ms-auto text-[11.5px] font-mono font-semibold text-brand-indigo">{formatClock(time)}</span>
+        <span className="text-[13px] font-bold text-[#2F2924]">Visual Intelligence</span>
+        <span className="ms-auto text-[11.5px] font-mono font-semibold text-[#B85C38]">{formatClock(time)}</span>
       </div>
 
       <div className="p-4 space-y-4">
@@ -1108,7 +1108,7 @@ function VisualCompanion({
             </Badge>
           )}
           {comp && (
-            <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10.5px] font-semibold bg-brand-indigo/8 text-brand-indigo ring-1 ring-brand-indigo/15">
+            <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10.5px] font-semibold bg-[#FFF8F4] text-[#B85C38] border border-[#E8C2B2]">
               <BadgeCheck className="size-3" />
               {comp.replace(/_/g, " ")}
             </span>
@@ -1116,10 +1116,10 @@ function VisualCompanion({
         </div>
 
         {!active ? (
-          <div className="rounded-xl border border-dashed border-app-edge/80 bg-app-surface/50 p-5 text-center">
-            <CircleHelp className="mx-auto size-6 text-slate-400" />
-            <p className="mt-2 text-[13px] font-medium text-slate-700">No visual evidence at this moment.</p>
-            <p className="mt-1 text-[11.5px] text-slate-500">EduAccess will never invent visual info.</p>
+          <div className="rounded-xl border border-dashed border-[#DDD0C0] bg-[#FBF8F2] p-5 text-center">
+            <CircleHelp className="mx-auto size-6 text-[#7A7067]" />
+            <p className="mt-2 text-[13px] font-medium text-[#51483F]">No visual evidence at this moment.</p>
+            <p className="mt-1 text-[11.5px] text-[#7A7067]">EduAccess will never invent visual info.</p>
           </div>
         ) : (
           <div className="space-y-3.5">
@@ -1129,38 +1129,38 @@ function VisualCompanion({
             />
 
             {(understanding?.ocr_text || active?.ocr_text) && (
-              <div className="rounded-xl border border-app-edge/80 bg-app-surface/60 p-3 space-y-1.5">
-                <p className="text-[10px] font-bold uppercase tracking-wider text-slate-600 flex items-center gap-1">
+              <div className="rounded-xl border border-[#52463D] bg-[#3F352E] p-3 space-y-1.5 shadow-inner">
+                <p className="text-[10px] font-bold uppercase tracking-wider text-[#AAB09A] flex items-center gap-1">
                   <ScanText className="size-3" /> OCR On-Screen Text
                 </p>
-                <pre className="max-h-36 overflow-y-auto whitespace-pre-wrap font-mono text-[11.5px] text-slate-800 bg-white p-2.5 rounded-lg border border-app-edge/70 scrollbar-thin">
+                <pre className="max-h-36 overflow-y-auto whitespace-pre-wrap font-mono text-[11.5px] text-[#EDE2D3] bg-[#2E2721] p-2.5 rounded-lg border border-[#52463D] scrollbar-thin">
                   {understanding?.ocr_text || active?.ocr_text}
                 </pre>
               </div>
             )}
 
             {numClaims > 0 && (
-              <div className="rounded-xl border border-app-edge/80 overflow-hidden">
+              <div className="rounded-xl border border-[#DDD0C0] overflow-hidden">
                 <button
                   type="button"
                   onClick={() => setShowClaims((s) => !s)}
-                  className="flex w-full items-center justify-between px-3.5 py-2.5 text-start bg-app-surface/50 border-b border-app-edge/80"
+                  className="flex w-full items-center justify-between px-3.5 py-2.5 text-start bg-[#FBF8F2] border-b border-[#EDE2D3]"
                 >
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-700">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-[#2F2924]">
                     Grounded Claims ({numClaims})
                   </span>
-                  <ChevronDown className={cn("size-3.5 text-slate-400 transition-transform", showClaims && "rotate-180")} />
+                  <ChevronDown className={cn("size-3.5 text-[#7A7067] transition-transform", showClaims && "rotate-180")} />
                 </button>
                 {showClaims && (
-                  <ul className="space-y-2 p-3">
+                  <ul className="space-y-2 p-3 bg-[#FFFDFC]">
                     {understanding!.visual_claims.map((c, i) => (
-                      <li key={i} className="flex items-start gap-2 text-[11.5px] bg-app-surface/60 p-2.5 rounded-lg border border-app-edge/60">
-                        <span className="mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-[9px] font-bold text-emerald-700">
+                      <li key={i} className="flex items-start gap-2 text-[11.5px] bg-[#FBF8F2] p-2.5 rounded-lg border border-[#EDE2D3]">
+                        <span className="mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full bg-[#EBF5EC] text-[9px] font-bold text-[#3D6B40]">
                           ✓
                         </span>
-                        <div className="text-slate-800 flex-1">
+                        <div className="text-[#2F2924] flex-1">
                           <p className="font-medium leading-relaxed">{c.claim}</p>
-                          <p className="mt-0.5 text-[10.5px] text-slate-500">Evidence: {c.evidence}</p>
+                          <p className="mt-0.5 text-[10.5px] text-[#7A7067]">Evidence: {c.evidence}</p>
                         </div>
                       </li>
                     ))}
@@ -1199,22 +1199,22 @@ function AskPanelGrounded({ jobId, jumpTo }: { jobId: string; jumpTo: (s: number
   return (
     <div className="space-y-4">
       <div className="space-y-2">
-        <p className="meta-label text-slate-500 uppercase tracking-[0.16em] text-[10.5px] pl-0.5">
+        <p className="meta-label text-[#7A7067] uppercase tracking-[0.16em] text-[10.5px] pl-0.5">
           Question → Retrieval → Lecture Evidence → Answer
         </p>
         <div className="flex gap-2 items-stretch">
           <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-slate-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-[#7A7067]" />
             <input
               aria-label="Ask lecture question"
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && submit(question)}
               placeholder="Ask about this lecture…"
-              className="w-full rounded-xl border border-app-edge/80 bg-app-surface/40 pl-9 pr-3 py-2.5 text-[13px] text-slate-800 placeholder:text-slate-400 focus:border-brand-indigo focus:bg-white focus:outline-none focus:ring-1 focus:ring-brand-indigo/40"
+              className="w-full rounded-xl border border-[#DDD0C0] bg-[#FFFDFC] pl-9 pr-3 py-2.5 text-[13px] text-[#2F2924] placeholder:text-[#7A7067] focus:border-[#B85C38] focus:bg-[#FFFDFC] focus:outline-none focus:ring-1 focus:ring-[#B85C38]"
             />
           </div>
-          <Button onClick={() => submit(question)} disabled={busy || !question.trim()} className="gap-1.5 h-10">
+          <Button onClick={() => submit(question)} disabled={busy || !question.trim()} className="gap-1.5 h-10 bg-[#B85C38] hover:bg-[#9F4F32] text-white">
             {busy ? <Loader2Spin /> : <Send className="size-3.5" />}
             <span className="text-[12.5px]">Ask</span>
           </Button>
@@ -1222,21 +1222,21 @@ function AskPanelGrounded({ jobId, jumpTo }: { jobId: string; jumpTo: (s: number
       </div>
 
       {error && (
-        <div className="flex items-center gap-2 text-[12px] text-rose-700 bg-rose-50 p-2.5 rounded-lg border border-rose-200/80">
-          <AlertTriangle className="size-4 shrink-0" />
+        <div className="flex items-center gap-2 text-[12px] text-[#B94A48] bg-[#FDF2F2] p-2.5 rounded-lg border border-[#B94A48]/30">
+          <AlertTriangle className="size-4 shrink-0 text-[#B94A48]" />
           <span>{error}</span>
         </div>
       )}
 
       {!response && !busy && (
         <div className="space-y-1.5">
-          <p className="text-[10.5px] font-semibold uppercase tracking-[0.14em] text-slate-500">Try a grounded query</p>
+          <p className="text-[10.5px] font-semibold uppercase tracking-[0.14em] text-[#7A7067]">Try a grounded query</p>
           <div className="flex flex-wrap gap-1.5">
             {["What Python code was written?", "What is a while loop?", "Key takeaways"].map((s) => (
               <button
                 key={s}
                 onClick={() => { setQuestion(s); submit(s); }}
-                className="rounded-full border border-app-edge/80 bg-app-surface/40 px-3 py-1 text-[11.5px] text-slate-600 hover:border-brand-indigo hover:text-brand-indigo transition"
+                className="rounded-full border border-[#DDD0C0] bg-[#FBF8F2] px-3 py-1 text-[11.5px] text-[#51483F] hover:border-[#B85C38] hover:text-[#B85C38] transition"
               >
                 {s}
               </button>
@@ -1246,7 +1246,7 @@ function AskPanelGrounded({ jobId, jumpTo }: { jobId: string; jumpTo: (s: number
       )}
 
       {busy && (
-        <div className="flex items-center gap-2 p-3.5 text-[12px] text-brand-indigo bg-brand-indigo/5 rounded-xl border border-brand-indigo/20">
+        <div className="flex items-center gap-2 p-3.5 text-[12px] text-[#B85C38] bg-[#FFF8F4] rounded-xl border border-[#E8C2B2]">
           <Loader2Spin />
           <span>Retrieving evidence from transcript, OCR, and visual keyframes…</span>
         </div>
@@ -1263,33 +1263,32 @@ function Loader2Spin() {
 
 function GroundedAnswerCard({ response, jumpTo }: { response: AskResponse; jumpTo: (s: number) => void }) {
   const jumpTimestamp = response.jump?.timestamp ?? (response.timestamps && response.timestamps.length > 0 ? response.timestamps[0] : null);
-  const trustUp = (response.trust || "").toUpperCase();
 
   return (
-    <div className="space-y-3.5 rounded-2xl border border-brand-indigo/20 bg-gradient-to-b from-brand-indigo/[0.04] to-white p-4.5">
+    <div className="space-y-3.5 rounded-2xl border border-[#E8C2B2] bg-gradient-to-b from-[#FFF8F4] to-[#FFFDFC] p-4.5 shadow-xs">
       <div className="space-y-1.5">
         <div className="flex items-center gap-2">
-          <p className="text-[10.5px] font-bold uppercase tracking-[0.16em] text-brand-indigo">Grounded Answer</p>
+          <p className="text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#B85C38]">Grounded Answer</p>
           <TrustPill trust={response.trust} />
         </div>
-        <p className="text-[13.5px] font-medium leading-relaxed text-slate-900">{response.answer}</p>
+        <p className="text-[13.5px] font-medium leading-relaxed text-[#2F2924]">{response.answer}</p>
       </div>
 
-      <div className="rounded-xl border border-app-edge/80 bg-white p-3 space-y-1.5">
+      <div className="rounded-xl border border-[#DDD0C0] bg-[#FFFDFC] p-3 space-y-1.5">
         <div className="flex items-center justify-between">
-          <p className="text-[10.5px] font-bold uppercase tracking-[0.16em] text-slate-600">Why you can trust this</p>
+          <p className="text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#7A7067]">Why you can trust this</p>
         </div>
-        <p className="text-[11.5px] text-slate-600 leading-relaxed">
+        <p className="text-[11.5px] text-[#51483F] leading-relaxed">
           {response.trust_reason || "Derived exclusively from recorded lecture evidence and cross-modal verification."}
         </p>
       </div>
 
       {response.evidence && response.evidence.length > 0 && (
         <div className="space-y-2">
-          <p className="text-[10.5px] font-bold uppercase tracking-[0.16em] text-slate-600 pl-0.5">Evidence records</p>
+          <p className="text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#7A7067] pl-0.5">Evidence records</p>
           <div className="space-y-1.5">
             {response.evidence.map((ev, i) => (
-              <div key={i} className="flex items-start justify-between gap-2 rounded-lg border border-app-edge/80 bg-white p-2.5 text-[11.5px]">
+              <div key={i} className="flex items-start justify-between gap-2 rounded-lg border border-[#DDD0C0] bg-[#FFFDFC] p-2.5 text-[11.5px]">
                 <div className="space-y-0.5 min-w-0 flex-1">
                   <div className="flex items-center gap-1.5 flex-wrap">
                     <Badge variant="info" className="text-[10px] font-mono h-5 px-1.5">
@@ -1298,13 +1297,13 @@ function GroundedAnswerCard({ response, jumpTo }: { response: AskResponse; jumpT
                     {ev.timestamp != null && <EvidenceTimestamp seconds={ev.timestamp} onSeek={() => {}} tone="slate" />}
                   </div>
                   {(ev.snippet || ev.text_hint) && (
-                    <p className="text-slate-700 italic truncate max-w-md leading-relaxed">“{ev.snippet || ev.text_hint}”</p>
+                    <p className="text-[#51483F] italic truncate max-w-md leading-relaxed">“{ev.snippet || ev.text_hint}”</p>
                   )}
                 </div>
                 {ev.timestamp != null && (
                   <button
                     onClick={() => jumpTo(ev.timestamp!)}
-                    className="shrink-0 inline-flex items-center gap-1 h-7 px-2 rounded-md text-[11px] font-semibold text-brand-indigo bg-brand-indigo/6 hover:bg-brand-indigo/10"
+                    className="shrink-0 inline-flex items-center gap-1 h-7 px-2.5 rounded-md text-[11px] font-semibold text-[#B85C38] bg-[#FFF8F4] hover:bg-[#F1E8DC] border border-[#E8C2B2]"
                   >
                     <Play className="size-3 fill-current" /> Jump
                   </button>
@@ -1316,11 +1315,11 @@ function GroundedAnswerCard({ response, jumpTo }: { response: AskResponse; jumpT
       )}
 
       {jumpTimestamp != null && (
-        <div className="flex items-center justify-between border-t border-app-edge/60 pt-3 gap-3">
-          <span className="text-[11.5px] text-slate-600">
-            Primary anchor · <strong className="font-mono text-brand-indigo">{formatClock(jumpTimestamp)}</strong>
+        <div className="flex items-center justify-between border-t border-[#EDE2D3] pt-3 gap-3">
+          <span className="text-[11.5px] text-[#51483F]">
+            Primary anchor · <strong className="font-mono text-[#B85C38]">{formatClock(jumpTimestamp)}</strong>
           </span>
-          <Button size="sm" onClick={() => jumpTo(jumpTimestamp)} className="gap-1.5 text-[11.5px] shadow-sm">
+          <Button size="sm" onClick={() => jumpTo(jumpTimestamp)} className="gap-1.5 text-[11.5px] bg-[#B85C38] hover:bg-[#9F4F32] text-white shadow-xs">
             <Play className="size-3 fill-current" />
             Jump to Moment
           </Button>
@@ -1352,15 +1351,15 @@ function AdControlPanelInline({
   const activeCue = activeCueIdx >= 0 ? cues[activeCueIdx] : null;
 
   return (
-    <div className="rounded-xl border border-emerald-200/70 bg-gradient-to-r from-emerald-50/70 via-white to-brand-blue/[0.04] p-4 space-y-3">
+    <div className="rounded-xl border border-[#C5E3C7] bg-gradient-to-r from-[#EBF5EC] via-[#FFFDFC] to-[#FFF8F4] p-4 space-y-3 shadow-xs">
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-2.5 min-w-0">
-          <span className="flex size-8 items-center justify-center rounded-lg bg-emerald-500/12 text-emerald-600 shrink-0">
+          <span className="flex size-8 items-center justify-center rounded-lg bg-[#EBF5EC] text-[#3D6B40] border border-[#C5E3C7] shrink-0">
             <Mic className="size-4" />
           </span>
           <div className="min-w-0">
-            <p className="text-[13px] font-semibold text-slate-900 leading-tight">Audio Description Layer</p>
-            <p className="text-[11px] text-slate-500 mt-0.5 truncate">
+            <p className="text-[13px] font-bold text-[#2F2924] leading-tight">Audio Description Layer</p>
+            <p className="text-[11px] text-[#7A7067] mt-0.5 truncate">
               {cues.length > 0
                 ? `${cues.length} narrated cue${cues.length === 1 ? "" : "s"} · Lecture audio stays audible`
                 : (reason || "No narration cues available.")}
@@ -1377,25 +1376,25 @@ function AdControlPanelInline({
             className="peer sr-only"
             aria-label="Toggle AD"
           />
-          <div className="h-6 w-11 rounded-full bg-slate-200 transition-colors peer-checked:bg-emerald-500" />
+          <div className="h-6 w-11 rounded-full bg-[#DDD0C0] transition-colors peer-checked:bg-[#5F8A62]" />
           <span className="absolute left-0.5 top-0.5 size-5 rounded-full bg-white shadow transition-transform peer-checked:translate-x-5" />
         </label>
       </div>
       {error && (
-        <div className="flex items-start gap-2 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-[11.5px] text-amber-800">
-          <AlertTriangle className="size-3.5 shrink-0 mt-0.5" />
+        <div className="flex items-start gap-2 rounded-lg border border-[#F3CE9D] bg-[#FEF6EC] px-3 py-2 text-[11.5px] text-[#7A4B10]">
+          <AlertTriangle className="size-3.5 shrink-0 mt-0.5 text-[#B77932]" />
           {error}
         </div>
       )}
       {adMode && activeCue && (
-        <div className="rounded-xl border border-app-edge/80 bg-white p-3">
+        <div className="rounded-xl border border-[#DDD0C0] bg-[#FFFDFC] p-3">
           <div className="flex items-center justify-between text-[11.5px]">
-            <span className="font-semibold text-emerald-700 inline-flex items-center gap-1.5">
+            <span className="font-semibold text-[#3D6B40] inline-flex items-center gap-1.5">
               <AudioLines className="size-3.5" />
               Narrating <EvidenceTimestamp seconds={activeCue.start} onSeek={jumpTo} tone="emerald" />
             </span>
           </div>
-          <p className="mt-1 text-[13px] text-slate-800 leading-relaxed">{activeCue.description}</p>
+          <p className="mt-1 text-[13px] text-[#2F2924] leading-relaxed">{activeCue.description}</p>
         </div>
       )}
     </div>

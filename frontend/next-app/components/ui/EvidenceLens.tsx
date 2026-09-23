@@ -48,7 +48,7 @@ export function EvidenceLens({
   const sampleData: EvidenceLensData = data ?? {
     timestamp: 26.0,
     modality: "OCR",
-    source: "DEMO_python_loops · Keyframe @ 00:26.0",
+    source: "Lecture Frame · Keyframe @ 00:26.0",
     evidence: "On-screen code snippet defines fruits list and loop header with indented block statement.",
     codeSnippet: 'fruits = ["apple", "banana", "cherry"]\nfor fruit in fruits:\n    print(fruit)',
     confidence: 0.984,
@@ -63,48 +63,48 @@ export function EvidenceLens({
         return {
           icon: Mic,
           label: "SPEECH · STT",
-          color: "text-blue-400",
-          bg: "bg-blue-500/10 border-blue-500/30",
+          color: "text-[#8DB4D6]",
+          bg: "bg-[#5B82A6]/20 border-[#5B82A6]/40",
           pulse: "pulse-speech",
         };
       case "VISUAL":
         return {
           icon: Eye,
           label: "VISION · KEYFRAME",
-          color: "text-sky-400",
-          bg: "bg-sky-500/10 border-sky-500/30",
+          color: "text-[#8EC5C5]",
+          bg: "bg-[#5F9A9A]/20 border-[#5F9A9A]/40",
           pulse: "pulse-vision",
         };
       case "OCR":
         return {
           icon: ScanText,
           label: "OCR · SYNTAX",
-          color: "text-indigo-400",
-          bg: "bg-indigo-500/10 border-indigo-500/30",
-          pulse: "pulse-ai",
+          color: "text-[#8EC5C5]",
+          bg: "bg-[#5F9A9A]/20 border-[#5F9A9A]/40",
+          pulse: "pulse-vision",
         };
       case "GAP":
         return {
           icon: AlertTriangle,
           label: "DISPARITY · GAP",
-          color: "text-amber-400",
-          bg: "bg-amber-500/10 border-amber-500/30",
+          color: "text-[#E6AA68]",
+          bg: "bg-[#B77932]/25 border-[#B77932]/50",
           pulse: "pulse-gap",
         };
       case "AD":
         return {
           icon: Volume2,
           label: "AUDIO DESCRIPTION",
-          color: "text-emerald-400",
-          bg: "bg-emerald-500/10 border-emerald-500/30",
+          color: "text-[#8FC493]",
+          bg: "bg-[#5F8A62]/20 border-[#5F8A62]/40",
           pulse: "pulse-verified",
         };
       case "REASONING":
         return {
           icon: Cpu,
           label: "CROSS-MODAL REASONING",
-          color: "text-violet-400",
-          bg: "bg-violet-500/10 border-violet-500/30",
+          color: "text-[#AAA4D1]",
+          bg: "bg-[#6C63A8]/20 border-[#6C63A8]/40",
           pulse: "pulse-ai",
         };
       case "TWIN":
@@ -112,8 +112,8 @@ export function EvidenceLens({
         return {
           icon: Layers,
           label: "ACCESSIBILITY TWIN",
-          color: "text-brand-indigo",
-          bg: "bg-brand-indigo/10 border-brand-indigo/30",
+          color: "text-[#E8C2B2]",
+          bg: "bg-[#B85C38]/20 border-[#B85C38]/40",
           pulse: "pulse-ai",
         };
     }
@@ -129,30 +129,30 @@ export function EvidenceLens({
         return {
           label: status === "REMEDIATED" ? "REMEDIATED (AD READY)" : "VERIFIED GROUND TRUTH",
           icon: ShieldCheck,
-          textColor: "text-emerald-400",
-          bg: "bg-emerald-500/10 border-emerald-500/30",
+          textColor: "text-[#8FC493]",
+          bg: "bg-[#5F8A62]/20 border-[#5F8A62]/40",
         };
       case "GAP_DETECTED":
         return {
           label: "UNMITIGATED DISPARITY",
           icon: AlertTriangle,
-          textColor: "text-amber-400",
-          bg: "bg-amber-500/10 border-amber-500/30",
+          textColor: "text-[#E6AA68]",
+          bg: "bg-[#B77932]/25 border-[#B77932]/50",
         };
       case "UNCERTAIN":
         return {
           label: "UNCERTAIN EVIDENCE",
           icon: ShieldAlert,
-          textColor: "text-amber-300",
-          bg: "bg-amber-500/10 border-amber-500/30",
+          textColor: "text-[#E6AA68]",
+          bg: "bg-[#B77932]/25 border-[#B77932]/50",
         };
       case "UNAVAILABLE":
       default:
         return {
           label: "NO GROUNDING DATA",
           icon: Shield,
-          textColor: "text-slate-400",
-          bg: "bg-slate-800 border-slate-700",
+          textColor: "text-[#AAB09A]",
+          bg: "bg-[#6F4E37]/30 border-[#8B6B52]/40",
         };
     }
   };
@@ -163,37 +163,37 @@ export function EvidenceLens({
   return (
     <div
       className={cn(
-        "scientific-lens relative overflow-hidden text-white font-sans transition-all duration-300",
-        isFloating && "shadow-2xl border-indigo-500/30",
+        "scientific-lens relative overflow-hidden text-[#FFF8F0] font-sans transition-all duration-300",
+        isFloating && "shadow-xl border-[#B85C38]/40",
         className
       )}
     >
       {/* Corner crosshair markers */}
-      <div className="pointer-events-none absolute top-2 left-2 size-2 border-t border-l border-indigo-400/40" />
-      <div className="pointer-events-none absolute top-2 right-2 size-2 border-t border-r border-indigo-400/40" />
-      <div className="pointer-events-none absolute bottom-2 left-2 size-2 border-b border-l border-indigo-400/40" />
-      <div className="pointer-events-none absolute bottom-2 right-2 size-2 border-b border-r border-indigo-400/40" />
+      <div className="pointer-events-none absolute top-2 left-2 size-2 border-t border-l border-[#B85C38]/50" />
+      <div className="pointer-events-none absolute top-2 right-2 size-2 border-t border-r border-[#B85C38]/50" />
+      <div className="pointer-events-none absolute bottom-2 left-2 size-2 border-b border-l border-[#B85C38]/50" />
+      <div className="pointer-events-none absolute bottom-2 right-2 size-2 border-b border-r border-[#B85C38]/50" />
 
       {/* Header bar: Instrument Telemetry */}
-      <div className="relative flex items-center justify-between border-b border-slate-800 px-4 py-3 bg-slate-950/80">
+      <div className="relative flex items-center justify-between border-b border-[#6F4E37] px-4 py-3 bg-[#332A24]/90">
         <div className="flex items-center gap-2.5">
-          <Crosshair className="size-4 text-brand-cyan animate-spin-slow" aria-hidden />
-          <span className="font-mono text-xs font-bold uppercase tracking-[0.16em] text-slate-200">
+          <Crosshair className="size-4 text-[#C97858]" aria-hidden />
+          <span className="font-mono text-xs font-bold uppercase tracking-[0.16em] text-[#FFF8F0]">
             EVIDENCE LENS
           </span>
-          <span className="font-mono text-[10px] text-slate-400 font-semibold">v2.4</span>
+          <span className="font-mono text-[10px] text-[#C97858] font-semibold">v2.4</span>
         </div>
 
         {/* Timestamp button */}
         <button
           type="button"
           onClick={() => onSeek?.(sampleData.timestamp)}
-          className="inline-flex items-center gap-1.5 rounded-lg border border-slate-700 bg-slate-900 px-2.5 py-1 font-mono text-xs font-bold text-sky-300 hover:border-sky-400 hover:bg-slate-800 transition shadow-sm"
+          className="inline-flex items-center gap-1.5 rounded-lg border border-[#8B6B52] bg-[#3F352E] px-2.5 py-1 font-mono text-xs font-bold text-[#E8C2B2] hover:border-[#B85C38] hover:bg-[#51483F] transition shadow-xs cursor-pointer"
           title={`Seek video to ${formatClock(sampleData.timestamp)}`}
         >
-          <Play className="size-3 fill-sky-300" />
+          <Play className="size-3 fill-[#E8C2B2]" />
           <span>{formatClock(sampleData.timestamp)}</span>
-          <span className="text-slate-400 text-[10px]">({sampleData.timestamp.toFixed(1)}s)</span>
+          <span className="text-[#AAB09A] text-[10px]">({sampleData.timestamp.toFixed(1)}s)</span>
         </button>
       </div>
 
@@ -213,26 +213,26 @@ export function EvidenceLens({
         </div>
 
         {/* Source citation */}
-        <div className="flex items-center gap-2 text-xs font-mono text-slate-300">
-          <span className="text-slate-400 font-semibold">SOURCE:</span>
-          <span className="text-slate-100 font-semibold truncate">{sampleData.source}</span>
+        <div className="flex items-center gap-2 text-xs font-mono text-[#E8DCD1]">
+          <span className="text-[#AAB09A] font-semibold">SOURCE:</span>
+          <span className="text-[#FFF8F0] font-semibold truncate">{sampleData.source}</span>
         </div>
 
         {/* Evidence Snippet / Code block */}
-        <div className="rounded-xl border border-slate-800 bg-slate-950 p-3.5 space-y-2.5">
+        <div className="rounded-xl border border-[#6F4E37] bg-[#2E2620] p-3.5 space-y-2.5">
           <div className="flex items-center justify-between text-[11px] font-mono">
-            <span className="text-slate-300 font-semibold">EXTRACTED GROUND TRUTH:</span>
-            <span className="text-emerald-400 font-bold">
+            <span className="text-[#E8DCD1] font-semibold">EXTRACTED GROUND TRUTH:</span>
+            <span className="text-[#8FC493] font-bold">
               CONFIDENCE: {(sampleData.confidence * 100).toFixed(1)}%
             </span>
           </div>
 
-          <p className="text-[13px] text-slate-100 leading-relaxed font-sans font-normal">
+          <p className="text-[13px] text-[#FFF8F0] leading-relaxed font-sans font-normal">
             {sampleData.evidence}
           </p>
 
           {sampleData.codeSnippet && (
-            <div className="rounded-lg bg-black border border-slate-800 p-3 font-mono text-xs text-emerald-400 font-semibold whitespace-pre leading-relaxed overflow-x-auto">
+            <div className="rounded-lg bg-[#241E1A] border border-[#51483F] p-3 font-mono text-xs text-[#A7D8A9] font-semibold whitespace-pre leading-relaxed overflow-x-auto">
               {sampleData.codeSnippet}
             </div>
           )}
@@ -240,17 +240,17 @@ export function EvidenceLens({
 
         {/* Disparity or Remediation Note */}
         {sampleData.remediation && (
-          <div className="rounded-xl border border-emerald-500/30 bg-emerald-950/20 p-3 text-xs space-y-1.5">
-            <div className="flex items-center gap-1.5 text-emerald-300 font-mono text-[11px] font-bold">
-              <Sparkles className="size-3.5 text-emerald-400" />
+          <div className="rounded-xl border border-[#5F8A62]/40 bg-[#5F8A62]/15 p-3 text-xs space-y-1.5">
+            <div className="flex items-center gap-1.5 text-[#8FC493] font-mono text-[11px] font-bold">
+              <Sparkles className="size-3.5 text-[#8FC493]" />
               <span>GROUNDED REMEDIATION ACTION:</span>
             </div>
-            <p className="text-slate-100 text-xs sm:text-[12.5px] leading-relaxed font-sans">{sampleData.remediation}</p>
+            <p className="text-[#FFF8F0] text-xs sm:text-[12.5px] leading-relaxed font-sans">{sampleData.remediation}</p>
           </div>
         )}
 
         {/* Telemetry metadata footer */}
-        <div className="flex items-center justify-between pt-2 border-t border-slate-800/80 font-mono text-[10.5px] text-slate-400 font-semibold">
+        <div className="flex items-center justify-between pt-2 border-t border-[#6F4E37]/80 font-mono text-[10.5px] text-[#AAB09A] font-semibold">
           <span>DETERMINISTIC CITATION</span>
           <span>LATENCY: &lt;140ms</span>
         </div>

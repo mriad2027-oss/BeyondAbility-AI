@@ -1,0 +1,48 @@
+[
+  {
+    "question": "What is the main benefit of a loop?",
+    "type": "multiple_choice",
+    "options": [
+      "Running code only once",
+      "Repeating execution of a block of code",
+      "Creating a new function"
+    ],
+    "answer": "Repeating execution of a block of code",
+    "concept": "loops",
+    "source_refs": {
+      "transcript_segments": [
+        0
+      ],
+      "visual_events": []
+    }
+  },
+  {
+    "question": "Briefly explain the main programming concept explained in this lesson.",
+    "type": "short_answer",
+    "options": [],
+    "answer": "Programming and variables or loops structures",
+    "concept": "general_programming",
+    "source_refs": {
+      "transcript_segments": [
+        0
+      ],
+      "visual_events": []
+    }
+  },
+  {
+    "question": "هل تبدأ الحلقات التكرارية دائماً بالقيمة 1 في بايثون؟",
+    "type": "true_false",
+    "options": [
+      "صح",
+      "خطأ"
+    ],
+    "answer": "خطأ",
+    "concept": "loops_indexing",
+    "source_refs": {
+      "transcript_segments": [
+        0
+      ],
+      "visual_events": []
+    }
+  }
+]

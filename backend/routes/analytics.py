@@ -333,7 +333,16 @@ async def get_pipeline_status(job_id: str):
         "counts": {},
     })
 
-    return {"job_id": job_id, "job_status": job_status, "ready": ready, "stages": stages}
+    return {
+        "job_id": job_id,
+        "job_status": job_status,
+        "status": job_status,
+        "progress": job.get("progress", 100 if ready else 0),
+        "current_stage": job.get("current_stage"),
+        "error": job.get("error"),
+        "ready": ready,
+        "stages": stages,
+    }
 
 
 @router.get("/lectures/{job_id}/copilot")

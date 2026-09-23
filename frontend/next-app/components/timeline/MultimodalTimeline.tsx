@@ -44,50 +44,50 @@ const TRACKS: TrackInfo[] = [
     kind: "speech",
     label: "SPEECH",
     Icon: Mic,
-    cls: "timeline-track-speech",
-    markerColor: "bg-brand-cyan",
+    cls: "border-[#D5E1EC] bg-[#F4F7FA]",
+    markerColor: "bg-[#5B82A6]",
   },
   {
     kind: "visual",
     label: "VISUAL",
     Icon: Eye,
-    cls: "timeline-track-visual",
-    markerColor: "bg-brand-blue",
+    cls: "border-[#D2E4E4] bg-[#F2F7F7]",
+    markerColor: "bg-[#5F9A9A]",
   },
   {
     kind: "ocr",
     label: "OCR",
     Icon: ScanText,
-    cls: "timeline-track-ocr",
-    markerColor: "bg-brand-indigo",
+    cls: "border-[#DDD8EE] bg-[#F6F5FB]",
+    markerColor: "bg-[#6C63A8]",
   },
   {
     kind: "ad",
     label: "AUDIO DESCRIPTION",
     Icon: Volume2,
-    cls: "timeline-track-ad",
-    markerColor: "bg-brand-emerald",
+    cls: "border-[#C5E3C7] bg-[#EBF5EC]",
+    markerColor: "bg-[#5F8A62]",
   },
   {
     kind: "gaps",
     label: "GAPS",
     Icon: AlertTriangle,
-    cls: "timeline-track-gaps",
-    markerColor: "bg-brand-amber",
+    cls: "border-[#F3CE9D] bg-[#FEF6EC]",
+    markerColor: "bg-[#B77932]",
   },
   {
     kind: "events",
     label: "EVENTS",
     Icon: MousePointer2,
-    cls: "timeline-track-events",
-    markerColor: "bg-brand-rose",
+    cls: "border-[#E8C2B2] bg-[#FFF8F4]",
+    markerColor: "bg-[#B85C38]",
   },
   {
     kind: "assessment",
     label: "ASSESSMENT",
     Icon: GraduationCap,
-    cls: "timeline-track-assessment",
-    markerColor: "bg-brand-violet",
+    cls: "border-[#E1D5C8] bg-[#F1E8DC]",
+    markerColor: "bg-[#7A8061]",
   },
 ];
 
@@ -255,23 +255,23 @@ export function MultimodalTimeline({
   return (
     <div
       className={cn(
-        "flex flex-col gap-2 w-full",
-        mini ? "py-2" : "p-3 rounded-2xl bg-white border border-slate-200/70 shadow-surface",
+        "flex flex-col gap-2 w-full text-[#2F2924]",
+        mini ? "py-2" : "p-3 rounded-2xl bg-[#FFFDFC] border border-[#DDD0C0] shadow-xs",
         className
       )}
     >
       {!mini && (
         <div className="flex items-center justify-between px-1 mb-1">
           <div className="flex items-center gap-2">
-            <Search className="size-3.5 text-slate-400" aria-hidden />
-            <span className="meta-label">Multimodal Timeline Matrix</span>
-            <span className="font-mono text-[10px] text-slate-400 tabular-nums">
+            <Search className="size-3.5 text-[#7A7067]" aria-hidden />
+            <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#7A7067]">Multimodal Timeline Matrix</span>
+            <span className="font-mono text-[10px] text-[#7A7067] tabular-nums">
               {safeDuration ? formatClock(safeDuration) : "00:00"}
             </span>
           </div>
           <div className="flex items-center gap-2 text-[11px]">
-            <Clock className="size-3 text-brand-indigo" aria-hidden />
-            <span className="font-mono font-semibold tabular-nums text-brand-indigo">
+            <Clock className="size-3 text-[#B85C38]" aria-hidden />
+            <span className="font-mono font-bold tabular-nums text-[#B85C38]">
               {formatClock(currentTime)}
             </span>
           </div>
@@ -293,7 +293,7 @@ export function MultimodalTimeline({
                   key={t.kind}
                   className={cn(
                     "flex items-center gap-2 shrink-0",
-                    mini ? "h-8" : "h-16"
+                    mini ? "h-8" : "h-14"
                   )}
                 >
                   <div className={cn(
@@ -302,15 +302,15 @@ export function MultimodalTimeline({
                   )}>
                     <Icon className={cn(
                       mini ? "size-3" : "size-3.5",
-                      t.kind === "speech" && "text-brand-cyan",
-                      t.kind === "visual" && "text-brand-blue",
-                      t.kind === "ocr" && "text-brand-indigo",
-                      t.kind === "ad" && "text-brand-emerald",
-                      t.kind === "gaps" && "text-brand-amber",
-                      t.kind === "events" && "text-brand-rose",
-                      t.kind === "assessment" && "text-brand-violet",
+                      t.kind === "speech" && "text-[#5B82A6]",
+                      t.kind === "visual" && "text-[#5F9A9A]",
+                      t.kind === "ocr" && "text-[#6C63A8]",
+                      t.kind === "ad" && "text-[#5F8A62]",
+                      t.kind === "gaps" && "text-[#B77932]",
+                      t.kind === "events" && "text-[#B85C38]",
+                      t.kind === "assessment" && "text-[#7A8061]",
                     )} aria-hidden />
-                    <span className="meta-label leading-none">
+                    <span className="font-mono text-[10px] font-bold text-[#51483F] leading-none uppercase tracking-wider">
                       {mini ? t.label.slice(0, 3) : t.label}
                     </span>
                   </div>
@@ -322,7 +322,7 @@ export function MultimodalTimeline({
           <div className="relative flex-1 min-w-0">
             <div
               ref={trackRef}
-              className="relative flex flex-col gap-1 select-none"
+              className="relative flex flex-col gap-1 select-none cursor-pointer"
               onMouseMove={(e) => {
                 const t = fromClientX(e.clientX);
                 setHoverTime(t);
@@ -356,7 +356,7 @@ export function MultimodalTimeline({
                 {timeTicks.map((t, i) => (
                   <div
                     key={i}
-                    className="absolute top-0 bottom-0 border-l border-slate-200/60"
+                    className="absolute top-0 bottom-0 border-l border-[#DDD0C0]/60"
                     style={{ left: `${pct(t)}%` }}
                   />
                 ))}
@@ -368,11 +368,11 @@ export function MultimodalTimeline({
                 style={{ left: `${activePct}%` }}
                 aria-hidden
               >
-                <div className="absolute -top-1 -translate-x-1/2 bg-brand-indigo text-white text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-md tabular-nums shadow-float animate-time-travel whitespace-nowrap">
+                <div className="absolute -top-1 -translate-x-1/2 bg-[#B85C38] text-white text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-md tabular-nums shadow-sm whitespace-nowrap">
                   {formatClock(currentTime)}
                 </div>
-                <div className="absolute top-[18px] bottom-0 -translate-x-1/2 w-[2px] bg-brand-indigo rounded-full" />
-                <div className="absolute top-[18px] -translate-x-1/2 size-2.5 rounded-full bg-white border-2 border-brand-indigo shadow-float" />
+                <div className="absolute top-[18px] bottom-0 -translate-x-1/2 w-[2px] bg-[#B85C38] rounded-full" />
+                <div className="absolute top-[18px] -translate-x-1/2 size-2.5 rounded-full bg-white border-2 border-[#B85C38] shadow-sm" />
               </div>
 
               {/* Hover indicator */}
@@ -382,10 +382,10 @@ export function MultimodalTimeline({
                   style={{ left: `${hoverPct}%` }}
                   aria-hidden
                 >
-                  <div className="absolute top-0 -translate-x-1/2 bg-slate-800 text-white text-[9px] font-mono px-1.5 py-0.5 rounded-md tabular-nums opacity-80 whitespace-nowrap">
+                  <div className="absolute top-0 -translate-x-1/2 bg-[#3F352E] text-[#FFF8F0] text-[9px] font-mono px-1.5 py-0.5 rounded-md tabular-nums opacity-90 whitespace-nowrap">
                     {formatClock(hoverTime ?? 0)}
                   </div>
-                  <div className="absolute top-[18px] bottom-0 -translate-x-1/2 w-[1px] bg-slate-400/70" />
+                  <div className="absolute top-[18px] bottom-0 -translate-x-1/2 w-[1px] bg-[#7A7067]/70" />
                 </div>
               )}
             </div>
@@ -395,7 +395,7 @@ export function MultimodalTimeline({
               {timeTicks.map((t, i) => (
                 <div
                   key={i}
-                  className="absolute -translate-x-1/2 font-mono text-[9px] text-slate-400 tabular-nums"
+                  className="absolute -translate-x-1/2 font-mono text-[9px] text-[#7A7067] tabular-nums"
                   style={{ left: `${pct(t)}%` }}
                 >
                   {formatClock(t)}
@@ -409,20 +409,19 @@ export function MultimodalTimeline({
           <div className="mt-3 flex flex-wrap items-center gap-3 px-2">
             {TRACKS.slice(0, 4).map((t) => {
               const count = marksByTrack[t.kind].length;
-              const Icon = t.Icon;
               return (
                 <div key={t.kind} className="flex items-center gap-1.5">
                   <span className={cn("size-2 rounded-full", t.markerColor)} />
-                  <span className="meta-label text-slate-500">{t.label}</span>
-                  <span className="font-mono text-[10px] font-semibold text-slate-700 tabular-nums">
+                  <span className="font-mono text-[10px] font-semibold text-[#7A7067]">{t.label}</span>
+                  <span className="font-mono text-[10px] font-bold text-[#2F2924] tabular-nums">
                     {count}
                   </span>
                 </div>
               );
             })}
             <div className="flex items-center gap-1.5 ml-auto">
-              <ChevronUp className="size-3 text-slate-400" aria-hidden />
-              <span className="text-[10px] text-slate-500">
+              <ChevronUp className="size-3 text-[#7A7067]" aria-hidden />
+              <span className="text-[10px] text-[#7A7067]">
                 Click anywhere on timeline to seek · Hover tracks to inspect evidence
               </span>
             </div>
@@ -449,9 +448,9 @@ function TrackRow({
   return (
     <div
       className={cn(
-        "timeline-track relative",
+        "relative rounded-lg border my-0.5 transition-colors",
         track.cls,
-        mini ? "!h-8" : ""
+        mini ? "h-7" : "h-12"
       )}
     >
       {marks.map((m, idx) => {
@@ -460,11 +459,11 @@ function TrackRow({
           <div
             key={idx}
             className={cn(
-              "timeline-event-marker flex items-center justify-center",
+              "absolute top-1/2 -translate-y-1/2 flex items-center justify-center cursor-pointer transition-transform hover:scale-110 shadow-xs",
               track.markerColor,
-              m.selected && "ring-4 ring-offset-1 ring-brand-amber/60 scale-150",
-              m.end && m.end !== m.start ? "rounded-sm" : "rounded-full",
-              mini ? "!size-1.5" : ""
+              m.selected && "ring-3 ring-offset-1 ring-[#B85C38] scale-125 z-10",
+              m.end && m.end !== m.start ? "rounded-sm h-5" : "rounded-full size-3",
+              mini ? "!size-2" : ""
             )}
             style={{
               left: `${pct(m.start)}%`,
@@ -479,7 +478,7 @@ function TrackRow({
             }}
           >
             {!mini && m.end && m.end - m.start > 3 && (
-              <span className="hidden md:block text-[8px] font-bold text-white/90 font-mono whitespace-nowrap px-1 overflow-hidden text-ellipsis max-w-full">
+              <span className="hidden md:block text-[8px] font-bold text-white font-mono whitespace-nowrap px-1 overflow-hidden text-ellipsis max-w-full">
                 {m.label}
               </span>
             )}

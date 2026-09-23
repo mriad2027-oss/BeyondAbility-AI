@@ -1,0 +1,2757 @@
+{
+  "video_path": "C:\\Users\\hp\\Downloads\\EduAccess-AI\\data\\videos\\DEMO_python_loops.mp4",
+  "filename": "DEMO_python_loops.mp4",
+  "job_id": "DEMO_python_loops",
+  "status": "done",
+  "progress": 100,
+  "current_stage": "completed",
+  "error": null,
+  "logs": [
+    {
+      "ts": "2026-08-29T20:53:40.343492+00:00",
+      "level": "info",
+      "message": "Reused existing extracted audio."
+    },
+    {
+      "ts": "2026-08-29T20:53:53.322468+00:00",
+      "level": "info",
+      "message": "transcribe: ok"
+    },
+    {
+      "ts": "2026-08-29T20:53:58.426139+00:00",
+      "level": "info",
+      "message": "analyze_video: ok"
+    },
+    {
+      "ts": "2026-08-29T20:53:58.442405+00:00",
+      "level": "info",
+      "message": "visual_event_analysis: ok"
+    },
+    {
+      "ts": "2026-08-29T20:53:58.454043+00:00",
+      "level": "info",
+      "message": "accessibility: ok"
+    },
+    {
+      "ts": "2026-08-29T20:54:00.682159+00:00",
+      "level": "info",
+      "message": "Synthesized narration; check output file."
+    },
+    {
+      "ts": "2026-08-29T20:54:00.694225+00:00",
+      "level": "info",
+      "message": "quiz: ok"
+    },
+    {
+      "ts": "2026-08-29T20:54:00.716886+00:00",
+      "level": "info",
+      "message": "pipeline completed"
+    },
+    {
+      "ts": "2026-08-29T22:50:07.000019+00:00",
+      "level": "info",
+      "message": "query='ما الكود الذي ظهر على الشاشة؟' retrieved=0 category=code"
+    },
+    {
+      "ts": "2026-08-29T22:50:07.014870+00:00",
+      "level": "info",
+      "message": "evidence=0 trust=UNAVAILABLE status=UNAVAILABLE category=code"
+    },
+    {
+      "ts": "2026-08-29T22:50:07.031954+00:00",
+      "level": "info",
+      "message": "query='متى ظهر الكود؟' retrieved=0 category=timestamp"
+    },
+    {
+      "ts": "2026-08-29T22:50:07.046315+00:00",
+      "level": "info",
+      "message": "evidence=0 trust=UNAVAILABLE status=NOT_FOUND category=timestamp"
+    },
+    {
+      "ts": "2026-08-29T22:50:07.067282+00:00",
+      "level": "info",
+      "message": "query='ماذا كان المدرس يشرح وقت ظهور الكود؟' retrieved=0 category=code"
+    },
+    {
+      "ts": "2026-08-29T22:50:07.083686+00:00",
+      "level": "info",
+      "message": "evidence=0 trust=UNAVAILABLE status=UNAVAILABLE category=code"
+    },
+    {
+      "ts": "2026-08-29T22:50:07.100233+00:00",
+      "level": "info",
+      "message": "query='ما هو لون البطريق؟' retrieved=0 category=concept"
+    },
+    {
+      "ts": "2026-08-29T22:50:07.113307+00:00",
+      "level": "info",
+      "message": "evidence=0 trust=UNAVAILABLE status=NOT_FOUND category=concept"
+    },
+    {
+      "ts": "2026-08-29T22:50:27.645925+00:00",
+      "level": "info",
+      "message": "query='What code appeared on screen?' retrieved=7 category=code"
+    },
+    {
+      "ts": "2026-08-29T22:50:27.657972+00:00",
+      "level": "info",
+      "message": "evidence=2 trust=VERIFIED status=SUPPORTED category=code"
+    },
+    {
+      "ts": "2026-08-29T22:50:27.674294+00:00",
+      "level": "info",
+      "message": "query='When was the code shown?' retrieved=7 category=timestamp"
+    },
+    {
+      "ts": "2026-08-29T22:50:27.687245+00:00",
+      "level": "info",
+      "message": "evidence=2 trust=VERIFIED status=SUPPORTED category=timestamp"
+    },
+    {
+      "ts": "2026-08-29T22:50:27.701168+00:00",
+      "level": "info",
+      "message": "query='What is a for loop?' retrieved=7 category=concept"
+    },
+    {
+      "ts": "2026-08-29T22:50:27.714725+00:00",
+      "level": "info",
+      "message": "evidence=2 trust=VERIFIED status=SUPPORTED category=concept"
+    },
+    {
+      "ts": "2026-08-29T22:50:27.731261+00:00",
+      "level": "info",
+      "message": "query='What color is the penguin?' retrieved=0 category=interface"
+    },
+    {
+      "ts": "2026-08-29T22:50:27.741112+00:00",
+      "level": "info",
+      "message": "evidence=0 trust=UNAVAILABLE status=NOT_FOUND category=interface"
+    },
+    {
+      "ts": "2026-08-29T22:52:34.748234+00:00",
+      "level": "info",
+      "message": "query='What code appeared on screen?' retrieved=7 category=code"
+    },
+    {
+      "ts": "2026-08-29T22:52:34.761224+00:00",
+      "level": "info",
+      "message": "evidence=2 trust=VERIFIED status=SUPPORTED category=code"
+    },
+    {
+      "ts": "2026-08-29T22:52:43.720283+00:00",
+      "level": "info",
+      "message": "query='What color is the penguin?' retrieved=0 category=interface"
+    },
+    {
+      "ts": "2026-08-29T22:52:43.732455+00:00",
+      "level": "info",
+      "message": "evidence=0 trust=UNAVAILABLE status=NOT_FOUND category=interface"
+    },
+    {
+      "ts": "2026-08-30T12:59:22.654089+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What code appeared on screen?' retrieved=7 category=code"
+    },
+    {
+      "ts": "2026-08-30T12:59:22.664159+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=code"
+    },
+    {
+      "ts": "2026-08-30T13:08:38.189889+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What code appeared on screen?' retrieved=7 category=code"
+    },
+    {
+      "ts": "2026-08-30T13:08:38.204989+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=code"
+    },
+    {
+      "ts": "2026-08-30T13:08:47.933096+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What code appeared on screen?' retrieved=7 category=code"
+    },
+    {
+      "ts": "2026-08-30T13:08:47.945523+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=code"
+    },
+    {
+      "ts": "2026-08-30T13:10:45.560607+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is a for loop?' retrieved=7 category=concept"
+    },
+    {
+      "ts": "2026-08-30T13:10:45.574606+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=concept"
+    },
+    {
+      "ts": "2026-08-30T13:10:45.612793+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What code appeared on screen?' retrieved=7 category=code"
+    },
+    {
+      "ts": "2026-08-30T13:10:45.624789+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=code"
+    },
+    {
+      "ts": "2026-08-30T13:10:45.658119+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='When was the code shown?' retrieved=7 category=timestamp"
+    },
+    {
+      "ts": "2026-08-30T13:10:45.670116+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=timestamp"
+    },
+    {
+      "ts": "2026-08-30T13:10:45.689127+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What color is the penguin?' retrieved=0 category=interface"
+    },
+    {
+      "ts": "2026-08-30T13:10:45.696115+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=NOT_FOUND category=interface"
+    },
+    {
+      "ts": "2026-08-30T13:30:18.436972+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What code appeared on screen?' retrieved=7 category=code"
+    },
+    {
+      "ts": "2026-08-30T13:30:18.445899+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=code"
+    },
+    {
+      "ts": "2026-08-30T13:31:37.093441+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What code appeared on screen?' retrieved=7 category=code"
+    },
+    {
+      "ts": "2026-08-30T13:31:37.106438+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=code"
+    },
+    {
+      "ts": "2026-08-30T13:32:27.092406+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What code appeared on screen?' retrieved=7 category=code"
+    },
+    {
+      "ts": "2026-08-30T13:32:27.100395+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=code"
+    },
+    {
+      "ts": "2026-08-30T14:00:04.787229+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What code appeared on screen?' retrieved=7 category=code"
+    },
+    {
+      "ts": "2026-08-30T14:00:04.817779+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=code"
+    },
+    {
+      "ts": "2026-08-30T14:00:14.247185+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What color is the penguin?' retrieved=0 category=interface"
+    },
+    {
+      "ts": "2026-08-30T14:00:14.271188+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=NOT_FOUND category=interface"
+    },
+    {
+      "ts": "2026-08-30T14:21:27.602333+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is a for loop?' retrieved=7 category=concept"
+    },
+    {
+      "ts": "2026-08-30T14:21:27.628536+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=concept"
+    },
+    {
+      "ts": "2026-08-30T14:22:02.166146+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What code appeared on screen?' retrieved=7 category=code"
+    },
+    {
+      "ts": "2026-08-30T14:22:02.191973+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=code"
+    },
+    {
+      "ts": "2026-08-30T14:22:04.882740+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What code appeared on screen?' retrieved=7 category=code"
+    },
+    {
+      "ts": "2026-08-30T14:22:04.905280+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=code"
+    },
+    {
+      "ts": "2026-08-30T14:23:04.495900+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What color is the penguin?' retrieved=0 category=interface"
+    },
+    {
+      "ts": "2026-08-30T14:23:04.525970+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=NOT_FOUND category=interface"
+    },
+    {
+      "ts": "2026-08-30T14:47:42.861632+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is a for loop?' retrieved=7 category=concept"
+    },
+    {
+      "ts": "2026-08-30T14:47:42.869150+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=concept"
+    },
+    {
+      "ts": "2026-08-30T15:09:36.946459+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='what code is shown on screen for the for' retrieved=8 category=code"
+    },
+    {
+      "ts": "2026-08-30T15:09:36.952458+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=code"
+    },
+    {
+      "ts": "2026-08-31T11:52:31.383115+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What code appeared on screen?' retrieved=7 category=code"
+    },
+    {
+      "ts": "2026-08-31T11:52:31.393128+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=code"
+    },
+    {
+      "ts": "2026-08-31T12:49:15.611160+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is a for loop?' retrieved=7 category=concept"
+    },
+    {
+      "ts": "2026-08-31T12:49:15.622152+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=concept"
+    },
+    {
+      "ts": "2026-08-31T13:28:43.016868+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is a for loop?' retrieved=7 category=concept"
+    },
+    {
+      "ts": "2026-08-31T13:28:43.027064+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=concept"
+    },
+    {
+      "ts": "2026-08-31T14:10:51.327657+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is a for loop?' retrieved=7 category=concept"
+    },
+    {
+      "ts": "2026-08-31T14:10:51.352031+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=concept"
+    },
+    {
+      "ts": "2026-08-31T16:29:31.107463+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is a for loop?' retrieved=7 category=concept"
+    },
+    {
+      "ts": "2026-08-31T16:29:31.119348+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=concept"
+    },
+    {
+      "ts": "2026-08-31T17:58:13.806775+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is a for loop?' retrieved=7 category=concept"
+    },
+    {
+      "ts": "2026-08-31T17:58:13.831948+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=concept"
+    },
+    {
+      "ts": "2026-09-01T06:49:00.202352+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is a for loop?' retrieved=7 category=concept"
+    },
+    {
+      "ts": "2026-09-01T06:49:00.226698+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=concept"
+    },
+    {
+      "ts": "2026-09-01T06:55:41.696508+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is a for loop?' retrieved=7 category=concept"
+    },
+    {
+      "ts": "2026-09-01T06:55:41.734539+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=concept"
+    },
+    {
+      "ts": "2026-09-02T21:09:27.445332+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is a for loop?' retrieved=7 category=concept"
+    },
+    {
+      "ts": "2026-09-02T21:09:27.471875+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=concept"
+    },
+    {
+      "ts": "2026-09-02T21:10:06.580911+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is your name' retrieved=0 category=concept"
+    },
+    {
+      "ts": "2026-09-02T21:10:06.604120+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=NOT_FOUND category=concept"
+    },
+    {
+      "ts": "2026-09-02T21:13:43.151582+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What code appeared on screen?' retrieved=7 category=code"
+    },
+    {
+      "ts": "2026-09-02T21:13:43.183549+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=code"
+    },
+    {
+      "ts": "2026-09-09T12:35:56.595933+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='hi' retrieved=0 category=transcript"
+    },
+    {
+      "ts": "2026-09-09T12:35:56.628169+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=NOT_FOUND category=transcript"
+    },
+    {
+      "ts": "2026-09-09T12:36:02.558710+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='loops' retrieved=3 category=transcript"
+    },
+    {
+      "ts": "2026-09-09T12:36:02.581895+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=transcript"
+    },
+    {
+      "ts": "2026-09-09T18:41:38.651376+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What code appeared on screen?' retrieved=7 category=code"
+    },
+    {
+      "ts": "2026-09-09T18:41:38.681583+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=code"
+    },
+    {
+      "ts": "2026-09-09T18:41:48.105717+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='hello' retrieved=0 category=transcript"
+    },
+    {
+      "ts": "2026-09-09T18:41:48.121127+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=NOT_FOUND category=transcript"
+    },
+    {
+      "ts": "2026-09-09T18:44:14.578023+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='hi' retrieved=0 category=transcript"
+    },
+    {
+      "ts": "2026-09-09T18:44:14.609994+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=NOT_FOUND category=transcript"
+    },
+    {
+      "ts": "2026-09-09T18:44:31.287678+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='for loop' retrieved=7 category=transcript"
+    },
+    {
+      "ts": "2026-09-09T18:44:31.406774+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=transcript"
+    },
+    {
+      "ts": "2026-09-09T18:44:50.745039+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='what is the capital of egypt' retrieved=0 category=concept"
+    },
+    {
+      "ts": "2026-09-09T18:44:50.772142+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=NOT_FOUND category=concept"
+    },
+    {
+      "ts": "2026-09-09T18:49:34.488933+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What code appeared on screen?' retrieved=7 category=code"
+    },
+    {
+      "ts": "2026-09-09T18:49:34.522120+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=code"
+    },
+    {
+      "ts": "2026-09-15T16:46:07.664393+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is a for loop?' retrieved=7 category=concept"
+    },
+    {
+      "ts": "2026-09-15T16:46:07.670066+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=concept"
+    },
+    {
+      "ts": "2026-09-16T14:17:33.168994+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is a while loop in Python?' retrieved=8 category=concept"
+    },
+    {
+      "ts": "2026-09-16T14:17:33.176544+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=concept"
+    },
+    {
+      "ts": "2026-09-16T14:18:12.620624+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is a while loop in Python?' retrieved=8 category=concept"
+    },
+    {
+      "ts": "2026-09-16T14:18:12.632107+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=concept"
+    },
+    {
+      "ts": "2026-09-16T14:25:46.038630+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What Python code was written on screen?' retrieved=8 category=code"
+    },
+    {
+      "ts": "2026-09-16T14:25:46.047467+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=code"
+    },
+    {
+      "ts": "2026-09-16T14:27:33.618897+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is a while loop?' retrieved=8 category=concept"
+    },
+    {
+      "ts": "2026-09-16T14:27:33.634959+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=concept"
+    },
+    {
+      "ts": "2026-09-16T14:27:33.673625+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is a while loop?' retrieved=8 category=concept"
+    },
+    {
+      "ts": "2026-09-16T14:27:33.682644+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=concept"
+    },
+    {
+      "ts": "2026-09-16T14:29:33.448905+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is a while loop in Python?' retrieved=8 category=concept"
+    },
+    {
+      "ts": "2026-09-16T14:29:33.458248+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=concept"
+    },
+    {
+      "ts": "2026-09-16T14:30:35.282100+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is a while loop?' retrieved=8 category=concept"
+    },
+    {
+      "ts": "2026-09-16T14:30:35.290878+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=concept"
+    },
+    {
+      "ts": "2026-09-16T14:31:36.557422+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is a while loop?' retrieved=8 category=concept"
+    },
+    {
+      "ts": "2026-09-16T14:31:36.564894+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=concept"
+    },
+    {
+      "ts": "2026-09-16T14:31:37.638544+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is the capital of France?' retrieved=0 category=concept"
+    },
+    {
+      "ts": "2026-09-16T14:31:37.647442+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=NOT_FOUND category=concept"
+    },
+    {
+      "ts": "2026-09-18T16:40:58.666154+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What code appeared on screen?' retrieved=7 category=code"
+    },
+    {
+      "ts": "2026-09-18T16:40:58.675892+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=code"
+    },
+    {
+      "ts": "2026-09-18T16:40:58.691242+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What color is the penguin in the video?' retrieved=0 category=interface"
+    },
+    {
+      "ts": "2026-09-18T16:40:58.702100+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=NOT_FOUND category=interface"
+    },
+    {
+      "ts": "2026-09-18T16:47:50.495461+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is a while loop?' retrieved=8 category=concept"
+    },
+    {
+      "ts": "2026-09-18T16:47:50.502467+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=concept"
+    },
+    {
+      "ts": "2026-09-18T16:47:51.726376+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='Who won the 2022 FIFA World Cup?' retrieved=0 category=transcript"
+    },
+    {
+      "ts": "2026-09-18T16:47:51.731596+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=NOT_FOUND category=transcript"
+    },
+    {
+      "ts": "2026-09-18T17:04:55.262347+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is a while loop?' retrieved=8 category=concept"
+    },
+    {
+      "ts": "2026-09-18T17:04:55.267842+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=concept"
+    },
+    {
+      "ts": "2026-09-18T17:04:56.499577+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='Who won the 2022 FIFA World Cup?' retrieved=0 category=transcript"
+    },
+    {
+      "ts": "2026-09-18T17:04:56.508575+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=NOT_FOUND category=transcript"
+    },
+    {
+      "ts": "2026-09-18T17:16:27.890337+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is a while loop?' retrieved=8 category=concept"
+    },
+    {
+      "ts": "2026-09-18T17:16:27.901560+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=concept"
+    },
+    {
+      "ts": "2026-09-18T17:16:29.133515+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='Who won the 2022 FIFA World Cup?' retrieved=0 category=transcript"
+    },
+    {
+      "ts": "2026-09-18T17:16:29.145185+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=NOT_FOUND category=transcript"
+    },
+    {
+      "ts": "2026-09-18T17:35:10.156069+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is a while loop?' retrieved=8 category=concept"
+    },
+    {
+      "ts": "2026-09-18T17:35:10.180475+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=concept"
+    },
+    {
+      "ts": "2026-09-18T17:35:11.398562+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='Who won the 2022 FIFA World Cup?' retrieved=0 category=transcript"
+    },
+    {
+      "ts": "2026-09-18T17:35:11.404265+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=NOT_FOUND category=transcript"
+    },
+    {
+      "ts": "2026-09-19T11:31:48.591324+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is range(5)?' retrieved=5 category=concept"
+    },
+    {
+      "ts": "2026-09-19T11:31:48.598481+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=concept"
+    },
+    {
+      "ts": "2026-09-19T11:31:48.620934+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is the capital of France?' retrieved=0 category=concept"
+    },
+    {
+      "ts": "2026-09-19T11:31:48.631440+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=NOT_FOUND category=concept"
+    },
+    {
+      "ts": "2026-09-19T11:34:12.043860+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is range(5)?' retrieved=5 category=concept"
+    },
+    {
+      "ts": "2026-09-19T11:34:12.053795+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=concept"
+    },
+    {
+      "ts": "2026-09-19T11:34:12.093947+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is the capital of France?' retrieved=0 category=concept"
+    },
+    {
+      "ts": "2026-09-19T11:34:12.108527+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=NOT_FOUND category=concept"
+    },
+    {
+      "ts": "2026-09-19T11:36:48.337857+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What fruits are in the list?' retrieved=0 category=interface"
+    },
+    {
+      "ts": "2026-09-19T11:36:48.345283+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=UNAVAILABLE category=interface"
+    },
+    {
+      "ts": "2026-09-19T11:36:48.358186+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is the speed of light in vacuum?' retrieved=0 category=concept"
+    },
+    {
+      "ts": "2026-09-19T11:36:48.365662+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=NOT_FOUND category=concept"
+    },
+    {
+      "ts": "2026-09-19T11:40:49.751246+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is range(5)?' retrieved=5 category=concept"
+    },
+    {
+      "ts": "2026-09-19T11:40:49.762707+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=concept"
+    },
+    {
+      "ts": "2026-09-19T11:40:49.786308+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is the speed of light in vacuum?' retrieved=0 category=concept"
+    },
+    {
+      "ts": "2026-09-19T11:40:49.795171+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=NOT_FOUND category=concept"
+    },
+    {
+      "ts": "2026-09-19T15:53:22.301596+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is range(5)?' retrieved=5 category=concept"
+    },
+    {
+      "ts": "2026-09-19T15:53:22.309126+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=concept"
+    },
+    {
+      "ts": "2026-09-19T15:53:22.322908+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is the capital of France?' retrieved=0 category=concept"
+    },
+    {
+      "ts": "2026-09-19T15:53:22.328186+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=NOT_FOUND category=concept"
+    },
+    {
+      "ts": "2026-09-19T15:54:32.689887+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What fruits are in the list?' retrieved=0 category=interface"
+    },
+    {
+      "ts": "2026-09-19T15:54:32.700512+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=UNAVAILABLE category=interface"
+    },
+    {
+      "ts": "2026-09-19T15:54:32.712754+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is the speed of light in vacuum?' retrieved=0 category=concept"
+    },
+    {
+      "ts": "2026-09-19T15:54:32.720345+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=NOT_FOUND category=concept"
+    },
+    {
+      "ts": "2026-09-19T16:02:50.558104+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What fruits are in the list?' retrieved=0 category=interface"
+    },
+    {
+      "ts": "2026-09-19T16:02:50.568225+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=UNAVAILABLE category=interface"
+    },
+    {
+      "ts": "2026-09-19T16:02:50.582545+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is the speed of light in vacuum?' retrieved=0 category=concept"
+    },
+    {
+      "ts": "2026-09-19T16:02:50.588671+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=NOT_FOUND category=concept"
+    },
+    {
+      "ts": "2026-09-19T16:09:07.393170+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is range(5)?' retrieved=5 category=concept"
+    },
+    {
+      "ts": "2026-09-19T16:09:07.399445+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=concept"
+    },
+    {
+      "ts": "2026-09-19T16:09:07.409893+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is the capital of France?' retrieved=0 category=concept"
+    },
+    {
+      "ts": "2026-09-19T16:09:07.415882+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=NOT_FOUND category=concept"
+    },
+    {
+      "ts": "2026-09-19T16:59:28.273057+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What fruits are in the list?' retrieved=0 category=interface"
+    },
+    {
+      "ts": "2026-09-19T16:59:28.281654+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=UNAVAILABLE category=interface"
+    },
+    {
+      "ts": "2026-09-19T16:59:28.291960+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is the speed of light in vacuum?' retrieved=0 category=concept"
+    },
+    {
+      "ts": "2026-09-19T16:59:28.299224+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=NOT_FOUND category=concept"
+    },
+    {
+      "ts": "2026-09-19T17:00:59.308388+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is range(5)?' retrieved=5 category=concept"
+    },
+    {
+      "ts": "2026-09-19T17:00:59.317003+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=concept"
+    },
+    {
+      "ts": "2026-09-19T17:00:59.335827+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is the capital of France?' retrieved=0 category=concept"
+    },
+    {
+      "ts": "2026-09-19T17:00:59.345605+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=NOT_FOUND category=concept"
+    },
+    {
+      "ts": "2026-09-19T18:05:03.210302+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What fruits are in the list?' retrieved=0 category=interface"
+    },
+    {
+      "ts": "2026-09-19T18:05:03.219212+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=UNAVAILABLE category=interface"
+    },
+    {
+      "ts": "2026-09-19T18:05:03.239428+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is the speed of light in vacuum?' retrieved=0 category=concept"
+    },
+    {
+      "ts": "2026-09-19T18:05:03.251710+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=NOT_FOUND category=concept"
+    },
+    {
+      "ts": "2026-09-19T18:12:53.310297+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What fruits are in the list?' retrieved=0 category=interface"
+    },
+    {
+      "ts": "2026-09-19T18:12:53.323106+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=UNAVAILABLE category=interface"
+    },
+    {
+      "ts": "2026-09-19T18:12:53.347643+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is the speed of light in vacuum?' retrieved=0 category=concept"
+    },
+    {
+      "ts": "2026-09-19T18:12:53.357226+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=NOT_FOUND category=concept"
+    },
+    {
+      "ts": "2026-09-19T18:21:05.672851+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What fruits are in the list?' retrieved=0 category=interface"
+    },
+    {
+      "ts": "2026-09-19T18:21:05.683114+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=UNAVAILABLE category=interface"
+    },
+    {
+      "ts": "2026-09-19T18:21:05.699162+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is the speed of light in vacuum?' retrieved=0 category=concept"
+    },
+    {
+      "ts": "2026-09-19T18:21:05.708753+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=NOT_FOUND category=concept"
+    },
+    {
+      "ts": "2026-09-19T18:33:46.547582+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What fruits are in the list?' retrieved=0 category=interface"
+    },
+    {
+      "ts": "2026-09-19T18:33:46.558854+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=UNAVAILABLE category=interface"
+    },
+    {
+      "ts": "2026-09-19T18:33:46.580789+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is the speed of light in vacuum?' retrieved=0 category=concept"
+    },
+    {
+      "ts": "2026-09-19T18:33:46.589732+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=NOT_FOUND category=concept"
+    },
+    {
+      "ts": "2026-09-19T18:41:25.893816+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What fruits are in the list?' retrieved=0 category=interface"
+    },
+    {
+      "ts": "2026-09-19T18:41:25.904634+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=UNAVAILABLE category=interface"
+    },
+    {
+      "ts": "2026-09-19T18:41:25.926200+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is the speed of light in vacuum?' retrieved=0 category=concept"
+    },
+    {
+      "ts": "2026-09-19T18:41:25.932764+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=NOT_FOUND category=concept"
+    },
+    {
+      "ts": "2026-09-19T18:46:57.293827+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What Python code was written?' retrieved=8 category=code"
+    },
+    {
+      "ts": "2026-09-19T18:46:57.311029+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=code"
+    },
+    {
+      "ts": "2026-09-19T19:09:34.923165+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What fruits are in the list?' retrieved=0 category=interface"
+    },
+    {
+      "ts": "2026-09-19T19:09:34.938088+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=UNAVAILABLE category=interface"
+    },
+    {
+      "ts": "2026-09-19T19:09:34.952975+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is the speed of light in vacuum?' retrieved=0 category=concept"
+    },
+    {
+      "ts": "2026-09-19T19:09:34.959005+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=NOT_FOUND category=concept"
+    },
+    {
+      "ts": "2026-09-19T19:30:38.749397+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What fruits are in the list?' retrieved=0 category=interface"
+    },
+    {
+      "ts": "2026-09-19T19:30:38.759613+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=UNAVAILABLE category=interface"
+    },
+    {
+      "ts": "2026-09-19T19:30:38.773111+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is the speed of light in vacuum?' retrieved=0 category=concept"
+    },
+    {
+      "ts": "2026-09-19T19:30:38.780440+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=NOT_FOUND category=concept"
+    },
+    {
+      "ts": "2026-09-19T19:45:53.455109+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What fruits are in the list?' retrieved=0 category=interface"
+    },
+    {
+      "ts": "2026-09-19T19:45:53.468030+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=UNAVAILABLE category=interface"
+    },
+    {
+      "ts": "2026-09-19T19:45:53.488445+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What is the speed of light in vacuum?' retrieved=0 category=concept"
+    },
+    {
+      "ts": "2026-09-19T19:45:53.499275+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=0 trust=UNAVAILABLE status=NOT_FOUND category=concept"
+    },
+    {
+      "ts": "2026-09-19T19:58:54.996122+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What Python code was written?' retrieved=8 category=code"
+    },
+    {
+      "ts": "2026-09-19T19:58:55.005882+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=code"
+    },
+    {
+      "ts": "2026-09-19T20:20:22.205247+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What Python code was written?' retrieved=8 category=code"
+    },
+    {
+      "ts": "2026-09-19T20:20:22.230893+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=code"
+    },
+    {
+      "ts": "2026-09-19T20:26:58.821262+00:00",
+      "level": "info",
+      "message": "[ask_retrieval] query='What Python code was written?' retrieved=8 category=code"
+    },
+    {
+      "ts": "2026-09-19T20:26:58.834822+00:00",
+      "level": "info",
+      "message": "[ask_grounding] evidence=2 trust=VERIFIED status=SUPPORTED category=code"
+    }
+  ],
+  "created_at": "2026-08-29T20:53:40.292560+00:00",
+  "updated_at": "2026-09-19T20:26:58.834822+00:00",
+  "result": {
+    "transcript_text": "Welcome to this short lesson about Python loops. By the end, you will understand how a for loop repeats a block of code. Let us look at a simple for loop. Notice the structure, the keyword for, the range function, and the body that repeats. Inside the code editor, you press the run button in the upper right corner. The program then prints each number below. Think of the loop as a flow chart. It starts, checks a condition, runs the body, and repeats until the condition is false. A while loop is similar, but it checks the condition before each repetition, so it may run zero times. This bar chart shows how many times each example loop runs. This is the end of this demo lesson. Seeing the code on screen adds important detail.",
+    "transcript_path": "C:\\Users\\hp\\Downloads\\EduAccess-AI\\data\\outputs\\DEMO_python_loops_transcript.txt",
+    "srt_path": "C:\\Users\\hp\\Downloads\\EduAccess-AI\\data\\outputs\\DEMO_python_loops.srt",
+    "segments": [
+      {
+        "id": 0,
+        "seek": 0,
+        "start": 0.0,
+        "end": 2.72,
+        "text": " Welcome to this short lesson about Python loops.",
+        "tokens": [
+          50364,
+          4027,
+          281,
+          341,
+          2099,
+          6898,
+          466,
+          15329,
+          16121,
+          13,
+          50500
+        ],
+        "temperature": 0.0,
+        "avg_logprob": -0.12606986751401328,
+        "compression_ratio": 1.7031802120141342,
+        "no_speech_prob": 0.04988588020205498
+      },
+      {
+        "id": 1,
+        "seek": 0,
+        "start": 2.72,
+        "end": 6.5200000000000005,
+        "text": " By the end, you will understand how a for loop repeats a block of code.",
+        "tokens": [
+          50500,
+          3146,
+          264,
+          917,
+          11,
+          291,
+          486,
+          1223,
+          577,
+          257,
+          337,
+          6367,
+          35038,
+          257,
+          3461,
+          295,
+          3089,
+          13,
+          50690
+        ],
+        "temperature": 0.0,
+        "avg_logprob": -0.12606986751401328,
+        "compression_ratio": 1.7031802120141342,
+        "no_speech_prob": 0.04988588020205498
+      },
+      {
+        "id": 2,
+        "seek": 0,
+        "start": 6.5200000000000005,
+        "end": 8.44,
+        "text": " Let us look at a simple for loop.",
+        "tokens": [
+          50690,
+          961,
+          505,
+          574,
+          412,
+          257,
+          2199,
+          337,
+          6367,
+          13,
+          50786
+        ],
+        "temperature": 0.0,
+        "avg_logprob": -0.12606986751401328,
+        "compression_ratio": 1.7031802120141342,
+        "no_speech_prob": 0.04988588020205498
+      },
+      {
+        "id": 3,
+        "seek": 0,
+        "start": 8.44,
+        "end": 13.4,
+        "text": " Notice the structure, the keyword for, the range function, and the body that repeats.",
+        "tokens": [
+          50786,
+          13428,
+          264,
+          3877,
+          11,
+          264,
+          20428,
+          337,
+          11,
+          264,
+          3613,
+          2445,
+          11,
+          293,
+          264,
+          1772,
+          300,
+          35038,
+          13,
+          51034
+        ],
+        "temperature": 0.0,
+        "avg_logprob": -0.12606986751401328,
+        "compression_ratio": 1.7031802120141342,
+        "no_speech_prob": 0.04988588020205498
+      },
+      {
+        "id": 4,
+        "seek": 0,
+        "start": 13.4,
+        "end": 17.2,
+        "text": " Inside the code editor, you press the run button in the upper right corner.",
+        "tokens": [
+          51034,
+          15123,
+          264,
+          3089,
+          9839,
+          11,
+          291,
+          1886,
+          264,
+          1190,
+          2960,
+          294,
+          264,
+          6597,
+          558,
+          4538,
+          13,
+          51224
+        ],
+        "temperature": 0.0,
+        "avg_logprob": -0.12606986751401328,
+        "compression_ratio": 1.7031802120141342,
+        "no_speech_prob": 0.04988588020205498
+      },
+      {
+        "id": 5,
+        "seek": 0,
+        "start": 17.2,
+        "end": 19.48,
+        "text": " The program then prints each number below.",
+        "tokens": [
+          51224,
+          440,
+          1461,
+          550,
+          22305,
+          1184,
+          1230,
+          2507,
+          13,
+          51338
+        ],
+        "temperature": 0.0,
+        "avg_logprob": -0.12606986751401328,
+        "compression_ratio": 1.7031802120141342,
+        "no_speech_prob": 0.04988588020205498
+      },
+      {
+        "id": 6,
+        "seek": 0,
+        "start": 19.48,
+        "end": 21.36,
+        "text": " Think of the loop as a flow chart.",
+        "tokens": [
+          51338,
+          6557,
+          295,
+          264,
+          6367,
+          382,
+          257,
+          3095,
+          6927,
+          13,
+          51432
+        ],
+        "temperature": 0.0,
+        "avg_logprob": -0.12606986751401328,
+        "compression_ratio": 1.7031802120141342,
+        "no_speech_prob": 0.04988588020205498
+      },
+      {
+        "id": 7,
+        "seek": 0,
+        "start": 21.36,
+        "end": 26.6,
+        "text": " It starts, checks a condition, runs the body, and repeats until the condition is false.",
+        "tokens": [
+          51432,
+          467,
+          3719,
+          11,
+          13834,
+          257,
+          4188,
+          11,
+          6676,
+          264,
+          1772,
+          11,
+          293,
+          35038,
+          1826,
+          264,
+          4188,
+          307,
+          7908,
+          13,
+          51694
+        ],
+        "temperature": 0.0,
+        "avg_logprob": -0.12606986751401328,
+        "compression_ratio": 1.7031802120141342,
+        "no_speech_prob": 0.04988588020205498
+      },
+      {
+        "id": 8,
+        "seek": 2660,
+        "start": 26.6,
+        "end": 30.560000000000002,
+        "text": " A while loop is similar, but it checks the condition before each repetition, so it may",
+        "tokens": [
+          50364,
+          316,
+          1339,
+          6367,
+          307,
+          2531,
+          11,
+          457,
+          309,
+          13834,
+          264,
+          4188,
+          949,
+          1184,
+          30432,
+          11,
+          370,
+          309,
+          815,
+          50562
+        ],
+        "temperature": 0.0,
+        "avg_logprob": -0.15343563140384733,
+        "compression_ratio": 1.4939759036144578,
+        "no_speech_prob": 0.0017673762049525976
+      },
+      {
+        "id": 9,
+        "seek": 2660,
+        "start": 30.560000000000002,
+        "end": 32.24,
+        "text": " run zero times.",
+        "tokens": [
+          50562,
+          1190,
+          4018,
+          1413,
+          13,
+          50646
+        ],
+        "temperature": 0.0,
+        "avg_logprob": -0.15343563140384733,
+        "compression_ratio": 1.4939759036144578,
+        "no_speech_prob": 0.0017673762049525976
+      },
+      {
+        "id": 10,
+        "seek": 2660,
+        "start": 32.24,
+        "end": 35.6,
+        "text": " This bar chart shows how many times each example loop runs.",
+        "tokens": [
+          50646,
+          639,
+          2159,
+          6927,
+          3110,
+          577,
+          867,
+          1413,
+          1184,
+          1365,
+          6367,
+          6676,
+          13,
+          50814
+        ],
+        "temperature": 0.0,
+        "avg_logprob": -0.15343563140384733,
+        "compression_ratio": 1.4939759036144578,
+        "no_speech_prob": 0.0017673762049525976
+      },
+      {
+        "id": 11,
+        "seek": 2660,
+        "start": 35.6,
+        "end": 37.72,
+        "text": " This is the end of this demo lesson.",
+        "tokens": [
+          50814,
+          639,
+          307,
+          264,
+          917,
+          295,
+          341,
+          10723,
+          6898,
+          13,
+          50920
+        ],
+        "temperature": 0.0,
+        "avg_logprob": -0.15343563140384733,
+        "compression_ratio": 1.4939759036144578,
+        "no_speech_prob": 0.0017673762049525976
+      },
+      {
+        "id": 12,
+        "seek": 2660,
+        "start": 37.72,
+        "end": 39.64,
+        "text": " Seeing the code on screen adds important detail.",
+        "tokens": [
+          50920,
+          19703,
+          264,
+          3089,
+          322,
+          2568,
+          10860,
+          1021,
+          2607,
+          13,
+          51016
+        ],
+        "temperature": 0.0,
+        "avg_logprob": -0.15343563140384733,
+        "compression_ratio": 1.4939759036144578,
+        "no_speech_prob": 0.0017673762049525976
+      }
+    ],
+    "video_metadata": {
+      "duration": 38.48,
+      "fps": 0.5197505197505198,
+      "width": 1280,
+      "height": 720,
+      "frame_count": 20
+    },
+    "frames": [
+      {
+        "path": "C:\\Users\\hp\\Downloads\\EduAccess-AI\\data\\frames\\DEMO_python_loops\\frame_0000.jpg",
+        "timestamp": 0.0,
+        "description": "OCR-only output: On-screen text detected:\nPython loops repeat a block of code\nThe for loop runs a fixed number of times\nToday: for loop syntax + visuals",
+        "type": "slide",
+        "confidence": 0.7
+      },
+      {
+        "path": "C:\\Users\\hp\\Downloads\\EduAccess-AI\\data\\frames\\DEMO_python_loops\\frame_0001.jpg",
+        "timestamp": 7.7,
+        "description": "OCR-only output: On-screen text detected:\nPython code editor -- editor.py\n,  foriin range(5):\n4 print (i)",
+        "type": "slide",
+        "confidence": 0.7
+      },
+      {
+        "path": "C:\\Users\\hp\\Downloads\\EduAccess-AI\\data\\frames\\DEMO_python_loops\\frame_0002.jpg",
+        "timestamp": 15.39,
+        "description": "OCR-only output: On-screen text detected:\nPython code editor -- editor.py\n4 for iin range(5):\n» print (i)\nOutput:\nbhWNP OS\nPRWNP ®",
+        "type": "slide",
+        "confidence": 0.7
+      },
+      {
+        "path": "C:\\Users\\hp\\Downloads\\EduAccess-AI\\data\\frames\\DEMO_python_loops\\frame_0003.jpg",
+        "timestamp": 19.24,
+        "description": "OCR-only output: On-screen text detected:\nHOW A FOR LOOP WORKS (",
+        "type": "slide",
+        "confidence": 0.7
+      },
+      {
+        "path": "C:\\Users\\hp\\Downloads\\EduAccess-AI\\data\\frames\\DEMO_python_loops\\frame_0004.jpg",
+        "timestamp": 26.94,
+        "description": "OCR-only output: On-screen text detected:\nCOMPARE\n® for: fixed number of repetitions\n® while: repeats while a condition is true\nfor iin range(5):\nruns exactly 5 times\nEduAccess Al - PYTHON LOOPS DEMO.",
+        "type": "code",
+        "confidence": 0.7
+      },
+      {
+        "path": "C:\\Users\\hp\\Downloads\\EduAccess-AI\\data\\frames\\DEMO_python_loops\\frame_0005.jpg",
+        "timestamp": 30.78,
+        "description": "OCR-only output: On-screen text detected:\nHOw MANY TIMES DOES EACH LOOP RUN?\n10\nrange(5) range(10) while (x<3)\nnumber of repetitions",
+        "type": "code",
+        "confidence": 0.7
+      },
+      {
+        "path": "C:\\Users\\hp\\Downloads\\EduAccess-AI\\data\\frames\\DEMO_python_loops\\frame_0006.jpg",
+        "timestamp": 34.63,
+        "description": "OCR-only output: On-screen text detected:\nYou heard the explanation\nThe screen shows exact syntax\nVisuals complement audio",
+        "type": "slide",
+        "confidence": 0.7
+      }
+    ],
+    "visual_events": [
+      {
+        "start": 0.0,
+        "end": 7.7,
+        "type": "slide",
+        "description": "OCR-only output: On-screen text detected:\nPython loops repeat a block of code\nThe for loop runs a fixed number of times\nToday: for loop syntax + visuals",
+        "transcript_context": "Welcome to this short lesson about Python loops. By the end, you will understand how a for loop repeats a block of code. Let us look at a simple for loop.",
+        "confidence": 0.7,
+        "source_frames": [
+          "frame_0000.jpg"
+        ],
+        "timestamp": 0.0,
+        "event_id": "event_001",
+        "source_refs": {
+          "visual_events": [
+            "event_001"
+          ],
+          "transcript_segments": []
+        }
+      },
+      {
+        "start": 7.7,
+        "end": 15.39,
+        "type": "slide",
+        "description": "OCR-only output: On-screen text detected:\nPython code editor -- editor.py\n,  foriin range(5):\n4 print (i)",
+        "transcript_context": "Let us look at a simple for loop. Notice the structure, the keyword for, the range function, and the body that repeats. Inside the code editor, you press the run button in the upper right corner.",
+        "confidence": 0.7,
+        "source_frames": [
+          "frame_0001.jpg"
+        ],
+        "timestamp": 7.7,
+        "event_id": "event_002",
+        "source_refs": {
+          "visual_events": [
+            "event_002"
+          ],
+          "transcript_segments": []
+        }
+      },
+      {
+        "start": 15.39,
+        "end": 19.24,
+        "type": "slide",
+        "description": "OCR-only output: On-screen text detected:\nPython code editor -- editor.py\n4 for iin range(5):\n» print (i)\nOutput:\nbhWNP OS\nPRWNP ®",
+        "transcript_context": "Inside the code editor, you press the run button in the upper right corner. The program then prints each number below.",
+        "confidence": 0.7,
+        "source_frames": [
+          "frame_0002.jpg"
+        ],
+        "timestamp": 15.39,
+        "event_id": "event_003",
+        "source_refs": {
+          "visual_events": [
+            "event_003"
+          ],
+          "transcript_segments": []
+        }
+      },
+      {
+        "start": 19.24,
+        "end": 26.94,
+        "type": "slide",
+        "description": "OCR-only output: On-screen text detected:\nHOW A FOR LOOP WORKS (",
+        "transcript_context": "The program then prints each number below. Think of the loop as a flow chart. It starts, checks a condition, runs the body, and repeats until the condition is false. A while loop is similar, but it checks the condition before each repetition, so it may",
+        "confidence": 0.7,
+        "source_frames": [
+          "frame_0003.jpg"
+        ],
+        "timestamp": 19.24,
+        "event_id": "event_004",
+        "source_refs": {
+          "visual_events": [
+            "event_004"
+          ],
+          "transcript_segments": []
+        }
+      },
+      {
+        "start": 26.94,
+        "end": 30.78,
+        "type": "code",
+        "description": "OCR-only output: On-screen text detected:\nCOMPARE\n® for: fixed number of repetitions\n® while: repeats while a condition is true\nfor iin range(5):\nruns exactly 5 times\nEduAccess Al - PYTHON LOOPS DEMO.",
+        "transcript_context": "A while loop is similar, but it checks the condition before each repetition, so it may run zero times.",
+        "confidence": 0.7,
+        "source_frames": [
+          "frame_0004.jpg"
+        ],
+        "timestamp": 26.94,
+        "event_id": "event_005",
+        "source_refs": {
+          "visual_events": [
+            "event_005"
+          ],
+          "transcript_segments": []
+        }
+      },
+      {
+        "start": 30.78,
+        "end": 34.63,
+        "type": "code",
+        "description": "OCR-only output: On-screen text detected:\nHOw MANY TIMES DOES EACH LOOP RUN?\n10\nrange(5) range(10) while (x<3)\nnumber of repetitions",
+        "transcript_context": "run zero times. This bar chart shows how many times each example loop runs.",
+        "confidence": 0.7,
+        "source_frames": [
+          "frame_0005.jpg"
+        ],
+        "timestamp": 30.78,
+        "event_id": "event_006",
+        "source_refs": {
+          "visual_events": [
+            "event_006"
+          ],
+          "transcript_segments": []
+        }
+      },
+      {
+        "start": 34.63,
+        "end": 38.48,
+        "type": "slide",
+        "description": "OCR-only output: On-screen text detected:\nYou heard the explanation\nThe screen shows exact syntax\nVisuals complement audio",
+        "transcript_context": "This bar chart shows how many times each example loop runs. This is the end of this demo lesson. Seeing the code on screen adds important detail.",
+        "confidence": 0.7,
+        "source_frames": [
+          "frame_0006.jpg"
+        ],
+        "timestamp": 34.63,
+        "event_id": "event_007",
+        "source_refs": {
+          "visual_events": [
+            "event_007"
+          ],
+          "transcript_segments": []
+        }
+      }
+    ],
+    "visual_events_path": "C:\\Users\\hp\\Downloads\\EduAccess-AI\\data\\outputs\\DEMO_python_loops_visual_events.json",
+    "visual_analysis": [
+      {
+        "lecture_id": "DEMO_python_loops",
+        "event_id": "event_001",
+        "start": 0.0,
+        "end": 7.7,
+        "duration": 7.7,
+        "type": "slide",
+        "description": "OCR-only output: On-screen text detected:\nPython loops repeat a block of code\nThe for loop runs a fixed number of times\nToday: for loop syntax + visuals",
+        "ocr_text": "Python loops repeat a block of code\nThe for loop runs a fixed number of times\nToday: for loop syntax + visuals",
+        "readable": true,
+        "has_visual_content": true,
+        "previous_event_id": null,
+        "next_event_id": "event_002",
+        "overlapping_transcript": "Welcome to this short lesson about Python loops. By the end, you will understand how a for loop repeats a block of code. Let us look at a simple for loop.",
+        "overlapping_segment_ids": [
+          "0",
+          "1",
+          "2"
+        ],
+        "source_frames": [
+          "frame_0000.jpg"
+        ],
+        "transcript_context": "Welcome to this short lesson about Python loops. By the end, you will understand how a for loop repeats a block of code. Let us look at a simple for loop.",
+        "visual_complement_score": {
+          "score": "high",
+          "reason": "The screen shows slide content that the spoken transcript does not fully describe (most visible details are not said aloud)."
+        },
+        "importance": 0.73,
+        "source": "ocr",
+        "trust": {
+          "trust": "VERIFIED",
+          "confidence": 0.7,
+          "reason": "The claim is grounded in detected on-screen evidence."
+        }
+      },
+      {
+        "lecture_id": "DEMO_python_loops",
+        "event_id": "event_002",
+        "start": 7.7,
+        "end": 15.39,
+        "duration": 7.69,
+        "type": "slide",
+        "description": "OCR-only output: On-screen text detected:\nPython code editor -- editor.py\n,  foriin range(5):\n4 print (i)",
+        "ocr_text": "Python code editor -- editor.py\n,  foriin range(5):\n4 print (i)",
+        "readable": true,
+        "has_visual_content": true,
+        "previous_event_id": "event_001",
+        "next_event_id": "event_003",
+        "overlapping_transcript": "Let us look at a simple for loop. Notice the structure, the keyword for, the range function, and the body that repeats. Inside the code editor, you press the run button in the upper right corner.",
+        "overlapping_segment_ids": [
+          "2",
+          "3",
+          "4"
+        ],
+        "source_frames": [
+          "frame_0001.jpg"
+        ],
+        "transcript_context": "Let us look at a simple for loop. Notice the structure, the keyword for, the range function, and the body that repeats. Inside the code editor, you press the run button in the upper right corner.",
+        "visual_complement_score": {
+          "score": "high",
+          "reason": "The screen shows slide content that the spoken transcript does not fully describe (most visible details are not said aloud)."
+        },
+        "importance": 0.73,
+        "source": "ocr",
+        "trust": {
+          "trust": "VERIFIED",
+          "confidence": 0.7,
+          "reason": "The claim is grounded in detected on-screen evidence."
+        }
+      },
+      {
+        "lecture_id": "DEMO_python_loops",
+        "event_id": "event_003",
+        "start": 15.39,
+        "end": 19.24,
+        "duration": 3.85,
+        "type": "slide",
+        "description": "OCR-only output: On-screen text detected:\nPython code editor -- editor.py\n4 for iin range(5):\n» print (i)\nOutput:\nbhWNP OS\nPRWNP ®",
+        "ocr_text": "Python code editor -- editor.py\n4 for iin range(5):\n» print (i)\nOutput:\nbhWNP OS\nPRWNP ®",
+        "readable": true,
+        "has_visual_content": true,
+        "previous_event_id": "event_002",
+        "next_event_id": "event_004",
+        "overlapping_transcript": "Inside the code editor, you press the run button in the upper right corner. The program then prints each number below.",
+        "overlapping_segment_ids": [
+          "4",
+          "5"
+        ],
+        "source_frames": [
+          "frame_0002.jpg"
+        ],
+        "transcript_context": "Inside the code editor, you press the run button in the upper right corner. The program then prints each number below.",
+        "visual_complement_score": {
+          "score": "high",
+          "reason": "The screen shows slide content that the spoken transcript does not fully describe (most visible details are not said aloud)."
+        },
+        "importance": 0.73,
+        "source": "ocr",
+        "trust": {
+          "trust": "VERIFIED",
+          "confidence": 0.7,
+          "reason": "The claim is grounded in detected on-screen evidence."
+        }
+      },
+      {
+        "lecture_id": "DEMO_python_loops",
+        "event_id": "event_004",
+        "start": 19.24,
+        "end": 26.94,
+        "duration": 7.7,
+        "type": "slide",
+        "description": "OCR-only output: On-screen text detected:\nHOW A FOR LOOP WORKS (",
+        "ocr_text": "HOW A FOR LOOP WORKS (",
+        "readable": true,
+        "has_visual_content": true,
+        "previous_event_id": "event_003",
+        "next_event_id": "event_005",
+        "overlapping_transcript": "The program then prints each number below. Think of the loop as a flow chart. It starts, checks a condition, runs the body, and repeats until the condition is false. A while loop is similar, but it checks the condition before each repetition, so it may",
+        "overlapping_segment_ids": [
+          "5",
+          "6",
+          "7",
+          "8"
+        ],
+        "source_frames": [
+          "frame_0003.jpg"
+        ],
+        "transcript_context": "The program then prints each number below. Think of the loop as a flow chart. It starts, checks a condition, runs the body, and repeats until the condition is false. A while loop is similar, but it checks the condition before each repetition, so it may",
+        "visual_complement_score": {
+          "score": "high",
+          "reason": "The screen shows slide content that the spoken transcript does not fully describe (most visible details are not said aloud)."
+        },
+        "importance": 0.73,
+        "source": "ocr",
+        "trust": {
+          "trust": "VERIFIED",
+          "confidence": 0.7,
+          "reason": "The claim is grounded in detected on-screen evidence."
+        }
+      },
+      {
+        "lecture_id": "DEMO_python_loops",
+        "event_id": "event_005",
+        "start": 26.94,
+        "end": 30.78,
+        "duration": 3.84,
+        "type": "code",
+        "description": "OCR-only output: On-screen text detected:\nCOMPARE\n® for: fixed number of repetitions\n® while: repeats while a condition is true\nfor iin range(5):\nruns exactly 5 times\nEduAccess Al - PYTHON LOOPS DEMO.",
+        "ocr_text": "COMPARE\n® for: fixed number of repetitions\n® while: repeats while a condition is true\nfor iin range(5):\nruns exactly 5 times\nEduAccess Al - PYTHON LOOPS DEMO.",
+        "readable": true,
+        "has_visual_content": true,
+        "previous_event_id": "event_004",
+        "next_event_id": "event_006",
+        "overlapping_transcript": "A while loop is similar, but it checks the condition before each repetition, so it may run zero times.",
+        "overlapping_segment_ids": [
+          "8",
+          "9"
+        ],
+        "source_frames": [
+          "frame_0004.jpg"
+        ],
+        "transcript_context": "A while loop is similar, but it checks the condition before each repetition, so it may run zero times.",
+        "visual_complement_score": {
+          "score": "high",
+          "reason": "The screen shows code content that the spoken transcript does not fully describe (most visible details are not said aloud)."
+        },
+        "importance": 1.0,
+        "source": "ocr",
+        "trust": {
+          "trust": "VERIFIED",
+          "confidence": 0.7,
+          "reason": "The claim is grounded in detected on-screen evidence."
+        }
+      },
+      {
+        "lecture_id": "DEMO_python_loops",
+        "event_id": "event_006",
+        "start": 30.78,
+        "end": 34.63,
+        "duration": 3.85,
+        "type": "code",
+        "description": "OCR-only output: On-screen text detected:\nHOw MANY TIMES DOES EACH LOOP RUN?\n10\nrange(5) range(10) while (x<3)\nnumber of repetitions",
+        "ocr_text": "HOw MANY TIMES DOES EACH LOOP RUN?\n10\nrange(5) range(10) while (x<3)\nnumber of repetitions",
+        "readable": true,
+        "has_visual_content": true,
+        "previous_event_id": "event_005",
+        "next_event_id": "event_007",
+        "overlapping_transcript": "run zero times. This bar chart shows how many times each example loop runs.",
+        "overlapping_segment_ids": [
+          "9",
+          "10"
+        ],
+        "source_frames": [
+          "frame_0005.jpg"
+        ],
+        "transcript_context": "run zero times. This bar chart shows how many times each example loop runs.",
+        "visual_complement_score": {
+          "score": "high",
+          "reason": "The screen shows code content that the spoken transcript does not fully describe (most visible details are not said aloud)."
+        },
+        "importance": 1.0,
+        "source": "ocr",
+        "trust": {
+          "trust": "VERIFIED",
+          "confidence": 0.7,
+          "reason": "The claim is grounded in detected on-screen evidence."
+        }
+      },
+      {
+        "lecture_id": "DEMO_python_loops",
+        "event_id": "event_007",
+        "start": 34.63,
+        "end": 38.48,
+        "duration": 3.85,
+        "type": "slide",
+        "description": "OCR-only output: On-screen text detected:\nYou heard the explanation\nThe screen shows exact syntax\nVisuals complement audio",
+        "ocr_text": "You heard the explanation\nThe screen shows exact syntax\nVisuals complement audio",
+        "readable": true,
+        "has_visual_content": true,
+        "previous_event_id": "event_006",
+        "next_event_id": null,
+        "overlapping_transcript": "This bar chart shows how many times each example loop runs. This is the end of this demo lesson. Seeing the code on screen adds important detail.",
+        "overlapping_segment_ids": [
+          "10",
+          "11",
+          "12"
+        ],
+        "source_frames": [
+          "frame_0006.jpg"
+        ],
+        "transcript_context": "This bar chart shows how many times each example loop runs. This is the end of this demo lesson. Seeing the code on screen adds important detail.",
+        "visual_complement_score": {
+          "score": "high",
+          "reason": "The screen shows slide content that the spoken transcript does not fully describe (most visible details are not said aloud)."
+        },
+        "importance": 0.73,
+        "source": "ocr",
+        "trust": {
+          "trust": "VERIFIED",
+          "confidence": 0.7,
+          "reason": "The claim is grounded in detected on-screen evidence."
+        }
+      }
+    ],
+    "accessibility_profile": {
+      "id": "default",
+      "accessibility_need": "none",
+      "preferred_output": "both",
+      "accessibility_mode": "blind",
+      "speech_rate": 1.0,
+      "description_detail": "medium",
+      "quiz_difficulty": "adaptive",
+      "language": "auto"
+    },
+    "accessibility_events": [
+      {
+        "segment_id": "0",
+        "start": 0.0,
+        "end": 2.72,
+        "play_start": 2.72,
+        "transcript": "Welcome to this short lesson about Python loops.",
+        "description": "OCR-only output: On-screen text detected:\nPython loops repeat a block of code\nThe for loop runs a fixed number of times\nToday: for loop syntax + visuals",
+        "should_describe": true,
+        "priority": "high",
+        "importance": 0.73,
+        "reason": "Important visual information not safely covered by speech",
+        "confidence": 0.7,
+        "interrupts_speech": true,
+        "source_refs": {
+          "transcript_segments": [
+            "0"
+          ],
+          "visual_events": [
+            "event_001"
+          ]
+        },
+        "source": [
+          "visual_event",
+          "transcript"
+        ],
+        "narration_audio_path": "C:\\Users\\hp\\Downloads\\EduAccess-AI\\data\\outputs\\DEMO_narration_0.wav"
+      },
+      {
+        "segment_id": "1",
+        "start": 2.72,
+        "end": 6.5200000000000005,
+        "play_start": 6.52,
+        "transcript": "By the end, you will understand how a for loop repeats a block of code.",
+        "description": "",
+        "should_describe": false,
+        "priority": "low",
+        "importance": 0.47,
+        "reason": "Repeated visual event; no new information",
+        "confidence": 0.7,
+        "interrupts_speech": false,
+        "source_refs": {
+          "transcript_segments": [
+            "1"
+          ],
+          "visual_events": [
+            "event_001"
+          ]
+        },
+        "source": [
+          "visual_event",
+          "transcript"
+        ]
+      },
+      {
+        "segment_id": "2",
+        "start": 6.5200000000000005,
+        "end": 8.44,
+        "play_start": 8.44,
+        "transcript": "Let us look at a simple for loop.",
+        "description": "",
+        "should_describe": false,
+        "priority": "low",
+        "importance": 0.47,
+        "reason": "Repeated visual event; no new information",
+        "confidence": 0.7,
+        "interrupts_speech": false,
+        "source_refs": {
+          "transcript_segments": [
+            "2"
+          ],
+          "visual_events": [
+            "event_001"
+          ]
+        },
+        "source": [
+          "visual_event",
+          "transcript"
+        ]
+      },
+      {
+        "segment_id": "3",
+        "start": 8.44,
+        "end": 13.4,
+        "play_start": 13.4,
+        "transcript": "Notice the structure, the keyword for, the range function, and the body that repeats.",
+        "description": "OCR-only output: On-screen text detected:\nPython code editor -- editor.py\n,  foriin range(5):\n4 print (i)",
+        "should_describe": true,
+        "priority": "high",
+        "importance": 0.73,
+        "reason": "Important visual information not safely covered by speech",
+        "confidence": 0.7,
+        "interrupts_speech": true,
+        "source_refs": {
+          "transcript_segments": [
+            "3"
+          ],
+          "visual_events": [
+            "event_002"
+          ]
+        },
+        "source": [
+          "visual_event",
+          "transcript"
+        ],
+        "narration_audio_path": "C:\\Users\\hp\\Downloads\\EduAccess-AI\\data\\outputs\\DEMO_narration_3.wav"
+      },
+      {
+        "segment_id": "4",
+        "start": 13.4,
+        "end": 17.2,
+        "play_start": 17.2,
+        "transcript": "Inside the code editor, you press the run button in the upper right corner.",
+        "description": "",
+        "should_describe": false,
+        "priority": "low",
+        "importance": 0.47,
+        "reason": "Repeated visual event; no new information",
+        "confidence": 0.7,
+        "interrupts_speech": false,
+        "source_refs": {
+          "transcript_segments": [
+            "4"
+          ],
+          "visual_events": [
+            "event_002"
+          ]
+        },
+        "source": [
+          "visual_event",
+          "transcript"
+        ]
+      },
+      {
+        "segment_id": "5",
+        "start": 17.2,
+        "end": 19.48,
+        "play_start": 19.48,
+        "transcript": "The program then prints each number below.",
+        "description": "",
+        "should_describe": false,
+        "priority": "high",
+        "importance": 0.73,
+        "reason": "Important visual information not safely covered by speech",
+        "confidence": 0.7,
+        "interrupts_speech": false,
+        "source_refs": {
+          "transcript_segments": [
+            "5"
+          ],
+          "visual_events": [
+            "event_003"
+          ]
+        },
+        "source": [
+          "visual_event",
+          "transcript"
+        ]
+      },
+      {
+        "segment_id": "6",
+        "start": 19.48,
+        "end": 21.36,
+        "play_start": 21.36,
+        "transcript": "Think of the loop as a flow chart.",
+        "description": "OCR-only output: On-screen text detected:\nHOW A FOR LOOP WORKS (",
+        "should_describe": true,
+        "priority": "high",
+        "importance": 0.73,
+        "reason": "Important visual information not safely covered by speech",
+        "confidence": 0.7,
+        "interrupts_speech": true,
+        "source_refs": {
+          "transcript_segments": [
+            "6"
+          ],
+          "visual_events": [
+            "event_004"
+          ]
+        },
+        "source": [
+          "visual_event",
+          "transcript"
+        ],
+        "narration_audio_path": "C:\\Users\\hp\\Downloads\\EduAccess-AI\\data\\outputs\\DEMO_narration_6.wav"
+      },
+      {
+        "segment_id": "7",
+        "start": 21.36,
+        "end": 26.6,
+        "play_start": 26.6,
+        "transcript": "It starts, checks a condition, runs the body, and repeats until the condition is false.",
+        "description": "",
+        "should_describe": false,
+        "priority": "low",
+        "importance": 0.47,
+        "reason": "Repeated visual event; no new information",
+        "confidence": 0.7,
+        "interrupts_speech": false,
+        "source_refs": {
+          "transcript_segments": [
+            "7"
+          ],
+          "visual_events": [
+            "event_004"
+          ]
+        },
+        "source": [
+          "visual_event",
+          "transcript"
+        ]
+      },
+      {
+        "segment_id": "8",
+        "start": 26.6,
+        "end": 30.560000000000002,
+        "play_start": 30.56,
+        "transcript": "A while loop is similar, but it checks the condition before each repetition, so it may",
+        "description": "",
+        "should_describe": false,
+        "priority": "low",
+        "importance": 0.47,
+        "reason": "Repeated visual event; no new information",
+        "confidence": 0.7,
+        "interrupts_speech": false,
+        "source_refs": {
+          "transcript_segments": [
+            "8"
+          ],
+          "visual_events": [
+            "event_004"
+          ]
+        },
+        "source": [
+          "visual_event",
+          "transcript"
+        ]
+      },
+      {
+        "segment_id": "9",
+        "start": 30.560000000000002,
+        "end": 32.24,
+        "play_start": 32.24,
+        "transcript": "run zero times.",
+        "description": "OCR-only output: On-screen text detected:\nCOMPARE\n® for: fixed number of repetitions\n® while: repeats while a condition is true\nfor iin range(5):\nruns exactly 5 times\nEduAccess Al - PYTHON LOOPS DEMO.",
+        "should_describe": true,
+        "priority": "critical",
+        "importance": 1.0,
+        "reason": "Important visual information not safely covered by speech",
+        "confidence": 0.7,
+        "interrupts_speech": true,
+        "source_refs": {
+          "transcript_segments": [
+            "9"
+          ],
+          "visual_events": [
+            "event_005"
+          ]
+        },
+        "source": [
+          "visual_event",
+          "transcript"
+        ],
+        "narration_audio_path": "C:\\Users\\hp\\Downloads\\EduAccess-AI\\data\\outputs\\DEMO_narration_9.wav"
+      },
+      {
+        "segment_id": "10",
+        "start": 32.24,
+        "end": 35.6,
+        "play_start": 35.6,
+        "transcript": "This bar chart shows how many times each example loop runs.",
+        "description": "OCR-only output: On-screen text detected:\nHOw MANY TIMES DOES EACH LOOP RUN?\n10\nrange(5) range(10) while (x<3)\nnumber of repetitions",
+        "should_describe": true,
+        "priority": "critical",
+        "importance": 1.0,
+        "reason": "Important visual information not safely covered by speech",
+        "confidence": 0.7,
+        "interrupts_speech": true,
+        "source_refs": {
+          "transcript_segments": [
+            "10"
+          ],
+          "visual_events": [
+            "event_006"
+          ]
+        },
+        "source": [
+          "visual_event",
+          "transcript"
+        ],
+        "narration_audio_path": "C:\\Users\\hp\\Downloads\\EduAccess-AI\\data\\outputs\\DEMO_narration_10.wav"
+      },
+      {
+        "segment_id": "11",
+        "start": 35.6,
+        "end": 37.72,
+        "play_start": 37.72,
+        "transcript": "This is the end of this demo lesson.",
+        "description": "OCR-only output: On-screen text detected:\nYou heard the explanation\nThe screen shows exact syntax\nVisuals complement audio",
+        "should_describe": true,
+        "priority": "high",
+        "importance": 0.73,
+        "reason": "Important visual information not safely covered by speech",
+        "confidence": 0.7,
+        "interrupts_speech": true,
+        "source_refs": {
+          "transcript_segments": [
+            "11"
+          ],
+          "visual_events": [
+            "event_007"
+          ]
+        },
+        "source": [
+          "visual_event",
+          "transcript"
+        ],
+        "narration_audio_path": "C:\\Users\\hp\\Downloads\\EduAccess-AI\\data\\outputs\\DEMO_narration_11.wav"
+      },
+      {
+        "segment_id": "12",
+        "start": 37.72,
+        "end": 39.64,
+        "play_start": 39.64,
+        "transcript": "Seeing the code on screen adds important detail.",
+        "description": "",
+        "should_describe": false,
+        "priority": "low",
+        "importance": 0.47,
+        "reason": "Repeated visual event; no new information",
+        "confidence": 0.7,
+        "interrupts_speech": false,
+        "source_refs": {
+          "transcript_segments": [
+            "12"
+          ],
+          "visual_events": [
+            "event_007"
+          ]
+        },
+        "source": [
+          "visual_event",
+          "transcript"
+        ]
+      }
+    ],
+    "accessibility_segments": [
+      {
+        "segment_id": "0",
+        "start": 0.0,
+        "end": 2.72,
+        "play_start": 2.72,
+        "transcript": "Welcome to this short lesson about Python loops.",
+        "description": "OCR-only output: On-screen text detected:\nPython loops repeat a block of code\nThe for loop runs a fixed number of times\nToday: for loop syntax + visuals",
+        "should_describe": true,
+        "priority": "high",
+        "importance": 0.73,
+        "reason": "Important visual information not safely covered by speech",
+        "confidence": 0.7,
+        "interrupts_speech": true,
+        "source_refs": {
+          "transcript_segments": [
+            "0"
+          ],
+          "visual_events": [
+            "event_001"
+          ]
+        },
+        "source": [
+          "visual_event",
+          "transcript"
+        ],
+        "narration_audio_path": "C:\\Users\\hp\\Downloads\\EduAccess-AI\\data\\outputs\\DEMO_narration_0.wav"
+      },
+      {
+        "segment_id": "1",
+        "start": 2.72,
+        "end": 6.5200000000000005,
+        "play_start": 6.52,
+        "transcript": "By the end, you will understand how a for loop repeats a block of code.",
+        "description": "",
+        "should_describe": false,
+        "priority": "low",
+        "importance": 0.47,
+        "reason": "Repeated visual event; no new information",
+        "confidence": 0.7,
+        "interrupts_speech": false,
+        "source_refs": {
+          "transcript_segments": [
+            "1"
+          ],
+          "visual_events": [
+            "event_001"
+          ]
+        },
+        "source": [
+          "visual_event",
+          "transcript"
+        ]
+      },
+      {
+        "segment_id": "2",
+        "start": 6.5200000000000005,
+        "end": 8.44,
+        "play_start": 8.44,
+        "transcript": "Let us look at a simple for loop.",
+        "description": "",
+        "should_describe": false,
+        "priority": "low",
+        "importance": 0.47,
+        "reason": "Repeated visual event; no new information",
+        "confidence": 0.7,
+        "interrupts_speech": false,
+        "source_refs": {
+          "transcript_segments": [
+            "2"
+          ],
+          "visual_events": [
+            "event_001"
+          ]
+        },
+        "source": [
+          "visual_event",
+          "transcript"
+        ]
+      },
+      {
+        "segment_id": "3",
+        "start": 8.44,
+        "end": 13.4,
+        "play_start": 13.4,
+        "transcript": "Notice the structure, the keyword for, the range function, and the body that repeats.",
+        "description": "OCR-only output: On-screen text detected:\nPython code editor -- editor.py\n,  foriin range(5):\n4 print (i)",
+        "should_describe": true,
+        "priority": "high",
+        "importance": 0.73,
+        "reason": "Important visual information not safely covered by speech",
+        "confidence": 0.7,
+        "interrupts_speech": true,
+        "source_refs": {
+          "transcript_segments": [
+            "3"
+          ],
+          "visual_events": [
+            "event_002"
+          ]
+        },
+        "source": [
+          "visual_event",
+          "transcript"
+        ],
+        "narration_audio_path": "C:\\Users\\hp\\Downloads\\EduAccess-AI\\data\\outputs\\DEMO_narration_3.wav"
+      },
+      {
+        "segment_id": "4",
+        "start": 13.4,
+        "end": 17.2,
+        "play_start": 17.2,
+        "transcript": "Inside the code editor, you press the run button in the upper right corner.",
+        "description": "",
+        "should_describe": false,
+        "priority": "low",
+        "importance": 0.47,
+        "reason": "Repeated visual event; no new information",
+        "confidence": 0.7,
+        "interrupts_speech": false,
+        "source_refs": {
+          "transcript_segments": [
+            "4"
+          ],
+          "visual_events": [
+            "event_002"
+          ]
+        },
+        "source": [
+          "visual_event",
+          "transcript"
+        ]
+      },
+      {
+        "segment_id": "5",
+        "start": 17.2,
+        "end": 19.48,
+        "play_start": 19.48,
+        "transcript": "The program then prints each number below.",
+        "description": "",
+        "should_describe": false,
+        "priority": "high",
+        "importance": 0.73,
+        "reason": "Important visual information not safely covered by speech",
+        "confidence": 0.7,
+        "interrupts_speech": false,
+        "source_refs": {
+          "transcript_segments": [
+            "5"
+          ],
+          "visual_events": [
+            "event_003"
+          ]
+        },
+        "source": [
+          "visual_event",
+          "transcript"
+        ]
+      },
+      {
+        "segment_id": "6",
+        "start": 19.48,
+        "end": 21.36,
+        "play_start": 21.36,
+        "transcript": "Think of the loop as a flow chart.",
+        "description": "OCR-only output: On-screen text detected:\nHOW A FOR LOOP WORKS (",
+        "should_describe": true,
+        "priority": "high",
+        "importance": 0.73,
+        "reason": "Important visual information not safely covered by speech",
+        "confidence": 0.7,
+        "interrupts_speech": true,
+        "source_refs": {
+          "transcript_segments": [
+            "6"
+          ],
+          "visual_events": [
+            "event_004"
+          ]
+        },
+        "source": [
+          "visual_event",
+          "transcript"
+        ],
+        "narration_audio_path": "C:\\Users\\hp\\Downloads\\EduAccess-AI\\data\\outputs\\DEMO_narration_6.wav"
+      },
+      {
+        "segment_id": "7",
+        "start": 21.36,
+        "end": 26.6,
+        "play_start": 26.6,
+        "transcript": "It starts, checks a condition, runs the body, and repeats until the condition is false.",
+        "description": "",
+        "should_describe": false,
+        "priority": "low",
+        "importance": 0.47,
+        "reason": "Repeated visual event; no new information",
+        "confidence": 0.7,
+        "interrupts_speech": false,
+        "source_refs": {
+          "transcript_segments": [
+            "7"
+          ],
+          "visual_events": [
+            "event_004"
+          ]
+        },
+        "source": [
+          "visual_event",
+          "transcript"
+        ]
+      },
+      {
+        "segment_id": "8",
+        "start": 26.6,
+        "end": 30.560000000000002,
+        "play_start": 30.56,
+        "transcript": "A while loop is similar, but it checks the condition before each repetition, so it may",
+        "description": "",
+        "should_describe": false,
+        "priority": "low",
+        "importance": 0.47,
+        "reason": "Repeated visual event; no new information",
+        "confidence": 0.7,
+        "interrupts_speech": false,
+        "source_refs": {
+          "transcript_segments": [
+            "8"
+          ],
+          "visual_events": [
+            "event_004"
+          ]
+        },
+        "source": [
+          "visual_event",
+          "transcript"
+        ]
+      },
+      {
+        "segment_id": "9",
+        "start": 30.560000000000002,
+        "end": 32.24,
+        "play_start": 32.24,
+        "transcript": "run zero times.",
+        "description": "OCR-only output: On-screen text detected:\nCOMPARE\n® for: fixed number of repetitions\n® while: repeats while a condition is true\nfor iin range(5):\nruns exactly 5 times\nEduAccess Al - PYTHON LOOPS DEMO.",
+        "should_describe": true,
+        "priority": "critical",
+        "importance": 1.0,
+        "reason": "Important visual information not safely covered by speech",
+        "confidence": 0.7,
+        "interrupts_speech": true,
+        "source_refs": {
+          "transcript_segments": [
+            "9"
+          ],
+          "visual_events": [
+            "event_005"
+          ]
+        },
+        "source": [
+          "visual_event",
+          "transcript"
+        ],
+        "narration_audio_path": "C:\\Users\\hp\\Downloads\\EduAccess-AI\\data\\outputs\\DEMO_narration_9.wav"
+      },
+      {
+        "segment_id": "10",
+        "start": 32.24,
+        "end": 35.6,
+        "play_start": 35.6,
+        "transcript": "This bar chart shows how many times each example loop runs.",
+        "description": "OCR-only output: On-screen text detected:\nHOw MANY TIMES DOES EACH LOOP RUN?\n10\nrange(5) range(10) while (x<3)\nnumber of repetitions",
+        "should_describe": true,
+        "priority": "critical",
+        "importance": 1.0,
+        "reason": "Important visual information not safely covered by speech",
+        "confidence": 0.7,
+        "interrupts_speech": true,
+        "source_refs": {
+          "transcript_segments": [
+            "10"
+          ],
+          "visual_events": [
+            "event_006"
+          ]
+        },
+        "source": [
+          "visual_event",
+          "transcript"
+        ],
+        "narration_audio_path": "C:\\Users\\hp\\Downloads\\EduAccess-AI\\data\\outputs\\DEMO_narration_10.wav"
+      },
+      {
+        "segment_id": "11",
+        "start": 35.6,
+        "end": 37.72,
+        "play_start": 37.72,
+        "transcript": "This is the end of this demo lesson.",
+        "description": "OCR-only output: On-screen text detected:\nYou heard the explanation\nThe screen shows exact syntax\nVisuals complement audio",
+        "should_describe": true,
+        "priority": "high",
+        "importance": 0.73,
+        "reason": "Important visual information not safely covered by speech",
+        "confidence": 0.7,
+        "interrupts_speech": true,
+        "source_refs": {
+          "transcript_segments": [
+            "11"
+          ],
+          "visual_events": [
+            "event_007"
+          ]
+        },
+        "source": [
+          "visual_event",
+          "transcript"
+        ],
+        "narration_audio_path": "C:\\Users\\hp\\Downloads\\EduAccess-AI\\data\\outputs\\DEMO_narration_11.wav"
+      },
+      {
+        "segment_id": "12",
+        "start": 37.72,
+        "end": 39.64,
+        "play_start": 39.64,
+        "transcript": "Seeing the code on screen adds important detail.",
+        "description": "",
+        "should_describe": false,
+        "priority": "low",
+        "importance": 0.47,
+        "reason": "Repeated visual event; no new information",
+        "confidence": 0.7,
+        "interrupts_speech": false,
+        "source_refs": {
+          "transcript_segments": [
+            "12"
+          ],
+          "visual_events": [
+            "event_007"
+          ]
+        },
+        "source": [
+          "visual_event",
+          "transcript"
+        ]
+      }
+    ],
+    "captions": [
+      {
+        "id": "0",
+        "start": 0.0,
+        "end": 2.72,
+        "text": "Welcome to this short lesson about Python loops."
+      },
+      {
+        "id": "1",
+        "start": 2.72,
+        "end": 6.5200000000000005,
+        "text": "By the end, you will understand how a for loop repeats a block of code."
+      },
+      {
+        "id": "2",
+        "start": 6.5200000000000005,
+        "end": 8.44,
+        "text": "Let us look at a simple for loop."
+      },
+      {
+        "id": "3",
+        "start": 8.44,
+        "end": 13.4,
+        "text": "Notice the structure, the keyword for, the range function, and the body that repeats."
+      },
+      {
+        "id": "4",
+        "start": 13.4,
+        "end": 17.2,
+        "text": "Inside the code editor, you press the run button in the upper right corner."
+      },
+      {
+        "id": "5",
+        "start": 17.2,
+        "end": 19.48,
+        "text": "The program then prints each number below."
+      },
+      {
+        "id": "6",
+        "start": 19.48,
+        "end": 21.36,
+        "text": "Think of the loop as a flow chart."
+      },
+      {
+        "id": "7",
+        "start": 21.36,
+        "end": 26.6,
+        "text": "It starts, checks a condition, runs the body, and repeats until the condition is false."
+      },
+      {
+        "id": "8",
+        "start": 26.6,
+        "end": 30.560000000000002,
+        "text": "A while loop is similar, but it checks the condition before each repetition, so it may"
+      },
+      {
+        "id": "9",
+        "start": 30.560000000000002,
+        "end": 32.24,
+        "text": "run zero times."
+      },
+      {
+        "id": "10",
+        "start": 32.24,
+        "end": 35.6,
+        "text": "This bar chart shows how many times each example loop runs."
+      },
+      {
+        "id": "11",
+        "start": 35.6,
+        "end": 37.72,
+        "text": "This is the end of this demo lesson."
+      },
+      {
+        "id": "12",
+        "start": 37.72,
+        "end": 39.64,
+        "text": "Seeing the code on screen adds important detail."
+      }
+    ],
+    "accessibility_quality_score": 89,
+    "accessibility_metrics": {
+      "visual_events_detected": 7,
+      "descriptions_generated": 6,
+      "redundant_descriptions_removed": 7,
+      "important_visual_events_preserved": 6,
+      "estimated_visual_information_coverage": 0.42
+    },
+    "accessibility_content_path": "C:\\Users\\hp\\Downloads\\EduAccess-AI\\data\\outputs\\DEMO_python_loops_accessibility_blind.json",
+    "full_narration": "OCR-only output: On-screen text detected:\nPython loops repeat a block of code\nThe for loop runs a fixed number of times\nToday: for loop syntax + visuals OCR-only output: On-screen text detected:\nPython code editor -- editor.py\n,  foriin range(5):\n4 print (i) OCR-only output: On-screen text detected:\nHOW A FOR LOOP WORKS ( OCR-only output: On-screen text detected:\nCOMPARE\n® for: fixed number of repetitions\n® while: repeats while a condition is true\nfor iin range(5):\nruns exactly 5 times\nEduAccess Al - PYTHON LOOPS DEMO. OCR-only output: On-screen text detected:\nHOw MANY TIMES DOES EACH LOOP RUN?\n10\nrange(5) range(10) while (x<3)\nnumber of repetitions OCR-only output: On-screen text detected:\nYou heard the explanation\nThe screen shows exact syntax\nVisuals complement audio",
+    "narration_audio_path": "C:\\Users\\hp\\Downloads\\EduAccess-AI\\data\\outputs\\DEMO_python_loops_narration.wav",
+    "quiz_id": "DEMO_python_loops_quiz",
+    "stage_status": {
+      "extract_audio": {
+        "status": "cached",
+        "fallback": "none",
+        "seconds": 0.0,
+        "note": "Reused existing extracted audio."
+      },
+      "transcribe": {
+        "status": "completed",
+        "fallback": "none",
+        "seconds": 12.99
+      },
+      "analyze_video": {
+        "status": "completed",
+        "fallback": "ocr",
+        "seconds": 5.05,
+        "note": null
+      },
+      "visual_event_analysis": {
+        "status": "completed",
+        "fallback": "none",
+        "seconds": 0.02,
+        "note": null
+      },
+      "accessibility": {
+        "status": "completed",
+        "fallback": "none",
+        "seconds": 0.0
+      },
+      "narration": {
+        "status": "completed",
+        "fallback": "none",
+        "seconds": 2.22,
+        "note": "Synthesized narration; check output file."
+      },
+      "quiz": {
+        "status": "completed",
+        "fallback": "none",
+        "seconds": 0.02,
+        "note": null
+      }
+    }
+  }
+}

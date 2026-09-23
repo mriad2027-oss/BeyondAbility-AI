@@ -3,17 +3,21 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/format";
 
 const badgeVariants = cva(
-  "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-xs font-medium [&_svg]:size-3 [&_svg]:shrink-0",
+  "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-xs font-semibold [&_svg]:size-3 [&_svg]:shrink-0 transition-colors",
   {
     variants: {
       variant: {
-        default: "border-app-edge bg-app-panel2 text-slate-600",
-        success: "border-emerald-200 bg-emerald-50 text-emerald-700",
-        warning: "border-amber-200 bg-amber-50 text-amber-700",
-        danger: "border-red-200 bg-red-50 text-red-600",
-        info: "border-sky-200 bg-sky-50 text-sky-700",
-        violet: "border-violet-200 bg-violet-50 text-violet-700",
-        muted: "border-app-edge bg-app-panel2 text-app-muted",
+        default: "border-[#DDD0C0] bg-[#EDE2D3] text-[#51483F]",
+        success: "border-[#B9D2BC] bg-[#E4F0E5] text-[#416A47]",
+        warning: "border-[#E3C59D] bg-[#F6E9D6] text-[#8A5A25]",
+        danger: "border-[#D9AAA7] bg-[#F4E0DF] text-[#8E3F3C]",
+        info: "border-[#B8D3E6] bg-[#E5EEF5] text-[#466B8A]",
+        speech: "border-[#B8D3E6] bg-[#E5EEF5] text-[#466B8A]",
+        vision: "border-[#B2D6D3] bg-[#E2EFED] text-[#46716F]",
+        ai: "border-[#C8C3DF] bg-[#E8E6F4] text-[#554F86]",
+        terracotta: "border-[#E8C2B2] bg-[#FFF8F4] text-[#B85C38]",
+        violet: "border-[#C8C3DF] bg-[#E8E6F4] text-[#554F86]",
+        muted: "border-[#E7DED2] bg-[#FBF8F2] text-[#7A7067]",
       },
     },
     defaultVariants: { variant: "default" },

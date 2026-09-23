@@ -22,35 +22,19 @@ export function LecturePicker({
 
   // Sanitize lecture list so no WhatsApp/personal recordings appear in the UI
   const displayLectures: LectureRecord[] = useMemo(() => {
-    const clean = lectures.filter((lec) => {
+    return lectures.filter((lec) => {
       const name = (lec.filename || "").toLowerCase();
       const id = (lec.job_id || "").toLowerCase();
       return !name.includes("whatsapp") && !id.includes("whatsapp");
     });
-
-    if (clean.length > 0) return clean;
-
-    return [
-      {
-        job_id: "DEMO_python_loops",
-        filename: "DEMO_python_loops.mp4",
-        duration: 300,
-        status: "done",
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-        assets: {},
-        has_result: true,
-        cached: true,
-      },
-    ];
   }, [lectures]);
 
   if (loading) return null;
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 text-[#2F2924]">
       {heading && (
-        <p className={cn("font-mono font-semibold uppercase tracking-wider text-slate-400", compact ? "text-xs" : "text-sm")}>
+        <p className={cn("font-mono font-bold uppercase tracking-wider text-[#7A7067]", compact ? "text-xs" : "text-sm")}>
           {heading}
         </p>
       )}
@@ -66,38 +50,38 @@ export function LecturePicker({
               className={cn(
                 "group flex w-full items-center gap-3 rounded-xl border p-3 text-left transition-all",
                 active
-                  ? "border-brand-indigo bg-brand-indigo/15 ring-1 ring-brand-indigo/30 shadow-sm"
-                  : "border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.02] hover:border-brand-indigo/40 hover:bg-brand-indigo/5"
+                  ? "border-[#B85C38] bg-[#FFF8F4] ring-1 ring-[#B85C38]/30 shadow-xs"
+                  : "border-[#DDD0C0] bg-[#FFFDFC] hover:border-[#B85C38]/40 hover:bg-[#F1E8DC]"
               )}
             >
               <div
                 className={cn(
                   "flex size-10 shrink-0 items-center justify-center rounded-lg font-bold transition-all",
                   active
-                    ? "bg-brand-indigo text-white shadow-sm"
-                    : "bg-white dark:bg-white/10 text-slate-500 dark:text-slate-300 border border-slate-200 dark:border-white/10"
+                    ? "bg-[#B85C38] text-white shadow-xs"
+                    : "bg-[#F1E8DC] text-[#7A7067] border border-[#DDD0C0]"
                 )}
               >
                 {demo ? (
-                  <Sparkles className="size-5 text-amber-400" aria-hidden />
+                  <Sparkles className="size-5 text-amber-500" aria-hidden />
                 ) : (
                   <FileVideo className="size-5" aria-hidden />
                 )}
               </div>
               <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-bold text-slate-900 dark:text-white leading-tight">
-                  {demo ? "Python Loops (Benchmark)" : lec.filename}
+                <p className="truncate text-sm font-bold text-[#2F2924] leading-tight">
+                  {lec.filename || lec.job_id}
                 </p>
-                <p className="truncate text-xs font-mono text-slate-500 dark:text-slate-400 mt-0.5">
+                <p className="truncate text-xs font-mono text-[#7A7067] mt-0.5">
                   {lec.job_id}
                 </p>
               </div>
               {demo && (
-                <span className="shrink-0 rounded-full bg-amber-500/15 px-2.5 py-0.5 text-[11px] font-mono font-bold text-amber-600 dark:text-amber-400 border border-amber-500/30">
-                  DEMO
+                <span className="shrink-0 rounded-full bg-[#FFF8F4] px-2.5 py-0.5 text-[11px] font-mono font-bold text-[#B85C38] border border-[#E8C2B2]">
+                  SAMPLE
                 </span>
               )}
-              {active && <Check className="size-4 shrink-0 text-brand-indigo stroke-[3]" aria-hidden />}
+              {active && <Check className="size-4 shrink-0 text-[#B85C38] stroke-[3]" aria-hidden />}
             </button>
           );
         })}

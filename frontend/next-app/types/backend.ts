@@ -172,17 +172,21 @@ export interface AccessibilityScore {
 
 export interface PipelineStage {
   name: string;
-  status: "completed" | "running" | "pending" | "failed" | string;
-  cached: boolean;
-  seconds: number | null;
-  fallback: string | null;
-  note: string;
-  counts: Record<string, number>;
+  status: "completed" | "cached" | "running" | "pending" | "skipped" | "failed" | string;
+  cached?: boolean;
+  seconds?: number | null;
+  fallback?: string | null;
+  note?: string | null;
+  counts?: Record<string, number>;
 }
 
 export interface PipelineStatus {
   job_id: string;
   job_status: string;
+  status?: string;
+  progress?: number;
+  current_stage?: string | null;
+  error?: string | null;
   ready: boolean;
   stages: PipelineStage[];
 }

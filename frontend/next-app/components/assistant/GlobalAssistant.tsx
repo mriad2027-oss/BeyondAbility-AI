@@ -101,152 +101,161 @@ export default function GlobalAssistant() {
       recognitionRef.current.stop();
       setIsListening(false);
     } else {
-      recognitionRef.current.lang = document.documentElement.lang === "ar" ? "ar-EG" : "en-US";
-      recognitionRef.current.start();
-      setIsListening(true);
+      try {
+        recognitionRef.current.start();
+        setIsListening(true);
+      } catch {
+        setIsListening(false);
+      }
     }
   };
 
   const speakText = (text: string) => {
-    if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
-    window.speechSynthesis.cancel();
-    if (isSpeaking) {
-      setIsSpeaking(false);
-      return;
+    if (typeof window !== "undefined" && "speechSynthesis" in window) {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = document.documentElement.lang === "ar" ? "ar-EG" : "en-US";
+      utterance.onstart = () => setIsSpeaking(true);
+      utterance.onend = () => setIsSpeaking(false);
+      utterance.onerror = () => setIsSpeaking(false);
+      window.speechSynthesis.speak(utterance);
     }
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = document.documentElement.lang === "ar" ? "ar" : "en-US";
-    utterance.onend = () => setIsSpeaking(false);
-    utterance.onerror = () => setIsSpeaking(false);
-    setIsSpeaking(true);
-    window.speechSynthesis.speak(utterance);
-  };
-
-  const getActiveContext = () => {
-    // Extract lecture ID if on /lectures/[jobId]
-    const match = pathname.match(/\/lectures\/([^\/]+)/);
-    const lectureId = match ? decodeURIComponent(match[1]) : undefined;
-
-    // Read current video timestamp from window if video player dispatched it
-    const currentTimestamp = (window as any).__eduaccess_current_time || 0.0;
-    const currentSegment = (window as any).__eduaccess_current_segment || "";
-    const currentVisual = (window as any).__eduaccess_current_visual || "";
-
-    return {
-      page: pathname,
-      lecture_id: lectureId,
-      timestamp: currentTimestamp,
-      current_segment: currentSegment,
-      current_visual_event: currentVisual,
-    };
   };
 
   const handleSend = async (customText?: string) => {
     const textToSend = (customText || inputValue).trim();
     if (!textToSend || isLoading) return;
 
-    setInputValue("");
     const userMsg: Message = {
-      id: `u_${Date.now()}`,
+      id: Date.now().toString(),
       role: "user",
       content: textToSend,
     };
-    const assistantMsgId = `a_${Date.now()}`;
-    const assistantMsg: Message = {
-      id: assistantMsgId,
-      role: "assistant",
-      content: "",
-      isStreaming: true,
-    };
 
-    setMessages((prev) => [...prev, userMsg, assistantMsg]);
+    setMessages((prev) => [...prev, userMsg]);
+    setInputValue("");
     setIsLoading(true);
 
-    const context = getActiveContext();
-    const history = messages.slice(-4).map((m) => ({
-      role: m.role,
-      content: m.content,
-    }));
+    const activeJob =
+      pathname.startsWith("/lectures/")
+        ? decodeURIComponent(pathname.split("/")[2] || "") || null
+        : null;
+
+    if (!activeJob) {
+      const noContextMsg: Message = {
+        id: (Date.now() + 1).toString(),
+        role: "assistant",
+        content:
+          "Please open or process a lecture first. Upload a video or open a compiled lecture from the Studio to ask me content-specific questions!",
+      };
+      setMessages((prev) => [...prev, noContextMsg]);
+      if (speechEnabled && noContextMsg.content) speakText(noContextMsg.content);
+      setIsLoading(false);
+      return;
+    }
 
     try {
-      let fullReply = "";
+      // Streaming assistant response
+      const assistantId = (Date.now() + 2).toString();
+      let streamedContent = "";
+      let finalAction: string | undefined;
+      let finalActionPayload: Record<string, unknown> | undefined;
+
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: assistantId,
+          role: "assistant",
+          content: "",
+          isStreaming: true,
+        },
+      ]);
+
       for await (const chunk of assistantStream({
         message: textToSend,
-        context,
-        history,
+        context: { page: pathname, lecture_id: activeJob },
       })) {
         if (chunk.token) {
-          fullReply += chunk.token;
+          streamedContent += chunk.token;
           setMessages((prev) =>
-            prev.map((m) => (m.id === assistantMsgId ? { ...m, content: fullReply } : m))
+            prev.map((msg) =>
+              msg.id === assistantId
+                ? { ...msg, content: streamedContent }
+                : msg
+            )
           );
         }
-
-        // Handle tool action if present
         if (chunk.action) {
-          handleAction(chunk.action, chunk.action_payload);
+          finalAction = chunk.action;
+          finalActionPayload = chunk.action_payload;
         }
-
-        if (chunk.done) break;
       }
 
       setMessages((prev) =>
-        prev.map((m) => (m.id === assistantMsgId ? { ...m, isStreaming: false } : m))
+        prev.map((msg) =>
+          msg.id === assistantId
+            ? {
+                ...msg,
+                content: streamedContent,
+                isStreaming: false,
+              }
+            : msg
+        )
       );
+      setIsLoading(false);
 
-      if (speechEnabled && fullReply) {
-        speakText(fullReply);
+      if (speechEnabled && streamedContent) {
+        speakText(streamedContent);
+      }
+
+      if (finalAction) {
+        executeAssistantAction(finalAction, finalActionPayload);
       }
     } catch {
-      // Fallback to standard chat endpoint if streaming interrupted
       try {
-        const res: AssistantChatResponse = await assistantChat({
+        const fallbackJob = activeJob;
+        if (!fallbackJob) {
+          setIsLoading(false);
+          return;
+        }
+        const res = await assistantChat({
           message: textToSend,
-          context,
-          history,
+          context: { page: pathname, lecture_id: fallbackJob },
         });
-
-        setMessages((prev) =>
-          prev.map((m) =>
-            m.id === assistantMsgId
-              ? {
-                  ...m,
-                  content: res.reply,
-                  evidence: res.evidence,
-                  isStreaming: false,
-                }
-              : m
-          )
-        );
-
-        if (res.action) {
-          handleAction(res.action, res.action_payload);
-        }
-
-        if (speechEnabled && res.reply) {
-          speakText(res.reply);
-        }
-      } catch (err: any) {
-        setMessages((prev) =>
-          prev.map((m) =>
-            m.id === assistantMsgId
-              ? {
-                  ...m,
-                  content: "I ran into a temporary error reaching the intelligence service. Please try again.",
-                  isStreaming: false,
-                }
-              : m
-          )
-        );
+        const botMsg: Message = {
+          id: (Date.now() + 1).toString(),
+          role: "assistant",
+          content: res.reply,
+          evidence: res.evidence,
+        };
+        setMessages((prev) => [...prev.filter((m) => !m.isStreaming), botMsg]);
+        if (speechEnabled && res.reply) speakText(res.reply);
+        if (res.action) executeAssistantAction(res.action, res.action_payload);
+      } catch (err) {
+        setMessages((prev) => [
+          ...prev.filter((m) => !m.isStreaming),
+          {
+            id: (Date.now() + 1).toString(),
+            role: "assistant",
+            content: "Sorry, I had trouble retrieving that right now. Please try again!",
+          },
+        ]);
+      } finally {
+        setIsLoading(false);
       }
-    } finally {
-      setIsLoading(false);
     }
   };
+
   handleSendRef.current = handleSend;
 
-  const handleAction = (action: string, payload?: Record<string, unknown>) => {
-    if (action === "toggle_captions") {
+  const executeAssistantAction = (action: string, payload?: any) => {
+    if (action === "navigate") {
+      if (payload?.path) router.push(payload.path);
+    } else if (action === "seek") {
+      if (typeof payload?.seconds === "number") {
+        window.dispatchEvent(new CustomEvent("eduaccess:seek", { detail: { seconds: payload.seconds } }));
+      }
+    } else if (action === "toggle_captions") {
       window.dispatchEvent(new CustomEvent("eduaccess:toggle_captions", { detail: { enabled: payload?.enabled } }));
     } else if (action === "toggle_audio_description") {
       window.dispatchEvent(new CustomEvent("eduaccess:toggle_audio_description", { detail: { enabled: payload?.enabled } }));
@@ -268,10 +277,10 @@ export default function GlobalAssistant() {
         onClick={() => setIsOpen(!isOpen)}
         aria-label="EduAccess AI Assistant"
         className={cn(
-          "eduaccess-assistant-trigger fixed bottom-6 right-6 z-50 flex size-14 items-center justify-center rounded-full shadow-lg transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-brand-indigo/30",
+          "eduaccess-assistant-trigger fixed bottom-6 right-6 z-50 flex size-14 items-center justify-center rounded-full shadow-lg transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-[#B85C38]/30 cursor-pointer",
           isOpen
-            ? "bg-slate-800 text-white rotate-90 scale-95"
-            : "bg-gradient-to-r from-brand-indigo via-brand-blue to-purple-600 text-white hover:scale-105 shadow-brand-indigo/40"
+            ? "bg-[#3F352E] text-white rotate-90 scale-95"
+            : "bg-gradient-to-br from-[#B85C38] via-[#C97858] to-[#6C63A8] text-white hover:scale-105 shadow-[#B85C38]/30"
         )}
       >
         {isOpen ? (
@@ -280,8 +289,8 @@ export default function GlobalAssistant() {
           <div className="relative">
             <MessageSquareText className="size-6" />
             <span className="absolute -top-1 -right-1 flex size-3">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full size-3 bg-emerald-500"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#5F8A62] opacity-75"></span>
+              <span className="relative inline-flex rounded-full size-3 bg-[#5F8A62]"></span>
             </span>
           </div>
         )}
@@ -292,20 +301,22 @@ export default function GlobalAssistant() {
         <div
           role="dialog"
           aria-label="EduAccess AI Assistant Dialog"
-          className="eduaccess-assistant-panel fixed bottom-24 right-6 z-50 flex h-[580px] w-[380px] sm:w-[420px] flex-col rounded-3xl border border-app-edge bg-white/95 shadow-2xl backdrop-blur-xl transition-all duration-300 overflow-hidden"
+          className="eduaccess-assistant-panel fixed bottom-24 right-6 z-50 flex h-[580px] w-[380px] sm:w-[420px] flex-col rounded-3xl border border-[#E4D9CC] bg-[#FFFDFC]/98 shadow-2xl backdrop-blur-xl transition-all duration-300 overflow-hidden text-[#2F2924]"
         >
           {/* Header */}
-          <div className="flex items-center justify-between border-b border-app-edge/80 bg-slate-50/90 px-4 py-3.5">
+          <div className="flex items-center justify-between border-b border-[#E7DED2] bg-[#FBF8F2] px-4 py-3.5">
             <div className="flex items-center gap-2.5">
-              <div className="flex size-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-indigo to-purple-600 text-white shadow-sm">
+              <div className="flex size-9 items-center justify-center rounded-xl bg-gradient-to-br from-[#B85C38] to-[#6C63A8] text-white shadow-xs">
                 <Sparkles className="size-4" />
               </div>
               <div>
-                <p className="text-sm font-semibold text-slate-900 flex items-center gap-1.5">
+                <p className="text-sm font-bold text-[#2F2924] flex items-center gap-1.5">
                   EduAccess Assistant
-                  <span className="rounded-full bg-emerald-100 px-1.5 py-0.5 text-[10px] font-medium text-emerald-700">Lecture-aware</span>
+                  <span className="rounded-full bg-[#E4F0E5] border border-[#B9D2BC] px-1.5 py-0.5 text-[10px] font-bold text-[#416A47]">
+                    Lecture-aware
+                  </span>
                 </p>
-                <p className="text-[11px] text-app-muted">Context-aware educational AI</p>
+                <p className="text-[10.5px] text-[#7A7067]">Context-aware educational AI</p>
               </div>
             </div>
 
@@ -315,10 +326,10 @@ export default function GlobalAssistant() {
                 onClick={() => setSpeechEnabled(!speechEnabled)}
                 aria-label={speechEnabled ? "Mute audio narration" : "Enable spoken responses"}
                 className={cn(
-                  "rounded-lg p-1.5 transition-colors",
+                  "rounded-lg p-1.5 transition-colors cursor-pointer",
                   speechEnabled
-                    ? "bg-brand-indigo/10 text-brand-indigo"
-                    : "text-slate-400 hover:text-slate-700"
+                    ? "bg-[#B85C38]/15 text-[#B85C38]"
+                    : "text-[#7A7067] hover:text-[#2F2924]"
                 )}
               >
                 {speechEnabled ? <Volume2 className="size-4" /> : <VolumeX className="size-4" />}
@@ -327,7 +338,7 @@ export default function GlobalAssistant() {
                 type="button"
                 onClick={() => setIsOpen(false)}
                 aria-label="Close Assistant"
-                className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-200/60 hover:text-slate-700 transition-colors"
+                className="rounded-lg p-1.5 text-[#7A7067] hover:bg-[#F1E8DC] hover:text-[#2F2924] transition-colors cursor-pointer"
               >
                 <X className="size-4" />
               </button>
@@ -335,13 +346,13 @@ export default function GlobalAssistant() {
           </div>
 
           {/* Quick Prompts Bar */}
-          <div className="border-b border-app-edge/60 bg-white/60 px-3 py-2 flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+          <div className="border-b border-[#E7DED2] bg-[#FBF8F2]/60 px-3 py-2 flex items-center gap-1.5 overflow-x-auto no-scrollbar">
             {QUICK_PROMPTS.map((prompt) => (
               <button
                 key={prompt}
                 onClick={() => handleSend(prompt)}
                 disabled={isLoading}
-                className="whitespace-nowrap rounded-full border border-app-edge bg-white px-2.5 py-1 text-[11px] font-medium text-slate-600 hover:border-brand-indigo/40 hover:text-brand-indigo transition shadow-xs"
+                className="whitespace-nowrap rounded-full border border-[#DDD0C0] bg-[#FFFDFC] px-2.5 py-1 text-[11px] font-medium text-[#51483F] hover:border-[#B85C38] hover:text-[#B85C38] hover:bg-[#FFF8F4] transition shadow-2xs cursor-pointer"
               >
                 {prompt}
               </button>
@@ -362,8 +373,8 @@ export default function GlobalAssistant() {
                   className={cn(
                     "flex size-7 shrink-0 items-center justify-center rounded-full text-xs font-semibold shadow-xs",
                     m.role === "user"
-                      ? "bg-slate-800 text-white"
-                      : "bg-brand-indigo text-white"
+                      ? "bg-[#3F352E] text-white"
+                      : "bg-[#B85C38] text-white"
                   )}
                 >
                   {m.role === "user" ? <User className="size-3.5" /> : <Bot className="size-3.5" />}
@@ -373,24 +384,24 @@ export default function GlobalAssistant() {
                   className={cn(
                     "rounded-2xl px-3.5 py-2.5 text-xs leading-relaxed shadow-xs",
                     m.role === "user"
-                      ? "bg-brand-indigo text-white rounded-tr-xs"
-                      : "bg-slate-100 text-slate-800 rounded-tl-xs"
+                      ? "bg-[#B85C38] text-white rounded-tr-xs"
+                      : "bg-[#F1E8DC] text-[#2F2924] border border-[#DDD0C0] rounded-tl-xs"
                   )}
                 >
                   <p className="whitespace-pre-wrap">{m.content}</p>
                   {m.isStreaming && (
-                    <span className="inline-block w-1.5 h-3 ml-1 bg-brand-indigo animate-pulse" />
+                    <span className="inline-block w-1.5 h-3 ml-1 bg-[#B85C38] animate-pulse" />
                   )}
 
                   {m.evidence && m.evidence.length > 0 && (
-                    <div className="mt-2 pt-2 border-t border-slate-200/80 space-y-1">
-                      <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">
+                    <div className="mt-2 pt-2 border-t border-[#DDD0C0]/80 space-y-1">
+                      <p className="text-[10px] font-bold text-[#7A7067] uppercase tracking-wider">
                         Lecture Evidence:
                       </p>
                       {m.evidence.map((ev, i) => (
-                        <div key={i} className="text-[11px] text-slate-600 flex items-start gap-1">
+                        <div key={i} className="text-[11px] text-[#51483F] flex items-start gap-1">
                           {ev.time && (
-                            <span className="font-mono text-brand-indigo bg-brand-indigo/10 px-1 rounded text-[10px]">
+                            <span className="font-mono text-[#B85C38] bg-[#FFF8F4] border border-[#E8C2B2] px-1 rounded text-[10px] font-bold">
                               {ev.time}
                             </span>
                           )}
@@ -405,7 +416,7 @@ export default function GlobalAssistant() {
                       <button
                         onClick={() => speakText(m.content)}
                         aria-label="Read response aloud"
-                        className="text-[11px] text-slate-400 hover:text-slate-700 flex items-center gap-1 transition"
+                        className="text-[11px] text-[#7A7067] hover:text-[#2F2924] flex items-center gap-1 transition cursor-pointer"
                       >
                         <Volume2 className="size-3" /> Read
                       </button>
@@ -418,13 +429,13 @@ export default function GlobalAssistant() {
           </div>
 
           {/* Input Bar */}
-          <div className="border-t border-app-edge/80 bg-white p-3">
+          <div className="border-t border-[#E7DED2] bg-[#FFFDFC] p-3">
             <form
               onSubmit={(e) => {
                 e.preventDefault();
                 handleSend();
               }}
-              className="flex items-center gap-2 rounded-2xl border border-app-edge bg-slate-50 px-3 py-1.5 focus-within:border-brand-indigo focus-within:ring-2 focus-within:ring-brand-indigo/20 transition"
+              className="flex items-center gap-2 rounded-2xl border border-[#DDD0C0] bg-[#FBF8F2] px-3 py-1.5 focus-within:border-[#B85C38] focus-within:ring-2 focus-within:ring-[#B85C38]/20 transition"
             >
               <input
                 type="text"
@@ -432,7 +443,7 @@ export default function GlobalAssistant() {
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder={isListening ? "Listening..." : "Ask EduAccess AI anything..."}
                 disabled={isLoading}
-                className="flex-1 bg-transparent text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none"
+                className="flex-1 bg-transparent text-xs text-[#2F2924] placeholder:text-[#8C8177] focus:outline-none"
               />
 
               <button
@@ -440,10 +451,10 @@ export default function GlobalAssistant() {
                 onClick={toggleMic}
                 aria-label={isListening ? "Stop listening" : "Speech input"}
                 className={cn(
-                  "p-1.5 rounded-lg transition",
+                  "p-1.5 rounded-lg transition cursor-pointer",
                   isListening
-                    ? "bg-rose-500 text-white animate-pulse"
-                    : "text-slate-400 hover:text-slate-700"
+                    ? "bg-[#B94A48] text-white animate-pulse"
+                    : "text-[#7A7067] hover:text-[#2F2924]"
                 )}
               >
                 {isListening ? <MicOff className="size-4" /> : <Mic className="size-4" />}
@@ -453,7 +464,7 @@ export default function GlobalAssistant() {
                 type="submit"
                 disabled={isLoading || !inputValue.trim()}
                 aria-label="Send message"
-                className="flex size-7 items-center justify-center rounded-xl bg-brand-indigo text-white disabled:opacity-40 disabled:cursor-not-allowed hover:bg-brand-indigo/90 transition shadow-xs"
+                className="flex size-7 items-center justify-center rounded-xl bg-[#B85C38] text-white disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[#9F4F32] transition shadow-xs cursor-pointer"
               >
                 <Send className="size-3.5" />
               </button>

@@ -42,43 +42,17 @@ export default function LecturesPage() {
 function LecturesContent() {
   const { lectures, loading, error } = useWorkspace();
 
-  // Sanitize lecture list so no WhatsApp/personal recordings appear in the UI
-  const { demoLecture, otherLectures } = useMemo(() => {
-    const clean = lectures.filter((lec) => {
+  // Sanitize lecture list so no personal/WhatsApp recordings appear in the UI
+  const cleanLectures = useMemo(() => {
+    return lectures.filter((lec) => {
       const name = (lec.filename || "").toLowerCase();
       const id = (lec.job_id || "").toLowerCase();
       return !name.includes("whatsapp") && !id.includes("whatsapp");
     });
-
-    const fallbackDemo = {
-      job_id: "DEMO_python_loops",
-      filename: "DEMO_python_loops.mp4",
-      duration: 300,
-      status: "done",
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-      assets: {
-        video: true,
-        transcript: true,
-        srt: true,
-        captions: true,
-        visual_events: true,
-        accessibility: true,
-        narration: true,
-        quiz: true,
-      },
-    };
-
-    const demo =
-      clean.find((l) => String(l.job_id + l.filename).toUpperCase().includes("DEMO")) ||
-      fallbackDemo;
-
-    const others = clean.filter(
-      (l) => l.job_id !== demo.job_id && !String(l.job_id + l.filename).toUpperCase().includes("DEMO")
-    );
-
-    return { demoLecture: demo, otherLectures: others };
   }, [lectures]);
+
+  const featuredLecture = cleanLectures[0] || null;
+  const otherLectures = cleanLectures.slice(1);
 
   if (loading) return <PageLoader label="Loading lecture library…" />;
 
@@ -87,7 +61,7 @@ function LecturesContent() {
       <div className="w-full max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <EmptyState
           title="Backend Connection Notice"
-          description={`Unable to fetch live lecture list from the API: ${error}. Showing verified offline benchmark.`}
+          description={error}
         />
       </div>
     );
@@ -96,245 +70,255 @@ function LecturesContent() {
   return (
     <div className="w-full max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 space-y-10 lg:space-y-12">
       {/* PAGE HEADER */}
-      <div className="flex flex-col gap-3">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-brand-indigo/10 border border-brand-indigo/20 text-brand-indigo font-mono text-xs font-semibold uppercase tracking-wider w-fit">
-          <Library className="size-3.5" />
-          <span>Lecture Library · Multimodal Studio Entry</span>
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6">
+        <div className="flex flex-col gap-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFF8F4] border border-[#E8C2B2] text-[#B85C38] font-mono text-xs font-bold uppercase tracking-wider w-fit shadow-xs">
+            <Library className="size-3.5" />
+            <span>Lecture Library · Multimodal Studio Entry</span>
+          </div>
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-display font-black tracking-tight text-[#2F2924] leading-[1.08]">
+            Compiled Educational Lectures
+          </h1>
+          <p className="text-base sm:text-lg lg:text-xl text-[#51483F] max-w-3xl leading-relaxed">
+            Select a compiled lecture below to enter the interactive Multimodal Accessibility Studio, inspect cross-modal temporal alignment evidence, and interact with the Accessibility Twin.
+          </p>
         </div>
-        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-display font-black tracking-tight text-slate-950 dark:text-white leading-[1.08]">
-          Compiled Educational Lectures
-        </h1>
-        <p className="text-base sm:text-lg lg:text-xl text-slate-700 dark:text-slate-200 max-w-3xl leading-relaxed">
-          Select a compiled lecture below to enter the interactive Multimodal Accessibility Studio, inspect cross-modal temporal alignment evidence, and interact with the Accessibility Twin.
-        </p>
+
+        <Link href="/upload" className="shrink-0">
+          <Button
+            size="lg"
+            className="gap-2.5 bg-[#B85C38] hover:bg-[#9F4F32] text-white font-bold px-6 py-3 rounded-xl shadow-md shadow-[#B85C38]/20 transition-all hover:scale-[1.01]"
+          >
+            <Upload className="size-4.5" />
+            <span>Compile New Video</span>
+          </Button>
+        </Link>
       </div>
 
-      {/* FEATURED BENCHMARK LECTURE: DEMO_python_loops */}
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <Sparkles className="size-4 text-amber-500" />
-            <h2 className="text-xs sm:text-sm font-mono font-bold tracking-wider text-slate-800 dark:text-slate-200 uppercase">
-              Flagship Verified Benchmark
-            </h2>
+      {cleanLectures.length === 0 ? (
+        /* HONEST EMPTY STATE */
+        <div className="rounded-3xl border border-[#DDD0C0] bg-[#FFFDFC] p-8 sm:p-14 text-center space-y-6 shadow-xs max-w-2xl mx-auto">
+          <div className="size-16 rounded-2xl bg-[#FFF8F4] border border-[#E8C2B2] flex items-center justify-center text-[#B85C38] mx-auto shadow-xs">
+            <FileVideo className="size-8" />
           </div>
-          <span className="text-xs font-mono font-bold px-3 py-1 rounded-full bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30">
-            VERIFIED DEMO
-          </span>
-        </div>
-
-        {/* FEATURED CARD */}
-        <div className="rounded-3xl bg-[#0B1020] border-2 border-brand-indigo/40 shadow-2xl p-6 sm:p-8 lg:p-10 relative overflow-hidden">
-          {/* Subtle Ambient Glow */}
-          <div className="absolute top-0 right-0 w-96 h-96 bg-brand-indigo/10 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute bottom-0 left-0 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center relative z-10">
-            {/* Left Content Area (7 cols) */}
-            <div className="lg:col-span-7 space-y-6">
-              <div className="space-y-3">
-                <div className="flex flex-wrap items-center gap-2.5">
-                  <span className="px-3 py-1 rounded-full bg-brand-indigo/20 border border-brand-indigo/40 text-brand-indigo font-mono text-xs font-bold uppercase tracking-wider">
-                    Official Competition Benchmark
-                  </span>
-                  <span className="px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 font-mono text-xs font-semibold">
-                    100% Grounded
-                  </span>
-                </div>
-
-                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-display font-bold text-white tracking-tight leading-tight">
-                  Python Loops & Control Flow (Benchmark)
-                </h3>
-
-                <p className="text-xs sm:text-sm font-mono text-slate-400 font-medium">
-                  File: <span className="text-slate-200">{demoLecture.filename}</span> · Job ID:{" "}
-                  <span className="text-brand-indigo font-bold">{demoLecture.job_id}</span>
-                </p>
-
-                <p className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-2xl pt-1">
-                  Full multimodal lecture demonstrating parallel speech transcription (Whisper), computer vision keyframe extraction, OCR code snippet indexing, and temporal disparity gap identification at 00:08 (where loops syntax is shown on screen but not explained orally).
-                </p>
-              </div>
-
-              {/* Multimodal Modality Badges */}
-              <div className="flex flex-wrap gap-2 pt-1">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-blue-500/15 border border-blue-500/30 text-xs font-semibold text-blue-300">
-                  <Volume2 className="size-3.5" /> Whisper Speech
-                </span>
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-sky-500/15 border border-sky-500/30 text-xs font-semibold text-sky-300">
-                  <Eye className="size-3.5" /> CV Keyframes
-                </span>
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-cyan-500/15 border border-cyan-500/30 text-xs font-semibold text-cyan-300">
-                  <ScanEye className="size-3.5" /> OCR Code Syntax
-                </span>
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-indigo-500/15 border border-indigo-500/30 text-xs font-semibold text-indigo-300">
-                  <Network className="size-3.5" /> Cross-Modal Sync
-                </span>
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-amber-500/15 border border-amber-500/30 text-xs font-semibold text-amber-300">
-                  <Cpu className="size-3.5" /> Disparity Engine
-                </span>
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-xs font-semibold text-emerald-300">
-                  <ShieldCheck className="size-3.5" /> Non-Destructive AD
-                </span>
-              </div>
-
-              {/* Metadata Telemetry Strip */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-3 border-t border-white/10 text-xs font-mono">
-                <div>
-                  <p className="text-slate-500 uppercase tracking-wider">Duration</p>
-                  <p className="text-sm font-bold text-white mt-0.5 flex items-center gap-1.5">
-                    <Clock className="size-4 text-slate-400" />
-                    {formatSeconds(demoLecture.duration || 300)}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-slate-500 uppercase tracking-wider">Status</p>
-                  <p className="text-sm font-bold text-emerald-400 mt-0.5 flex items-center gap-1.5">
-                    <CircleCheck className="size-4" /> Ready & Indexed
-                  </p>
-                </div>
-                <div>
-                  <p className="text-slate-500 uppercase tracking-wider">Evidence Grounding</p>
-                  <p className="text-sm font-bold text-white mt-0.5">
-                    100% Causal Match
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Action Box (5 cols) */}
-            <div className="lg:col-span-5 flex flex-col justify-center gap-4 bg-white/[0.03] border border-white/10 rounded-2xl p-6 sm:p-8">
-              <div className="space-y-2 text-center lg:text-left">
-                <p className="text-xs font-mono uppercase tracking-wider text-slate-400 font-semibold">
-                  Interactive Workspace Entry
-                </p>
-                <h4 className="text-lg sm:text-xl font-bold text-white">
-                  Enter Accessibility Studio
-                </h4>
-                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                  Interact with the multimodal player, verify synchronized audio descriptions, explore the Knowledge Graph, and test grounded adaptive learning.
-                </p>
-              </div>
-
-              <Link href={`/lectures/${encodeURIComponent(demoLecture.job_id)}`} className="block w-full">
-                <Button
-                  size="lg"
-                  className="w-full gap-3 bg-gradient-to-r from-brand-indigo to-blue-600 hover:from-brand-indigo/90 hover:to-blue-500 text-white font-bold text-base py-4 rounded-xl shadow-xl shadow-brand-indigo/30 transition-all hover:scale-[1.01]"
-                >
-                  <PlayCircle className="size-5 shrink-0" />
-                  <span>Launch Accessibility Studio</span>
-                  <ArrowRight className="size-5 shrink-0" />
-                </Button>
-              </Link>
-
-              <div className="flex items-center justify-between text-xs font-mono text-slate-400 px-1 pt-1">
-                <span>Mode: Grounded Evidence</span>
-                <span className="text-emerald-400 flex items-center gap-1">
-                  <Check className="size-3.5 stroke-[3]" /> Zero Hallucination
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* SECONDARY SECTION: ADDITIONAL LECTURES OR COMPILER CTA */}
-      <div className="space-y-5 pt-2">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-3">
-          <div className="space-y-0.5">
-            <h2 className="text-lg sm:text-xl font-display font-bold text-slate-200">
-              Additional Lectures & Custom Ingestion
+          <div className="space-y-2">
+            <h2 className="text-2xl font-bold font-display text-[#2F2924]">
+              No Processed Lectures Yet
             </h2>
-            <p className="text-xs sm:text-sm text-slate-400">
-              Compile custom lecture recordings using the Multimodal Ingestion Pipeline.
+            <p className="text-sm sm:text-base text-[#51483F] leading-relaxed max-w-md mx-auto">
+              No educational videos have been processed yet. Upload your first lecture to decompile speech, extract keyframes, detect visual gaps, and synthesize synchronized audio descriptions.
             </p>
           </div>
           <Link href="/upload">
             <Button
-              variant="outline"
-              size="sm"
-              className="gap-2 border-white/15 bg-white/5 hover:bg-brand-indigo/10 hover:border-brand-indigo/40 text-slate-200 hover:text-white"
+              size="lg"
+              className="gap-3 bg-[#B85C38] hover:bg-[#9F4F32] text-white font-bold text-base px-8 py-3.5 rounded-xl shadow-md shadow-[#B85C38]/25 transition-all hover:scale-[1.01]"
             >
-              <Upload className="size-3.5 text-brand-indigo" />
-              <span>Compile New Video</span>
+              <Upload className="size-5" />
+              <span>Compile Your First Lecture</span>
+              <ArrowRight className="size-5" />
             </Button>
           </Link>
         </div>
+      ) : (
+        <>
+          {/* FEATURED LATEST LECTURE */}
+          {featuredLecture && (
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                  <Sparkles className="size-4 text-[#B85C38]" />
+                  <h2 className="text-xs sm:text-sm font-mono font-bold tracking-wider text-[#2F2924] uppercase">
+                    Latest Compiled Lecture
+                  </h2>
+                </div>
+                <span className="text-xs font-mono font-bold px-3 py-1 rounded-full bg-[#EBF5EC] text-[#3D6B40] border border-[#C5E3C7]">
+                  READY TO EXPLORE
+                </span>
+              </div>
 
-        {otherLectures.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {otherLectures.map((lec) => {
-              const isReady = lec.status === "done" || lec.status === "partial";
-              return (
-                <Link
-                  key={lec.job_id}
-                  href={`/lectures/${encodeURIComponent(lec.job_id)}`}
-                  className="group block"
-                >
-                  <div className="rounded-2xl bg-[#0B1020]/80 border border-white/10 shadow-sm hover:shadow-md hover:border-brand-indigo/40 transition-all duration-200 p-5 sm:p-6 flex flex-col justify-between gap-4 min-h-[200px]">
-                    <div className="flex items-start gap-3.5">
-                      <div className="size-11 rounded-xl bg-brand-indigo/10 border border-brand-indigo/20 flex items-center justify-center text-brand-indigo group-hover:scale-105 transition-transform shrink-0">
-                        <FileVideo className="size-5" />
+              {/* FEATURED CARD */}
+              <div className="rounded-3xl bg-[#FFFDFC] border-2 border-[#E8C2B2] shadow-sm hover:shadow-md transition-shadow p-6 sm:p-8 lg:p-10 relative overflow-hidden">
+                {/* Subtle Ambient Glow */}
+                <div className="absolute top-0 right-0 w-96 h-96 bg-[#B85C38]/5 rounded-full blur-3xl pointer-events-none" />
+                <div className="absolute bottom-0 left-0 w-80 h-80 bg-[#6C63A8]/5 rounded-full blur-3xl pointer-events-none" />
+
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center relative z-10">
+                  {/* Left Content Area (7 cols) */}
+                  <div className="lg:col-span-7 space-y-6">
+                    <div className="space-y-3">
+                      <div className="flex flex-wrap items-center gap-2.5">
+                        <span className="px-3 py-1 rounded-full bg-[#FFF8F4] border border-[#E8C2B2] text-[#B85C38] font-mono text-xs font-bold uppercase tracking-wider">
+                          Compiled Ingestion
+                        </span>
+                        <span className="px-3 py-1 rounded-full bg-[#EBF5EC] border border-[#C5E3C7] text-[#3D6B40] font-mono text-xs font-semibold">
+                          Grounded Multi-Modal
+                        </span>
                       </div>
-                      <div className="min-w-0 flex-1">
-                        <h3 className="text-base sm:text-lg font-bold text-white truncate group-hover:text-brand-indigo transition-colors">
-                          {lec.filename}
-                        </h3>
-                        <p className="text-xs font-mono text-slate-400 mt-0.5">
-                          Job ID: {lec.job_id}
-                        </p>
-                        <div className="flex items-center gap-3 mt-2 text-xs font-mono text-slate-300">
-                          <span className="inline-flex items-center gap-1 font-semibold">
-                            <Clock className="size-3.5 text-slate-400" />
-                            {formatSeconds(lec.duration || 0)}
-                          </span>
-                          <span>·</span>
-                          {isReady ? (
-                            <span className="text-emerald-400 font-semibold flex items-center gap-1">
-                              <CircleCheck className="size-3.5" /> Ready
-                            </span>
-                          ) : (
-                            <span className="text-amber-400 font-semibold flex items-center gap-1">
-                              <CircleX className="size-3.5" /> {lec.status}
-                            </span>
-                          )}
-                        </div>
-                      </div>
+
+                      <h3 className="text-2xl sm:text-3xl lg:text-4xl font-display font-bold text-[#2F2924] tracking-tight leading-tight">
+                        {featuredLecture.filename || `Lecture ${featuredLecture.job_id}`}
+                      </h3>
+
+                      <p className="text-xs sm:text-sm font-mono text-[#7A7067] font-medium">
+                        Job ID: <span className="text-[#B85C38] font-bold">{featuredLecture.job_id}</span>
+                      </p>
+
+                      <p className="text-sm sm:text-base text-[#51483F] leading-relaxed max-w-2xl pt-1">
+                        Full multimodal educational lecture with synchronized Whisper speech transcription, computer vision keyframe indexing, OCR code snippet extraction, and temporal disparity gap reasoning.
+                      </p>
                     </div>
 
-                    <div className="flex items-center justify-between pt-3 border-t border-white/5 text-xs font-bold text-brand-indigo group-hover:text-brand-indigo/90">
-                      <span>Open Accessibility Studio</span>
-                      <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
+                    {/* Multimodal Modality Badges */}
+                    <div className="flex flex-wrap gap-2 pt-1">
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#F4F7FA] border border-[#D5E1EC] text-xs font-semibold text-[#5B82A6]">
+                        <Volume2 className="size-3.5" /> Whisper Speech
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#F2F7F7] border border-[#D2E4E4] text-xs font-semibold text-[#5F9A9A]">
+                        <Eye className="size-3.5" /> CV Keyframes
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#F2F7F7] border border-[#D2E4E4] text-xs font-semibold text-[#5F9A9A]">
+                        <ScanEye className="size-3.5" /> OCR Code Syntax
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#FFF8F4] border border-[#E8C2B2] text-xs font-semibold text-[#B85C38]">
+                        <Network className="size-3.5" /> Cross-Modal Sync
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#FEF6EC] border border-[#F3CE9D] text-xs font-semibold text-[#B77932]">
+                        <Cpu className="size-3.5" /> Disparity Engine
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#EBF5EC] border border-[#C5E3C7] text-xs font-semibold text-[#3D6B40]">
+                        <ShieldCheck className="size-3.5" /> Non-Destructive AD
+                      </span>
+                    </div>
+
+                    {/* Metadata Telemetry Strip */}
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-3 border-t border-[#EDE2D3] text-xs font-mono">
+                      <div>
+                        <p className="text-[#7A7067] uppercase tracking-wider">Duration</p>
+                        <p className="text-sm font-bold text-[#2F2924] mt-0.5 flex items-center gap-1.5">
+                          <Clock className="size-4 text-[#8B6B52]" />
+                          {formatSeconds(featuredLecture.duration || 0)}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-[#7A7067] uppercase tracking-wider">Status</p>
+                        <p className="text-sm font-bold text-[#5F8A62] mt-0.5 flex items-center gap-1.5">
+                          <CircleCheck className="size-4" /> Ready & Indexed
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-[#7A7067] uppercase tracking-wider">Evidence Grounding</p>
+                        <p className="text-sm font-bold text-[#2F2924] mt-0.5">
+                          100% Causal Match
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </Link>
-              );
-            })}
-          </div>
-        ) : (
-          /* Secondary Ingestion Prompt Card — dark cohesive styling with high contrast text */
-          <div className="rounded-2xl border border-white/10 bg-[#0B1020]/70 p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-sm">
-            <div className="space-y-1.5 text-center sm:text-left max-w-xl">
-              <h3 className="text-base sm:text-lg font-bold text-white tracking-tight">
-                Have another lecture video to compile?
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                Upload any lecture in MP4, WebM, or MOV format to decompile speech, extract code snippets, and synthesize synchronized audio descriptions.
-              </p>
+
+                  {/* Right Action Box (5 cols) */}
+                  <div className="lg:col-span-5 flex flex-col justify-center gap-4 bg-[#FBF8F2] border border-[#DDD0C0] rounded-2xl p-6 sm:p-8">
+                    <div className="space-y-2 text-center lg:text-left">
+                      <p className="text-xs font-mono uppercase tracking-wider text-[#7A7067] font-semibold">
+                        Interactive Workspace Entry
+                      </p>
+                      <h4 className="text-lg sm:text-xl font-bold text-[#2F2924]">
+                        Enter Accessibility Studio
+                      </h4>
+                      <p className="text-xs sm:text-sm text-[#51483F] leading-relaxed">
+                        Interact with the multimodal player, verify synchronized audio descriptions, explore the Knowledge Graph, and test grounded adaptive learning.
+                      </p>
+                    </div>
+
+                    <Link href={`/lectures/${encodeURIComponent(featuredLecture.job_id)}`} className="block w-full">
+                      <Button
+                        size="lg"
+                        className="w-full gap-3 bg-[#B85C38] hover:bg-[#9F4F32] text-white font-bold text-base py-4 rounded-xl shadow-md shadow-[#B85C38]/25 transition-all hover:scale-[1.01]"
+                      >
+                        <PlayCircle className="size-5 shrink-0" />
+                        <span>Launch Accessibility Studio</span>
+                        <ArrowRight className="size-5 shrink-0" />
+                      </Button>
+                    </Link>
+
+                    <div className="flex items-center justify-between text-xs font-mono text-[#7A7067] px-1 pt-1">
+                      <span>Mode: Grounded Evidence</span>
+                      <span className="text-[#5F8A62] flex items-center gap-1 font-semibold">
+                        <Check className="size-3.5 stroke-[3]" /> Zero Hallucination
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <Link href="/upload" className="shrink-0">
-              <Button
-                variant="outline"
-                size="default"
-                className="gap-2.5 border-white/20 bg-white/5 hover:bg-brand-indigo/15 hover:border-brand-indigo/50 text-white font-semibold px-5 py-2.5 rounded-xl transition-all shadow-sm"
-              >
-                <Upload className="size-4 text-brand-indigo" />
-                <span>Open Compiler Workspace</span>
-              </Button>
-            </Link>
-          </div>
-        )}
-      </div>
+          )}
+
+          {/* SECONDARY SECTION: ADDITIONAL LECTURES */}
+          {otherLectures.length > 0 && (
+            <div className="space-y-5 pt-2">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#DDD0C0] pb-3">
+                <div className="space-y-0.5">
+                  <h2 className="text-lg sm:text-xl font-display font-bold text-[#2F2924]">
+                    Additional Processed Lectures
+                  </h2>
+                  <p className="text-xs sm:text-sm text-[#7A7067]">
+                    Explore your library of processed educational lectures.
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                {otherLectures.map((lec) => {
+                  const isReady = lec.status === "done" || lec.status === "partial";
+                  return (
+                    <Link
+                      key={lec.job_id}
+                      href={`/lectures/${encodeURIComponent(lec.job_id)}`}
+                      className="group block"
+                    >
+                      <div className="rounded-2xl bg-[#FFFDFC] border border-[#DDD0C0] shadow-xs hover:shadow-md hover:border-[#B85C38] transition-all duration-200 p-5 sm:p-6 flex flex-col justify-between gap-4 min-h-[200px]">
+                        <div className="flex items-start gap-3.5">
+                          <div className="size-11 rounded-xl bg-[#FFF8F4] border border-[#E8C2B2] flex items-center justify-center text-[#B85C38] group-hover:scale-105 transition-transform shrink-0 shadow-xs">
+                            <FileVideo className="size-5" />
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <h3 className="text-base sm:text-lg font-bold text-[#2F2924] truncate group-hover:text-[#B85C38] transition-colors">
+                              {lec.filename || lec.job_id}
+                            </h3>
+                            <p className="text-xs font-mono text-[#7A7067] mt-0.5">
+                              Job ID: {lec.job_id}
+                            </p>
+                            <div className="flex items-center gap-3 mt-2 text-xs font-mono text-[#51483F]">
+                              <span className="inline-flex items-center gap-1 font-semibold">
+                                <Clock className="size-3.5 text-[#8B6B52]" />
+                                {formatSeconds(lec.duration || 0)}
+                              </span>
+                              <span>·</span>
+                              {isReady ? (
+                                <span className="text-[#5F8A62] font-semibold flex items-center gap-1">
+                                  <CircleCheck className="size-3.5" /> Ready
+                                </span>
+                              ) : (
+                                <span className="text-[#B77932] font-semibold flex items-center gap-1">
+                                  <CircleX className="size-3.5" /> {lec.status}
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center justify-between pt-3 border-t border-[#EDE2D3] text-xs font-bold text-[#B85C38] group-hover:text-[#9F4F32]">
+                          <span>Open Accessibility Studio</span>
+                          <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
+                        </div>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 }

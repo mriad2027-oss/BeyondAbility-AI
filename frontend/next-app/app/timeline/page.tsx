@@ -17,9 +17,13 @@ function TimelineRedirectBody() {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    const job = searchParams.get("job") || searchParams.get("jobId") || "DEMO_python_loops";
-    router.replace(`/lectures/${encodeURIComponent(job)}?tab=timeline`);
+    const job = searchParams.get("job") || searchParams.get("jobId");
+    if (job) {
+      router.replace(`/lectures/${encodeURIComponent(job)}?tab=timeline`);
+    } else {
+      router.replace("/lectures");
+    }
   }, [router, searchParams]);
 
-  return <PageLoader label="Redirecting to Accessibility Workspace (Timeline)..." />;
+  return <PageLoader label="Opening Visual Timeline..." />;
 }

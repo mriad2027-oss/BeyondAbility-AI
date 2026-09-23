@@ -17,9 +17,13 @@ function MissingRedirectBody() {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    const job = searchParams.get("job") || searchParams.get("jobId") || "DEMO_python_loops";
-    router.replace(`/lectures/${encodeURIComponent(job)}?tab=missing`);
+    const job = searchParams.get("job") || searchParams.get("jobId");
+    if (job) {
+      router.replace(`/lectures/${encodeURIComponent(job)}?tab=missing`);
+    } else {
+      router.replace("/lectures");
+    }
   }, [router, searchParams]);
 
-  return <PageLoader label="Redirecting to Accessibility Workspace (What Am I Missing?)..." />;
+  return <PageLoader label="Opening Gap Reasoning Chain..." />;
 }

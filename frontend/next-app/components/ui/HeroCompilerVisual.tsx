@@ -54,13 +54,13 @@ export const COMPILER_STAGES: CompilerPipelineStage[] = [
     subtitle: "MP4 Ingestion & Frame Demuxing",
     category: "input",
     icon: Video,
-    color: "from-rose-500/20 to-pink-600/20 border-rose-500/40 text-rose-400",
-    glow: "rgba(220, 38, 38, 0.2)",
-    ring: "ring-rose-500/30",
-    textColor: "text-rose-400",
+    color: "from-[#B94A48]/20 to-[#9F4F32]/20 border-[#B94A48]/40 text-[#E8C2B2]",
+    glow: "rgba(185, 74, 72, 0.2)",
+    ring: "ring-[#B94A48]/30",
+    textColor: "text-[#E8C2B2]",
     pulseClass: "pulse-critical",
     telemetry: {
-      title: "Input Lecture Stream: DEMO_python_loops",
+      title: "Input Stream: sample_lecture.mp4",
       timestamp: "00:00.0 → 00:54.0",
       metrics: "1080p · 30 FPS · Stereo 44.1kHz",
       detail: "Demuxed 54.0s Python Loops lecture with synchronized stereo audio & 30fps frames.",
@@ -73,10 +73,10 @@ export const COMPILER_STAGES: CompilerPipelineStage[] = [
     subtitle: "Timestamped Speech Tokens",
     category: "decompile",
     icon: Mic,
-    color: "from-blue-500/20 to-indigo-600/20 border-blue-500/40 text-blue-400",
-    glow: "rgba(59, 130, 246, 0.2)",
-    ring: "ring-blue-500/30",
-    textColor: "text-blue-400",
+    color: "from-[#5B82A6]/20 to-[#466B8A]/20 border-[#5B82A6]/40 text-[#8DB4D6]",
+    glow: "rgba(91, 130, 166, 0.2)",
+    ring: "ring-[#5B82A6]/30",
+    textColor: "text-[#8DB4D6]",
     pulseClass: "pulse-speech",
     telemetry: {
       title: "Whisper STT Acoustic Model",
@@ -93,10 +93,10 @@ export const COMPILER_STAGES: CompilerPipelineStage[] = [
     subtitle: "Keyframe Detection & Slide Segments",
     category: "decompile",
     icon: Eye,
-    color: "from-sky-500/20 to-cyan-600/20 border-sky-500/40 text-sky-400",
-    glow: "rgba(14, 165, 233, 0.2)",
-    ring: "ring-sky-500/30",
-    textColor: "text-sky-400",
+    color: "from-[#5F9A9A]/20 to-[#46716F]/20 border-[#5F9A9A]/40 text-[#8EC5C5]",
+    glow: "rgba(95, 154, 154, 0.2)",
+    ring: "ring-[#5F9A9A]/30",
+    textColor: "text-[#8EC5C5]",
     pulseClass: "pulse-vision",
     telemetry: {
       title: "Keyframe Segmentation Engine",
@@ -112,10 +112,10 @@ export const COMPILER_STAGES: CompilerPipelineStage[] = [
     subtitle: "Tesseract Code & Diagram OCR",
     category: "decompile",
     icon: ScanText,
-    color: "from-cyan-500/20 to-teal-600/20 border-cyan-500/40 text-cyan-400",
-    glow: "rgba(14, 165, 233, 0.25)",
-    ring: "ring-cyan-500/30",
-    textColor: "text-cyan-400",
+    color: "from-[#5F9A9A]/20 to-[#5B82A6]/20 border-[#5F9A9A]/40 text-[#8EC5C5]",
+    glow: "rgba(95, 154, 154, 0.25)",
+    ring: "ring-[#5F9A9A]/30",
+    textColor: "text-[#8EC5C5]",
     pulseClass: "pulse-vision",
     telemetry: {
       title: "Extracted Code Syntax Block",
@@ -132,10 +132,10 @@ export const COMPILER_STAGES: CompilerPipelineStage[] = [
     subtitle: "Temporal Synchronization Matrix",
     category: "alignment",
     icon: GitCompareArrows,
-    color: "from-indigo-500/20 to-violet-600/20 border-indigo-500/40 text-indigo-400",
-    glow: "rgba(108, 79, 247, 0.25)",
-    ring: "ring-indigo-500/30",
-    textColor: "text-indigo-400",
+    color: "from-[#B85C38]/20 to-[#9F4F32]/20 border-[#B85C38]/40 text-[#E8C2B2]",
+    glow: "rgba(184, 92, 56, 0.25)",
+    ring: "ring-[#B85C38]/30",
+    textColor: "text-[#E8C2B2]",
     pulseClass: "pulse-ai",
     telemetry: {
       title: "Temporal Sync Matrix",
@@ -151,10 +151,10 @@ export const COMPILER_STAGES: CompilerPipelineStage[] = [
     subtitle: "Shown vs Spoken Comparison",
     category: "reasoning",
     icon: Cpu,
-    color: "from-violet-500/20 to-purple-600/20 border-violet-500/40 text-violet-400",
-    glow: "rgba(124, 58, 237, 0.25)",
-    ring: "ring-violet-500/30",
-    textColor: "text-violet-400",
+    color: "from-[#6C63A8]/20 to-[#554F86]/20 border-[#6C63A8]/40 text-[#AAA4D1]",
+    glow: "rgba(108, 99, 168, 0.25)",
+    ring: "ring-[#6C63A8]/30",
+    textColor: "text-[#AAA4D1]",
     pulseClass: "pulse-ai",
     telemetry: {
       title: "Cross-Modal Disparity Analysis",
@@ -170,10 +170,10 @@ export const COMPILER_STAGES: CompilerPipelineStage[] = [
     subtitle: "Critical Accessibility Gap Flagged",
     category: "reasoning",
     icon: AlertTriangle,
-    color: "from-amber-500/20 to-orange-600/20 border-amber-500/40 text-amber-400",
-    glow: "rgba(217, 119, 6, 0.25)",
-    ring: "ring-amber-500/30",
-    textColor: "text-amber-400",
+    color: "from-[#B77932]/20 to-[#8A5A25]/20 border-[#B77932]/40 text-[#E6AA68]",
+    glow: "rgba(183, 121, 50, 0.25)",
+    ring: "ring-[#B77932]/30",
+    textColor: "text-[#E6AA68]",
     pulseClass: "pulse-gap",
     telemetry: {
       title: "Accessibility Gap #03 Flagged",
@@ -189,10 +189,10 @@ export const COMPILER_STAGES: CompilerPipelineStage[] = [
     subtitle: "Non-Destructive Dual Audio",
     category: "remediation",
     icon: Volume2,
-    color: "from-emerald-500/20 to-teal-600/20 border-emerald-500/40 text-emerald-400",
-    glow: "rgba(22, 163, 74, 0.25)",
-    ring: "ring-emerald-500/30",
-    textColor: "text-emerald-400",
+    color: "from-[#5F8A62]/20 to-[#416A47]/20 border-[#5F8A62]/40 text-[#8FC493]",
+    glow: "rgba(95, 138, 98, 0.25)",
+    ring: "ring-[#5F8A62]/30",
+    textColor: "text-[#8FC493]",
     pulseClass: "pulse-verified",
     telemetry: {
       title: "Synthesized Audio Description Cue #03",
@@ -209,10 +209,10 @@ export const COMPILER_STAGES: CompilerPipelineStage[] = [
     subtitle: "Compiled Structured Representation",
     category: "twin",
     icon: BrainCircuit,
-    color: "from-indigo-600/20 to-brand-indigo/30 border-brand-indigo/50 text-indigo-300",
-    glow: "rgba(108, 79, 247, 0.35)",
-    ring: "ring-brand-indigo/40",
-    textColor: "text-indigo-300",
+    color: "from-[#B85C38]/25 to-[#6C63A8]/25 border-[#B85C38]/50 text-[#E8C2B2]",
+    glow: "rgba(184, 92, 56, 0.3)",
+    ring: "ring-[#B85C38]/40",
+    textColor: "text-[#E8C2B2]",
     pulseClass: "pulse-ai",
     telemetry: {
       title: "Compiled Accessibility Twin Model",
@@ -226,7 +226,6 @@ export const COMPILER_STAGES: CompilerPipelineStage[] = [
 export default function HeroCompilerVisual() {
   const [activeIdx, setActiveIdx] = useState<number>(0);
   const [isAutoCycling, setIsAutoCycling] = useState<boolean>(true);
-  const [playbackTime, setPlaybackTime] = useState<number>(26.0);
 
   useEffect(() => {
     if (!isAutoCycling) return;
@@ -243,9 +242,9 @@ export default function HeroCompilerVisual() {
     <div
       onMouseEnter={() => setIsAutoCycling(false)}
       onMouseLeave={() => setIsAutoCycling(true)}
-      className="scientific-lens relative w-full overflow-hidden p-4 sm:p-6 text-white select-none transition-all duration-500"
+      className="scientific-lens relative w-full overflow-hidden p-4 sm:p-6 text-[#FFF8F0] select-none transition-all duration-500"
       style={{
-        boxShadow: `0 20px 50px rgba(0, 0, 0, 0.6), 0 0 40px ${active.glow}`,
+        boxShadow: `0 20px 45px rgba(63, 53, 46, 0.22), 0 0 30px ${active.glow}`,
       }}
     >
       {/* Background Matrix Grid */}
@@ -254,7 +253,7 @@ export default function HeroCompilerVisual() {
         aria-hidden
         style={{
           backgroundImage:
-            "linear-gradient(to right, rgba(108,79,247,0.2) 1px, transparent 1px), linear-gradient(to bottom, rgba(108,79,247,0.2) 1px, transparent 1px)",
+            "linear-gradient(to right, rgba(232,194,178,0.15) 1px, transparent 1px), linear-gradient(to bottom, rgba(232,194,178,0.15) 1px, transparent 1px)",
           backgroundSize: "24px 24px",
         }}
       />
@@ -267,21 +266,21 @@ export default function HeroCompilerVisual() {
       />
 
       {/* Top Header: System Instrument Bar */}
-      <div className="relative flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3.5">
+      <div className="relative flex flex-wrap items-center justify-between gap-3 border-b border-[#6F4E37] pb-3.5">
         <div className="flex items-center gap-3">
-          <div className="flex size-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-indigo to-brand-blue text-white shadow-md shadow-brand-indigo/40">
+          <div className="flex size-9 items-center justify-center rounded-xl bg-gradient-to-br from-[#B85C38] to-[#6C63A8] text-white shadow-sm shadow-[#B85C38]/40">
             <Cpu className="size-5 animate-pulse" />
           </div>
           <div>
             <div className="flex items-center gap-2.5">
-              <h3 className="font-display text-[14.5px] font-bold tracking-tight text-white">
+              <h3 className="font-display text-[14.5px] font-bold tracking-tight text-[#FFF8F0]">
                 EDUACCESS COMPILER CORE
               </h3>
-              <span className="rounded-full bg-emerald-500/15 border border-emerald-500/40 px-2.5 py-0.5 text-[10px] font-mono font-bold text-emerald-300 uppercase tracking-wider">
+              <span className="rounded-full bg-[#5F8A62]/20 border border-[#5F8A62]/40 px-2.5 py-0.5 text-[10px] font-mono font-bold text-[#8FC493] uppercase tracking-wider">
                 LIVE COMPILING
               </span>
             </div>
-            <p className="text-[11px] font-mono text-slate-300">
+            <p className="text-[11px] font-mono text-[#E8DCD1]">
               Deterministic Video Ingestion → Multimodal Reasoning → Accessible Twin
             </p>
           </div>
@@ -293,10 +292,10 @@ export default function HeroCompilerVisual() {
             type="button"
             onClick={() => setIsAutoCycling(!isAutoCycling)}
             className={cn(
-              "inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-[11px] font-mono font-bold border transition",
+              "inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-[11px] font-mono font-bold border transition cursor-pointer",
               isAutoCycling
-                ? "border-emerald-500/40 bg-emerald-500/15 text-emerald-300"
-                : "border-slate-700 bg-slate-800 text-slate-300"
+                ? "border-[#5F8A62]/40 bg-[#5F8A62]/20 text-[#8FC493]"
+                : "border-[#6F4E37] bg-[#3F352E] text-[#E8DCD1]"
             )}
             title="Toggle automatic stage progression"
           >
@@ -304,16 +303,16 @@ export default function HeroCompilerVisual() {
             <span>{isAutoCycling ? "AUTO" : "PAUSED"}</span>
           </button>
 
-          <span className="font-mono text-xs text-slate-300 font-semibold">
-            <span className="text-brand-indigo font-bold text-sm">{active.step}</span>
-            <span className="text-slate-500 mx-1">/</span>
+          <span className="font-mono text-xs text-[#E8DCD1] font-semibold">
+            <span className="text-[#B85C38] font-bold text-sm">{active.step}</span>
+            <span className="text-[#8B6B52] mx-1">/</span>
             <span>09</span>
           </span>
         </div>
       </div>
 
       {/* Interactive Horizontal Pipeline Stage Selector (9 Stages) */}
-      <div className="relative mt-3.5 grid grid-cols-9 gap-1.5 p-1.5 rounded-xl bg-slate-950 border border-slate-800">
+      <div className="relative mt-3.5 grid grid-cols-9 gap-1.5 p-1.5 rounded-xl bg-[#2E2620] border border-[#6F4E37]">
         {COMPILER_STAGES.map((st, i) => {
           const Icon = st.icon;
           const isCurrent = i === activeIdx;
@@ -328,12 +327,12 @@ export default function HeroCompilerVisual() {
                 setIsAutoCycling(false);
               }}
               className={cn(
-                "relative flex flex-col items-center justify-center py-2 px-1 rounded-lg transition-all duration-300 group",
+                "relative flex flex-col items-center justify-center py-2 px-1 rounded-lg transition-all duration-300 group cursor-pointer",
                 isCurrent
-                  ? "bg-brand-indigo text-white shadow-md shadow-brand-indigo/40 scale-[1.04] z-10"
+                  ? "bg-[#B85C38] text-white shadow-sm scale-[1.04] z-10 font-bold"
                   : isPassed
-                  ? "bg-slate-900 text-emerald-400 hover:bg-slate-800"
-                  : "bg-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-900"
+                  ? "bg-[#3F352E] text-[#8FC493] hover:bg-[#51483F]"
+                  : "bg-transparent text-[#AAB09A] hover:text-[#FFF8F0] hover:bg-[#3F352E]"
               )}
               title={`${st.step}. ${st.label}`}
             >
@@ -349,57 +348,57 @@ export default function HeroCompilerVisual() {
       {/* Central Interactive Laboratory Workbench */}
       <div className="relative mt-4 grid gap-4 lg:grid-cols-12 items-stretch">
         {/* Left: Video / Modality Frame Simulation (5 cols) */}
-        <div className="lg:col-span-5 flex flex-col rounded-2xl border border-slate-800 bg-slate-950 p-4 space-y-3">
-          <div className="flex items-center justify-between text-xs font-mono text-slate-300">
-            <span className="flex items-center gap-1.5 text-slate-200 font-semibold">
-              <span className="size-2 rounded-full bg-rose-500 animate-ping" />
-              DEMO_python_loops.mp4
+        <div className="lg:col-span-5 flex flex-col rounded-2xl border border-[#6F4E37] bg-[#2E2620] p-4 space-y-3">
+          <div className="flex items-center justify-between text-xs font-mono text-[#E8DCD1]">
+            <span className="flex items-center gap-1.5 text-[#FFF8F0] font-semibold">
+              <span className="size-2 rounded-full bg-[#B94A48] animate-ping" />
+              sample_lecture.mp4
             </span>
-            <span className="text-sky-300 font-bold">00:26.0s</span>
+            <span className="text-[#8DB4D6] font-bold">00:26.0s</span>
           </div>
 
           {/* Simulated Video Slide Canvas with OCR Overlay */}
-          <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-slate-800 bg-[#080C1A] flex flex-col justify-between p-3.5 font-mono">
+          <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-[#51483F] bg-[#241E1A] flex flex-col justify-between p-3.5 font-mono">
             {/* Slide title */}
             <div className="flex items-center justify-between">
-              <span className="text-[11px] text-slate-300 font-bold tracking-wider uppercase">
+              <span className="text-[11px] text-[#E8DCD1] font-bold tracking-wider uppercase">
                 PYTHON 3.10 · FOR LOOPS
               </span>
-              <span className="rounded bg-indigo-500/25 border border-indigo-500/40 px-2 py-0.5 text-[9.5px] font-bold text-indigo-200">
+              <span className="rounded bg-[#6C63A8]/30 border border-[#6C63A8]/50 px-2 py-0.5 text-[9.5px] font-bold text-[#AAA4D1]">
                 KEYFRAME #04
               </span>
             </div>
 
             {/* Code Block in Slide */}
-            <div className="rounded-lg bg-black/90 border border-slate-800 p-2.5 text-[11px] sm:text-xs text-emerald-400 leading-relaxed font-mono">
-              <div className="text-slate-400"># Iterating over sequence</div>
+            <div className="rounded-lg bg-[#1A1512] border border-[#51483F] p-2.5 text-[11px] sm:text-xs text-[#A7D8A9] leading-relaxed font-mono">
+              <div className="text-[#AAB09A]"># Iterating over sequence</div>
               <div>fruits = [&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;]</div>
-              <div className="text-amber-300 font-bold">for fruit in fruits:</div>
-              <div className="pl-3 text-sky-300 font-semibold">print(fruit)</div>
+              <div className="text-[#E6AA68] font-bold">for fruit in fruits:</div>
+              <div className="pl-3 text-[#8DB4D6] font-semibold">print(fruit)</div>
             </div>
 
             {/* Bottom active audio description overlay strip */}
-            <div className="rounded-lg bg-emerald-950/90 border border-emerald-500/40 px-2.5 py-1.5 text-[10px] text-emerald-200 flex items-center justify-between font-semibold">
+            <div className="rounded-lg bg-[#5F8A62]/25 border border-[#5F8A62]/40 px-2.5 py-1.5 text-[10px] text-[#8FC493] flex items-center justify-between font-semibold">
               <span className="flex items-center gap-1.5 truncate">
-                <Volume2 className="size-3 shrink-0 text-emerald-300" />
+                <Volume2 className="size-3 shrink-0 text-[#8FC493]" />
                 AD #03: &ldquo;for fruit in fruits colon, print fruit&rdquo;
               </span>
-              <span className="font-bold text-[9px] text-emerald-400 shrink-0 bg-emerald-900/60 px-1.5 py-0.5 rounded">
+              <span className="font-bold text-[9px] text-[#8FC493] shrink-0 bg-[#5F8A62]/30 px-1.5 py-0.5 rounded">
                 ACTIVE
               </span>
             </div>
           </div>
 
           {/* Modality Stream Waveform Indicator */}
-          <div className="flex items-center justify-between px-1 text-[11px] font-mono text-slate-300">
-            <span className="flex items-center gap-1.5 font-semibold text-slate-200">
-              <Mic className="size-3.5 text-blue-400" /> Speech Stream
+          <div className="flex items-center justify-between px-1 text-[11px] font-mono text-[#E8DCD1]">
+            <span className="flex items-center gap-1.5 font-semibold text-[#FFF8F0]">
+              <Mic className="size-3.5 text-[#8DB4D6]" /> Speech Stream
             </span>
             <div className="flex items-center gap-1">
               {[35, 60, 20, 85, 45, 95, 30, 70, 40, 80, 50, 90, 25, 65].map((h, idx) => (
                 <span
                   key={idx}
-                  className="inline-block w-1 rounded-full bg-blue-400 transition-all duration-300"
+                  className="inline-block w-1 rounded-full bg-[#5B82A6] transition-all duration-300"
                   style={{ height: `${(h / 100) * 16}px` }}
                 />
               ))}
@@ -408,23 +407,23 @@ export default function HeroCompilerVisual() {
         </div>
 
         {/* Right: Active Stage Telemetry & Deep Grounding (7 cols) */}
-        <div className="lg:col-span-7 flex flex-col justify-between rounded-2xl border border-slate-800 bg-slate-950 p-4 space-y-3.5">
+        <div className="lg:col-span-7 flex flex-col justify-between rounded-2xl border border-[#6F4E37] bg-[#2E2620] p-4 space-y-3.5">
           {/* Active Stage Header */}
-          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#6F4E37] pb-3">
             <div className="flex items-center gap-3">
               <span
                 className={cn(
-                  "flex size-9 items-center justify-center rounded-xl border bg-gradient-to-br text-white shadow-md",
+                  "flex size-9 items-center justify-center rounded-xl border bg-gradient-to-br text-white shadow-xs",
                   active.color
                 )}
               >
                 <ActiveIcon className="size-4.5" />
               </span>
               <div>
-                <p className="text-sm font-bold text-white leading-tight">
+                <p className="text-sm font-bold text-[#FFF8F0] leading-tight">
                   {active.label}
                 </p>
-                <p className="text-[11px] text-slate-300 font-mono mt-0.5">{active.subtitle}</p>
+                <p className="text-[11px] text-[#E8DCD1] font-mono mt-0.5">{active.subtitle}</p>
               </div>
             </div>
 
@@ -434,48 +433,48 @@ export default function HeroCompilerVisual() {
           </div>
 
           {/* Telemetry Live Feed Block */}
-          <div className="rounded-xl border border-slate-800 bg-black/70 p-3.5 font-mono text-xs space-y-2.5 flex-1 flex flex-col justify-center">
+          <div className="rounded-xl border border-[#6F4E37] bg-[#241E1A] p-3.5 font-mono text-xs space-y-2.5 flex-1 flex flex-col justify-center">
             <div className="flex items-center justify-between text-[11px]">
-              <span className="flex items-center gap-2 text-brand-cyan font-bold">
-                <Activity className="size-3.5 text-brand-cyan animate-pulse" />
+              <span className="flex items-center gap-2 text-[#8EC5C5] font-bold">
+                <Activity className="size-3.5 text-[#8EC5C5] animate-pulse" />
                 {active.telemetry.title}
               </span>
-              <span className="text-emerald-400 font-bold">
+              <span className="text-[#8FC493] font-bold">
                 {active.telemetry.metrics}
               </span>
             </div>
 
             {/* Dynamic Content: Spoken Transcript, Extracted Code, or Narration Action */}
             {active.telemetry.spoken && (
-              <div className="rounded-lg bg-blue-950/40 border border-blue-500/30 p-2.5 text-blue-100 text-xs leading-relaxed italic">
+              <div className="rounded-lg bg-[#5B82A6]/15 border border-[#5B82A6]/30 p-2.5 text-[#8DB4D6] text-xs leading-relaxed italic">
                 {active.telemetry.spoken}
               </div>
             )}
 
             {active.telemetry.code && (
-              <div className="rounded-lg bg-black border border-slate-800 p-3 text-emerald-400 text-[11.5px] leading-relaxed whitespace-pre font-mono font-semibold">
+              <div className="rounded-lg bg-[#1A1512] border border-[#51483F] p-3 text-[#A7D8A9] text-[11.5px] leading-relaxed whitespace-pre font-mono font-semibold">
                 {active.telemetry.code}
               </div>
             )}
 
             {active.telemetry.action && (
-              <div className="rounded-lg bg-emerald-950/50 border border-emerald-500/40 p-2.5 text-emerald-200 text-xs leading-relaxed font-semibold">
+              <div className="rounded-lg bg-[#5F8A62]/20 border border-[#5F8A62]/40 p-2.5 text-[#8FC493] text-xs leading-relaxed font-semibold">
                 {active.telemetry.action}
               </div>
             )}
 
-            <p className="text-slate-200 text-xs leading-relaxed font-sans">
+            <p className="text-[#E8DCD1] text-xs leading-relaxed font-sans">
               {active.telemetry.detail}
             </p>
           </div>
 
           {/* Grounding & Causality Footer */}
-          <div className="flex items-center justify-between pt-2.5 border-t border-slate-800 text-[11px] text-slate-300 font-mono">
-            <span className="flex items-center gap-1.5 text-emerald-400 font-bold">
+          <div className="flex items-center justify-between pt-2.5 border-t border-[#6F4E37] text-[11px] text-[#E8DCD1] font-mono">
+            <span className="flex items-center gap-1.5 text-[#8FC493] font-bold">
               <ShieldCheck className="size-4" />
               Verified in Ground Truth Media
             </span>
-            <span className="text-slate-400 font-semibold">{active.telemetry.timestamp}</span>
+            <span className="text-[#AAB09A] font-semibold">{active.telemetry.timestamp}</span>
           </div>
         </div>
       </div>

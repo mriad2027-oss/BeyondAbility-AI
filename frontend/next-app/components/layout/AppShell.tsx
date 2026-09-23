@@ -113,19 +113,19 @@ function localize(value: string, dir: Direction) {
 function LogoMark({ small = false, dir = "ltr" }: { small?: boolean; dir?: Direction }) {
   if (small) {
     return (
-      <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-brand-indigo via-brand-indigo to-brand-blue text-white shadow-sm shadow-brand-indigo/25">
+      <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#B85C38] via-[#B85C38] to-[#6C63A8] text-white shadow-sm shadow-[#B85C38]/20">
         <Accessibility className="size-[18px]" aria-hidden />
       </div>
     );
   }
   return (
     <div className="flex flex-col items-center gap-1">
-      <div className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-indigo via-brand-indigo to-brand-blue text-white shadow-sm shadow-brand-indigo/30 relative">
+      <div className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#B85C38] via-[#B85C38] to-[#6C63A8] text-white shadow-sm shadow-[#B85C38]/25 relative">
         <Accessibility className="size-5.5" aria-hidden />
-        <span className="absolute -bottom-1 -right-1 size-2.5 rounded-full bg-emerald-500 ring-2 ring-white" aria-hidden />
+        <span className="absolute -bottom-1 -right-1 size-2.5 rounded-full bg-[#5F8A62] ring-2 ring-[#FFFDFC]" aria-hidden />
       </div>
       <div className="leading-tight text-center hidden group-hover:block">
-        <p className="text-[13px] font-bold tracking-tight text-slate-900 whitespace-nowrap">
+        <p className="text-[13px] font-bold tracking-tight text-[#2F2924] whitespace-nowrap">
           EduAccess <span className="gradient-text">AI</span>
         </p>
       </div>
@@ -134,7 +134,7 @@ function LogoMark({ small = false, dir = "ltr" }: { small?: boolean; dir?: Direc
 }
 
 function getCurrentCrumb(pathname: string, dir: Direction): string {
-  const match = PRIMARY_NAV.find(n =>
+  const match = PRIMARY_NAV.find((n) =>
     n.exact ? pathname === n.href : pathname.startsWith(n.href)
   );
   if (!match) return localize("Overview", dir);
@@ -167,16 +167,19 @@ function SlimSidebar({
     cognitive: BrainCircuit,
   }[profileMode];
   const profileLabel = {
-    standard: "Standard", blind: "Blind", lv: "Low Vision",
-    deaf: "Deaf/HoH", cognitive: "Cognitive",
+    standard: "Standard",
+    blind: "Blind",
+    lv: "Low Vision",
+    deaf: "Deaf/HoH",
+    cognitive: "Cognitive",
   }[profileMode];
 
   return (
     <aside
       className={cn(
-        "fixed inset-y-0 z-40 hidden lg:flex flex-col items-center py-5 border-[#1E294B] bg-[#080B18]/95 backdrop-blur text-slate-300 transition-all duration-300 ease-out group shadow-2xl",
+        "fixed inset-y-0 z-40 hidden lg:flex flex-col items-center py-5 border-[#E3D8CB] bg-[#FBF8F2]/95 backdrop-blur-md text-[#51483F] transition-all duration-300 ease-out group shadow-sm",
         dir === "rtl" ? "right-0 border-l" : "left-0 border-r",
-        hovered ? (dir === "rtl" ? "w-60" : "w-60") : "w-[68px]"
+        hovered ? "w-60" : "w-[68px]"
       )}
       dir={dir}
       onMouseEnter={() => setHovered(true)}
@@ -186,7 +189,7 @@ function SlimSidebar({
         <div className="flex flex-col items-center gap-1.5">
           <LogoMark dir={dir} />
           {hovered && (
-            <p className="meta-label !text-indigo-400 hidden group-hover:block whitespace-nowrap mt-1">
+            <p className="meta-label !text-[#B85C38] hidden group-hover:block whitespace-nowrap mt-1 font-bold">
               {localize("The Accessibility Compiler", dir)}
             </p>
           )}
@@ -196,7 +199,7 @@ function SlimSidebar({
           {hovered && (
             <div className="w-full px-3 mb-1">
               <div className="section-rail-left">
-                <span className="section-rail-label !text-slate-400">{localize("Navigation", dir)}</span>
+                <span className="section-rail-label !text-[#7A7067]">{localize("Navigation", dir)}</span>
               </div>
             </div>
           )}
@@ -214,25 +217,36 @@ function SlimSidebar({
                   aria-current={active ? "page" : undefined}
                   aria-label={localize(item.label, dir)}
                   className={cn(
-                    "flex items-center rounded-xl transition-all w-full",
+                    "flex items-center rounded-xl transition-all w-full cursor-pointer",
                     hovered
                       ? active
-                        ? "bg-brand-indigo/20 text-white ring-1 ring-brand-indigo/40 px-3 py-2 text-sm font-semibold shadow-sm"
-                        : "text-slate-400 hover:text-white hover:bg-white/5 px-3 py-2 text-sm font-medium"
+                        ? "bg-[#B85C38]/10 text-[#B85C38] ring-1 ring-[#B85C38]/30 px-3 py-2 text-sm font-bold shadow-xs"
+                        : "text-[#51483F] hover:text-[#2F2924] hover:bg-[#F1E8DC] px-3 py-2 text-sm font-medium"
                       : active
-                        ? "size-10 rounded-xl bg-brand-indigo/25 text-white ring-1 ring-brand-indigo/40 flex items-center justify-center mx-auto shadow-sm"
-                        : "size-10 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 flex items-center justify-center mx-auto",
+                        ? "size-10 rounded-xl bg-[#B85C38]/10 text-[#B85C38] ring-1 ring-[#B85C38]/30 flex items-center justify-center mx-auto shadow-xs"
+                        : "size-10 rounded-xl text-[#7A7067] hover:text-[#2F2924] hover:bg-[#F1E8DC] flex items-center justify-center mx-auto"
                   )}
                   title={!hovered ? localize(item.label, dir) : undefined}
                 >
-                  <Icon className={cn("shrink-0", hovered ? "size-[18px]" : "size-[19px]", active ? "text-brand-cyan" : "text-slate-400")} aria-hidden />
+                  <Icon
+                    className={cn(
+                      "shrink-0",
+                      hovered ? "size-[18px]" : "size-[19px]",
+                      active ? "text-[#B85C38]" : "text-[#7A7067]"
+                    )}
+                    aria-hidden
+                  />
                   {hovered && (
                     <span className="whitespace-nowrap ml-2.5">{localize(item.label, dir)}</span>
                   )}
                   {hovered && active && (
-                    <ChevronRight className={cn(
-                      "ml-auto size-3.5 text-brand-cyan", dir === "rtl" && "rotate-180"
-                    )} aria-hidden />
+                    <ChevronRight
+                      className={cn(
+                        "ml-auto size-3.5 text-[#B85C38]",
+                        dir === "rtl" && "rotate-180"
+                      )}
+                      aria-hidden
+                    />
                   )}
                 </a>
               </div>
@@ -243,9 +257,9 @@ function SlimSidebar({
         <div className="mt-auto flex flex-col items-center gap-4 w-full">
           {hovered && (
             <div className="w-full px-3">
-              <div className="rounded-xl bg-[#0D1224] border border-[#1E294B] p-3 shadow-surface">
-                <div className="mb-2 flex items-center gap-1.5 text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">
-                  <Sparkles className="size-3 text-amber-400" aria-hidden />
+              <div className="rounded-xl bg-[#FFFDFC] border border-[#E4D9CC] p-3 shadow-surface">
+                <div className="mb-2 flex items-center gap-1.5 text-[10px] font-mono font-bold uppercase tracking-wider text-[#7A7067]">
+                  <Sparkles className="size-3 text-[#C49A5A]" aria-hidden />
                   {localize("Accessibility mode", dir)}
                 </div>
                 <div className="flex gap-1 mb-2">
@@ -253,10 +267,10 @@ function SlimSidebar({
                     onClick={() => setLanguage("en")}
                     aria-pressed={dir === "ltr"}
                     className={cn(
-                      "flex-1 rounded-lg px-2 py-1 text-[10px] font-semibold transition",
+                      "flex-1 rounded-lg px-2 py-1 text-[10px] font-bold transition cursor-pointer",
                       dir === "ltr"
-                        ? "bg-brand-indigo text-white"
-                        : "bg-white/5 text-slate-400 ring-1 ring-white/10 hover:text-white"
+                        ? "bg-[#B85C38] text-white shadow-xs"
+                        : "bg-[#F1E8DC] text-[#51483F] border border-[#DDD0C0] hover:bg-[#EDE2D3]"
                     )}
                   >
                     EN
@@ -265,10 +279,10 @@ function SlimSidebar({
                     onClick={() => setLanguage("ar")}
                     aria-pressed={dir === "rtl"}
                     className={cn(
-                      "flex-1 rounded-lg px-2 py-1 text-[10px] font-semibold transition",
+                      "flex-1 rounded-lg px-2 py-1 text-[10px] font-bold transition cursor-pointer",
                       dir === "rtl"
-                        ? "bg-brand-indigo text-white"
-                        : "bg-white/5 text-slate-400 ring-1 ring-white/10 hover:text-white"
+                        ? "bg-[#B85C38] text-white shadow-xs"
+                        : "bg-[#F1E8DC] text-[#51483F] border border-[#DDD0C0] hover:bg-[#EDE2D3]"
                     )}
                     lang="ar"
                   >
@@ -282,29 +296,50 @@ function SlimSidebar({
           <div className="flex flex-col items-center gap-1.5 pb-2 w-full px-2">
             <button
               aria-label={profileLabel}
-              onClick={() => setProfileMode(m =>
-                m === "standard" ? "blind" : m === "blind" ? "lv" : m === "lv" ? "deaf" : m === "deaf" ? "cognitive" : "standard"
-              )}
+              onClick={() =>
+                setProfileMode((m) =>
+                  m === "standard"
+                    ? "blind"
+                    : m === "blind"
+                    ? "lv"
+                    : m === "lv"
+                    ? "deaf"
+                    : m === "deaf"
+                    ? "cognitive"
+                    : "standard"
+                )
+              }
               className={cn(
-                "relative flex items-center rounded-xl transition-all w-full",
-                hovered
-                  ? "nav-rail-item"
-                  : "slim-nav-icon mx-auto"
+                "relative flex items-center rounded-xl transition-all w-full cursor-pointer",
+                hovered ? "nav-rail-item" : "slim-nav-icon mx-auto"
               )}
             >
-              <Circle aria-hidden className={cn("shrink-0 absolute -top-0.5 -right-0.5 size-3",
-                profileMode === "standard" ? "text-brand-indigo" :
-                profileMode === "blind" ? "text-brand-cyan" :
-                profileMode === "lv" ? "text-brand-blue" :
-                profileMode === "deaf" ? "text-brand-amber" : "text-brand-emerald"
-              )} style={{ fill: "currentColor" }} />
+              <Circle
+                aria-hidden
+                className={cn(
+                  "shrink-0 absolute -top-0.5 -right-0.5 size-3",
+                  profileMode === "standard"
+                    ? "text-[#B85C38]"
+                    : profileMode === "blind"
+                    ? "text-[#5B82A6]"
+                    : profileMode === "lv"
+                    ? "text-[#5F9A9A]"
+                    : profileMode === "deaf"
+                    ? "text-[#B77932]"
+                    : "text-[#5F8A62]"
+                )}
+                style={{ fill: "currentColor" }}
+              />
               {React.createElement(profileIcon, {
-                className: cn("shrink-0", hovered ? "size-[18px] text-slate-500" : "size-[20px] text-slate-500"),
-                "aria-hidden": "true"
+                className: cn(
+                  "shrink-0",
+                  hovered ? "size-[18px] text-[#51483F]" : "size-[20px] text-[#51483F]"
+                ),
+                "aria-hidden": "true",
               })}
               {hovered && (
                 <>
-                  <span className="text-sm">{localize(profileLabel, dir)}</span>
+                  <span className="text-sm font-medium">{localize(profileLabel, dir)}</span>
                   <span className="ml-auto badge-pill-slate">
                     {localize("Standard", dir)}
                   </span>
@@ -335,16 +370,18 @@ function MobileDrawer({
   if (!open) return null;
   return (
     <div className={cn("fixed inset-0 z-50 flex lg:hidden", dir === "rtl" && "justify-end")}>
-      <div className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm" onClick={onClose} aria-hidden />
-      <div className={cn(
-        "relative h-full bg-white shadow-float flex flex-col",
-        dir === "rtl" ? "w-72 border-l border-slate-200" : "w-72 border-r border-slate-200",
-      )}>
-        <div className="flex items-center justify-between px-5 pt-5 pb-4 border-b border-slate-200/70">
+      <div className="absolute inset-0 bg-[#2F2924]/40 backdrop-blur-xs" onClick={onClose} aria-hidden />
+      <div
+        className={cn(
+          "relative h-full bg-[#FBF8F2] shadow-float flex flex-col",
+          dir === "rtl" ? "w-72 border-l border-[#E3D8CB]" : "w-72 border-r border-[#E3D8CB]"
+        )}
+      >
+        <div className="flex items-center justify-between px-5 pt-5 pb-4 border-b border-[#E3D8CB]">
           <div className="flex items-center gap-2.5">
             <LogoMark small dir={dir} />
             <div className="leading-tight">
-              <p className="text-sm font-bold tracking-tight text-slate-900">
+              <p className="text-sm font-bold tracking-tight text-[#2F2924]">
                 EduAccess <span className="gradient-text">AI</span>
               </p>
               <p className="meta-label">{localize("Workspace", dir)}</p>
@@ -355,7 +392,7 @@ function MobileDrawer({
             aria-label={localize("Close", dir)}
             className="slim-nav-icon"
           >
-            <X className="size-5" />
+            <X className="size-5 text-[#51483F]" />
           </button>
         </div>
 
@@ -382,16 +419,21 @@ function MobileDrawer({
               >
                 <Icon className="size-[18px]" aria-hidden />
                 <span>{localize(item.label, dir)}</span>
-                {active && <ChevronRight className={cn("ml-auto size-3.5", dir === "rtl" && "rotate-180")} aria-hidden />}
+                {active && (
+                  <ChevronRight
+                    className={cn("ml-auto size-3.5 text-[#B85C38]", dir === "rtl" && "rotate-180")}
+                    aria-hidden
+                  />
+                )}
               </a>
             );
           })}
         </nav>
 
-        <div className="p-3 border-t border-slate-200/70">
-          <div className="rounded-xl bg-slate-50 border border-slate-200/70 p-3 shadow-surface">
-            <div className="mb-2 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-500">
-              <Sparkles className="size-3 text-amber-500" aria-hidden />
+        <div className="p-3 border-t border-[#E3D8CB]">
+          <div className="rounded-xl bg-[#FFFDFC] border border-[#E4D9CC] p-3 shadow-surface">
+            <div className="mb-2 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-[#7A7067]">
+              <Sparkles className="size-3 text-[#C49A5A]" aria-hidden />
               {localize("Accessibility mode", dir)}
             </div>
             <div className="flex gap-1">
@@ -399,10 +441,10 @@ function MobileDrawer({
                 onClick={() => setLanguage("en")}
                 aria-pressed={dir === "ltr"}
                 className={cn(
-                  "flex-1 rounded-lg px-2.5 py-1.5 text-[11px] font-semibold transition",
+                  "flex-1 rounded-lg px-2.5 py-1.5 text-[11px] font-bold transition cursor-pointer",
                   dir === "ltr"
-                    ? "bg-brand-indigo text-white"
-                    : "bg-white text-slate-500 ring-1 ring-slate-200 hover:text-slate-700"
+                    ? "bg-[#B85C38] text-white"
+                    : "bg-[#F1E8DC] text-[#51483F] border border-[#DDD0C0] hover:bg-[#EDE2D3]"
                 )}
               >
                 English
@@ -411,10 +453,10 @@ function MobileDrawer({
                 onClick={() => setLanguage("ar")}
                 aria-pressed={dir === "rtl"}
                 className={cn(
-                  "flex-1 rounded-lg px-2.5 py-1.5 text-[11px] font-semibold transition",
+                  "flex-1 rounded-lg px-2.5 py-1.5 text-[11px] font-bold transition cursor-pointer",
                   dir === "rtl"
-                    ? "bg-brand-indigo text-white"
-                    : "bg-white text-slate-500 ring-1 ring-slate-200 hover:text-slate-700"
+                    ? "bg-[#B85C38] text-white"
+                    : "bg-[#F1E8DC] text-[#51483F] border border-[#DDD0C0] hover:bg-[#EDE2D3]"
                 )}
                 lang="ar"
               >
@@ -439,35 +481,35 @@ function ContextualTopBar({
 }) {
   const crumb = getCurrentCrumb(current, dir);
   return (
-    <header className="sticky top-0 z-30 flex h-14 items-center justify-between px-4 sm:px-6 border-b border-[#1E294B] bg-[#080B18]/95 backdrop-blur-md shadow-md">
+    <header className="sticky top-0 z-30 flex h-14 items-center justify-between px-4 sm:px-6 border-b border-[#E3D8CB] bg-[#FBF8F2]/95 backdrop-blur-md shadow-xs">
       <div className="flex items-center gap-3 min-w-0">
         <button
           onClick={onOpenMobile}
           aria-label={localize("Open navigation", dir)}
-          className="flex size-9 items-center justify-center rounded-lg border border-[#1E294B] bg-[#0D1224] text-slate-200 hover:text-white hover:border-brand-indigo/50 hover:bg-white/5 transition lg:hidden"
+          className="flex size-9 items-center justify-center rounded-lg border border-[#DDD0C0] bg-[#FFFDFC] text-[#51483F] hover:text-[#2F2924] hover:border-[#B85C38]/40 hover:bg-[#F1E8DC] transition lg:hidden"
         >
           <Menu className="size-5" />
         </button>
         <div className="hidden lg:flex items-center gap-2.5 min-w-0">
-          <span className="font-mono text-[13px] sm:text-sm font-bold tracking-wider text-slate-200 uppercase">
+          <span className="font-mono text-[13px] sm:text-sm font-bold tracking-wider text-[#40372F] uppercase">
             EduAccess AI
           </span>
-          <span className="text-slate-500 font-mono text-sm select-none" aria-hidden>/</span>
-          <span className="font-mono text-[13px] sm:text-sm font-bold tracking-wider text-brand-indigo dark:text-[#A78BFA] uppercase bg-brand-indigo/15 border border-brand-indigo/30 px-2.5 py-0.5 rounded-md shadow-sm">
+          <span className="text-[#DDD0C0] font-mono text-sm select-none" aria-hidden>/</span>
+          <span className="font-mono text-[12px] sm:text-[13px] font-bold tracking-wider text-[#B85C38] uppercase bg-[#FFF8F4] border border-[#E8C2B2] px-2.5 py-0.5 rounded-md shadow-xs">
             {crumb}
           </span>
         </div>
         <div className="lg:hidden flex items-center gap-2.5 min-w-0">
           <LogoMark small dir={dir} />
-          <span className="font-mono text-xs sm:text-sm font-bold tracking-wide text-slate-100 uppercase truncate">
+          <span className="font-mono text-xs sm:text-sm font-bold tracking-wide text-[#40372F] uppercase truncate">
             {crumb}
           </span>
         </div>
       </div>
       <div className="flex items-center gap-3">
-        <div className="hidden sm:inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-950/60 border border-emerald-500/40 shadow-sm">
-          <span className="size-2 rounded-full bg-emerald-400 ring-2 ring-emerald-400/20 animate-pulse" aria-hidden />
-          <span className="text-xs sm:text-[13px] font-mono font-bold text-emerald-300 tracking-wide">
+        <div className="hidden sm:inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E4F0E5] border border-[#B9D2BC] shadow-xs">
+          <span className="size-2 rounded-full bg-[#5F8A62] ring-2 ring-[#5F8A62]/30 animate-pulse" aria-hidden />
+          <span className="text-xs sm:text-[12.5px] font-mono font-bold text-[#416A47] tracking-wide">
             {localize("Ready", dir)}
           </span>
         </div>
@@ -477,10 +519,10 @@ function ContextualTopBar({
             window.dispatchEvent(ev);
           }}
           aria-label={localize("Switch reading direction", dir)}
-          className="inline-flex items-center gap-2 rounded-lg border border-[#1E294B] bg-[#0D1224] px-3 py-1.5 text-xs sm:text-sm font-mono font-bold text-slate-100 hover:text-white hover:border-brand-indigo/60 hover:bg-brand-indigo/15 transition shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-indigo/40"
+          className="inline-flex items-center gap-2 rounded-lg border border-[#DDD0C0] bg-[#FFFDFC] px-3 py-1.5 text-xs sm:text-sm font-mono font-bold text-[#51483F] hover:text-[#2F2924] hover:border-[#B85C38]/60 hover:bg-[#FFF8F4] transition shadow-xs focus:outline-none focus:ring-2 focus:ring-[#B85C38]/30 cursor-pointer"
           dir="ltr"
         >
-          <Accessibility className="size-4 text-brand-indigo dark:text-[#A78BFA]" aria-hidden />
+          <Accessibility className="size-4 text-[#B85C38]" aria-hidden />
           <span>{dir === "ltr" ? "عربى" : "EN"}</span>
         </button>
       </div>
@@ -532,7 +574,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <RTL_CONTEXT.Provider value={{ dir, language, setLanguage, toggleRtl }}>
-      <div dir={dir} className="flex min-h-screen bg-app-bg text-slate-800">
+      <div dir={dir} className="flex min-h-screen bg-[#F7F1E8] text-[#2F2924]">
         <SlimSidebar current={pathname} dir={dir} setLanguage={setLanguage} />
         <MobileDrawer
           current={pathname}
@@ -560,7 +602,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           onClick={toggleRtl}
           aria-label={localize("Switch reading direction", dir)}
           className={cn(
-            "fixed bottom-28 z-30 md:hidden rounded-full border border-slate-200 bg-white px-3 py-2 text-[11px] font-semibold text-slate-600 shadow-sm transition hover:text-brand-indigo",
+            "fixed bottom-28 z-30 md:hidden rounded-full border border-[#DDD0C0] bg-[#FFFDFC] px-3 py-2 text-[11px] font-bold text-[#51483F] shadow-xs transition hover:text-[#B85C38] hover:border-[#B85C38]",
             dir === "rtl" ? "left-4" : "right-4"
           )}
           dir="ltr"

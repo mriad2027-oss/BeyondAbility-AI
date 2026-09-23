@@ -14,7 +14,7 @@ interface EduAccessBrandBackgroundProps {
  * Custom, lightweight SVG/CSS visual composition embodying the multimodal compiler journey:
  * Educational Video -> Speech STT + Visual OCR -> Multimodal Alignment -> Gap Detection -> Accessible Learning Twin.
  * 
- * Crisp, subtle, performant, and 100% contrast-compliant.
+ * Warm editorial aesthetic with terracotta, soft indigo, and cream earth tones.
  */
 export default function EduAccessBrandBackground({
   className,
@@ -28,14 +28,14 @@ export default function EduAccessBrandBackground({
         className
       )}
     >
-      {/* Ambient Gradient Glows */}
-      <div className="absolute -top-24 -left-24 h-96 w-96 rounded-full bg-gradient-to-br from-indigo-500/10 via-blue-500/8 to-transparent blur-3xl" />
-      <div className="absolute top-1/3 -right-24 h-[28rem] w-[28rem] rounded-full bg-gradient-to-bl from-purple-500/9 via-indigo-500/6 to-transparent blur-3xl" />
-      <div className="absolute bottom-6 left-1/4 h-80 w-80 rounded-full bg-gradient-to-tr from-cyan-500/8 to-transparent blur-3xl" />
+      {/* Ambient Warm Gradient Glows */}
+      <div className="absolute -top-24 -left-24 h-96 w-96 rounded-full bg-gradient-to-br from-[#B85C38]/8 via-[#C49A5A]/6 to-transparent blur-3xl" />
+      <div className="absolute top-1/3 -right-24 h-[28rem] w-[28rem] rounded-full bg-gradient-to-bl from-[#6C63A8]/7 via-[#B85C38]/5 to-transparent blur-3xl" />
+      <div className="absolute bottom-6 left-1/4 h-80 w-80 rounded-full bg-gradient-to-tr from-[#5F9A9A]/6 to-transparent blur-3xl" />
 
       {/* Blueprint Grid Pattern */}
       <svg
-        className="absolute inset-0 h-full w-full opacity-[0.045] stroke-slate-900"
+        className="absolute inset-0 h-full w-full opacity-[0.035] stroke-[#6F4E37]"
         xmlns="http://www.w3.org/2000/svg"
       >
         <defs>
@@ -54,16 +54,16 @@ export default function EduAccessBrandBackground({
 
       {/* Multimodal Compiler Vector Streams */}
       <svg
-        className="absolute inset-0 h-full w-full opacity-[0.11] stroke-current text-indigo-900"
+        className="absolute inset-0 h-full w-full opacity-[0.09] stroke-current text-[#6F4E37]"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 1400 800"
         preserveAspectRatio="xMidYMid slice"
       >
         <defs>
           <linearGradient id="brand-vector-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#4f46e5" stopOpacity="0.9" />
-            <stop offset="45%" stopColor="#0284c7" stopOpacity="0.8" />
-            <stop offset="100%" stopColor="#7c3aed" stopOpacity="0.9" />
+            <stop offset="0%" stopColor="#B85C38" stopOpacity="0.9" />
+            <stop offset="45%" stopColor="#C49A5A" stopOpacity="0.8" />
+            <stop offset="100%" stopColor="#6C63A8" stopOpacity="0.9" />
           </linearGradient>
         </defs>
 
@@ -99,8 +99,8 @@ export default function EduAccessBrandBackground({
           <path d="M 960 145 C 860 145, 790 310, 690 310" />
           
           {/* Multimodal Alignment Node */}
-          <circle cx="690" cy="310" r="15" fill="#4f46e5" fillOpacity="0.2" />
-          <circle cx="690" cy="310" r="6" fill="#4f46e5" fillOpacity="0.9" />
+          <circle cx="690" cy="310" r="15" fill="#B85C38" fillOpacity="0.2" />
+          <circle cx="690" cy="310" r="6" fill="#B85C38" fillOpacity="0.9" />
           <text x="640" y="340" fontSize="10" fontFamily="sans-serif" fontWeight="bold" fill="currentColor" stroke="none" opacity="0.8">
             MULTIMODAL ALIGNMENT
           </text>

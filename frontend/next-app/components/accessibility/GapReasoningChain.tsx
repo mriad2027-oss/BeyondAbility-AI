@@ -35,8 +35,8 @@ const STEPS = [
     id: "visual",
     label: "VISUAL EVIDENCE",
     Icon: Eye,
-    bulletBg: "bg-brand-blue",
-    accent: "blue",
+    bulletBg: "bg-[#5F9A9A]",
+    accent: "teal",
     title: "What was shown on screen",
     source: "OCR · Vision Keyframe",
   },
@@ -44,8 +44,8 @@ const STEPS = [
     id: "speech",
     label: "SPOKEN EVIDENCE",
     Icon: Mic,
-    bulletBg: "bg-brand-cyan",
-    accent: "cyan",
+    bulletBg: "bg-[#5B82A6]",
+    accent: "blue",
     title: "What the instructor said",
     source: "Whisper · Transcript",
   },
@@ -53,8 +53,8 @@ const STEPS = [
     id: "compare",
     label: "CROSS-MODAL COMPARISON",
     Icon: GitCompare,
-    bulletBg: "bg-slate-500",
-    accent: "slate",
+    bulletBg: "bg-[#8B6B52]",
+    accent: "brown",
     title: "Alignment check: speech vs visual",
     source: "Multimodal Alignment Engine",
   },
@@ -62,7 +62,7 @@ const STEPS = [
     id: "gap",
     label: "DISPARITY DETECTED",
     Icon: AlertOctagon,
-    bulletBg: "bg-brand-amber",
+    bulletBg: "bg-[#B77932]",
     accent: "amber",
     title: "Accessibility gap identified",
     source: "Accessibility Reasoning",
@@ -71,7 +71,7 @@ const STEPS = [
     id: "evidence",
     label: "VERIFIABLE EVIDENCE",
     Icon: ListChecks,
-    bulletBg: "bg-brand-indigo",
+    bulletBg: "bg-[#6C63A8]",
     accent: "indigo",
     title: "Grounded lecture evidence",
     source: "Timestamped Moment",
@@ -80,8 +80,8 @@ const STEPS = [
     id: "remediation",
     label: "REMEDIATION GENERATED",
     Icon: CheckCircle2,
-    bulletBg: "bg-brand-emerald",
-    accent: "emerald",
+    bulletBg: "bg-[#5F8A62]",
+    accent: "green",
     title: "Synchronized audio description cue",
     source: "AD Studio · Non-Destructive Layer",
   },
@@ -92,29 +92,21 @@ export function GapReasoningChain({ items, currentTime = 0, jumpTo }: GapReasoni
 
   if (!items || items.length === 0) {
     return (
-      <div className="relative rounded-2xl border border-emerald-200/70 bg-emerald-50/50 p-8 overflow-hidden">
-        <div
-          className="absolute inset-0 pointer-events-none opacity-50"
-          aria-hidden
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 20% 20%, rgba(22,163,74,0.08), transparent 45%)",
-          }}
-        />
+      <div className="relative rounded-2xl border border-[#C5E3C7] bg-[#EBF5EC] p-8 overflow-hidden text-[#2F2924]">
         <div className="relative flex flex-col items-center text-center gap-3 max-w-lg mx-auto">
-          <div className="flex size-14 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-600 ring-1 ring-emerald-200">
+          <div className="flex size-14 items-center justify-center rounded-2xl bg-[#FFFDFC] text-[#5F8A62] border border-[#C5E3C7] shadow-xs">
             <ShieldCheck className="size-7" />
           </div>
-          <h3 className="workspace-heading text-xl md:text-2xl text-emerald-950">
+          <h3 className="font-display font-bold text-xl md:text-2xl text-[#2D5A30]">
             Zero Accessibility Disparities
           </h3>
-          <p className="text-[13px] text-emerald-900/80 leading-relaxed">
+          <p className="text-[13px] text-[#3D6B40] leading-relaxed">
             Whisper spoken speech and visual on-screen keyframes are fully aligned.
             All visual concepts have matching verbal explanations in the lecture audio.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
-            <span className="badge-pill-emerald">VERIFIED ALIGNMENT</span>
-            <span className="badge-pill-slate">CROSS-MODAL MATCH · 100%</span>
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#FFFDFC] text-[#2D5A30] border border-[#C5E3C7]">VERIFIED ALIGNMENT</span>
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#FFFDFC] text-[#51483F] border border-[#DDD0C0]">CROSS-MODAL MATCH · 100%</span>
           </div>
         </div>
       </div>
@@ -148,15 +140,15 @@ export function GapReasoningChain({ items, currentTime = 0, jumpTo }: GapReasoni
     "Generated synchronized non-destructive audio description cue to narrate the on-screen content precisely at this timestamp.";
 
   return (
-    <div className="w-full flex flex-col gap-5">
+    <div className="w-full flex flex-col gap-5 text-[#2F2924]">
       {/* TOP: Disparity Moments Selector Rail */}
-      <div className="rounded-2xl border border-slate-200/70 bg-white p-3.5 shadow-surface">
+      <div className="rounded-2xl border border-[#DDD0C0] bg-[#FFFDFC] p-3.5 shadow-xs">
         <div className="flex flex-wrap items-center gap-3">
           <div className="flex items-center gap-2 shrink-0">
-            <span className="badge-pill-amber">{items.length} GAPS</span>
-            <span className="meta-label">Disparity selector</span>
+            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-[#FEF6EC] text-[#B77932] border border-[#F3CE9D]">{items.length} GAPS</span>
+            <span className="font-mono text-xs text-[#7A7067] uppercase tracking-wider">Disparity selector</span>
           </div>
-          <div className="h-4 w-px bg-slate-200" aria-hidden />
+          <div className="h-4 w-px bg-[#EDE2D3]" aria-hidden />
           <div className="flex flex-wrap items-center gap-1.5 flex-1 min-w-0">
             {items.map((item, idx) => {
               const itemStart = Number(item.timestamp_start ?? item.timestamp ?? 0);
@@ -174,10 +166,10 @@ export function GapReasoningChain({ items, currentTime = 0, jumpTo }: GapReasoni
                   className={cn(
                     "group inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-[11px] font-semibold transition-all",
                     isSelected
-                      ? "border-brand-amber bg-brand-amber/10 text-brand-amber shadow-surface scale-[1.02]"
+                      ? "border-[#B85C38] bg-[#FFF8F4] text-[#B85C38] shadow-xs scale-[1.02]"
                       : isCurrent
-                      ? "border-brand-amber/50 bg-amber-50 text-brand-amber ring-1 ring-brand-amber/30"
-                      : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50"
+                      ? "border-[#B77932]/50 bg-[#FEF6EC] text-[#B77932] ring-1 ring-[#B77932]/30"
+                      : "border-[#DDD0C0] bg-[#FFFDFC] text-[#51483F] hover:border-[#B85C38]/40 hover:bg-[#F1E8DC]"
                   )}
                 >
                   <EyeOff className="size-3 opacity-80" aria-hidden />
@@ -186,10 +178,10 @@ export function GapReasoningChain({ items, currentTime = 0, jumpTo }: GapReasoni
                     className={cn(
                       "size-1.5 rounded-full",
                       sev === "high"
-                        ? "bg-brand-rose"
+                        ? "bg-[#B94A48]"
                         : sev === "low"
-                        ? "bg-brand-blue"
-                        : "bg-brand-amber"
+                        ? "bg-[#5F9A9A]"
+                        : "bg-[#B77932]"
                     )}
                     title={`${sev} severity`}
                     aria-hidden
@@ -206,7 +198,7 @@ export function GapReasoningChain({ items, currentTime = 0, jumpTo }: GapReasoni
             <TrustPill trust={trust} />
             <button
               onClick={() => jumpTo(startSec)}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 text-white px-3 py-1.5 text-[11px] font-semibold hover:bg-slate-800 transition shadow-surface"
+              className="inline-flex items-center gap-1.5 rounded-xl bg-[#B85C38] text-white px-3 py-1.5 text-[11px] font-bold hover:bg-[#9F4F32] transition shadow-xs"
             >
               <Play className="size-3 fill-current" aria-hidden />
               Watch Moment
@@ -216,21 +208,21 @@ export function GapReasoningChain({ items, currentTime = 0, jumpTo }: GapReasoni
       </div>
 
       {/* HEADER: Meta Strip */}
-      <div className="section-rail-left pl-1">
-        <Gauge className="size-3.5 text-brand-amber" aria-hidden />
-        <span className="section-rail-label">
+      <div className="flex items-center gap-2 pl-1 font-mono text-xs">
+        <Gauge className="size-3.5 text-[#B77932]" aria-hidden />
+        <span className="font-bold text-[#2F2924]">
           Accessibility Reasoning Chain · {formatClock(startSec)} – {formatClock(endSec)}
         </span>
-        <span className="badge-pill-slate ml-1">{severity.toUpperCase()} IMPACT</span>
+        <span className="px-2 py-0.5 rounded-md bg-[#EDE2D3] text-[#51483F] font-bold text-[10px] ml-1">{severity.toUpperCase()} IMPACT</span>
         {activeItem.status && (
-          <span className="badge-pill-amber ml-1">
+          <span className="px-2 py-0.5 rounded-md bg-[#FEF6EC] text-[#B77932] border border-[#F3CE9D] font-bold text-[10px] ml-1">
             {String(activeItem.status).replace(/_/g, " ")}
           </span>
         )}
       </div>
 
       {/* 6-STEP VERTICAL REASONING CHAIN */}
-      <div className="relative pl-4">
+      <div className="relative pl-4 space-y-4">
         {STEPS.map((step, i) => {
           const content = (() => {
             if (step.id === "visual")
@@ -250,19 +242,19 @@ export function GapReasoningChain({ items, currentTime = 0, jumpTo }: GapReasoni
           })();
 
           return (
-            <div key={step.id} className="gap-chain-step animate-fade-slide-ltr" style={{ animationDelay: `${i * 60}ms` }}>
-              <div className={cn("gap-chain-bullet text-white", step.bulletBg)}>
-                <step.Icon className="size-3" aria-hidden />
+            <div key={step.id} className="relative flex items-start gap-3.5">
+              <div className={cn("size-7 rounded-xl flex items-center justify-center text-white shrink-0 shadow-xs mt-0.5", step.bulletBg)}>
+                <step.Icon className="size-3.5" aria-hidden />
               </div>
 
               <div className="flex-1 min-w-0 space-y-2">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
-                    <span className="meta-label text-slate-500">
+                    <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#51483F]">
                       {String(i + 1).padStart(2, "0")} · {step.label}
                     </span>
                   </div>
-                  <span className="meta-label text-slate-400">
+                  <span className="font-mono text-[11px] text-[#7A7067]">
                     {step.source}
                   </span>
                 </div>
@@ -299,13 +291,13 @@ export function GapReasoningChain({ items, currentTime = 0, jumpTo }: GapReasoni
 
                 {step.id === "remediation" && (
                   <div className="flex flex-wrap items-center gap-2 pt-1">
-                    <span className="badge-pill-emerald">
-                      <Sparkles className="size-2.5" aria-hidden />
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-[#EBF5EC] text-[#3D6B40] border border-[#C5E3C7]">
+                      <Sparkles className="size-2.5 text-[#5F8A62]" aria-hidden />
                       CUE GENERATED · SYNCHRONIZED
                     </span>
                     <button
                       onClick={() => jumpTo(startSec)}
-                      className="inline-flex items-center gap-1 rounded-lg bg-emerald-600 text-white px-2.5 py-1 text-[10px] font-bold hover:bg-emerald-700 transition"
+                      className="inline-flex items-center gap-1 rounded-lg bg-[#5F8A62] text-white px-2.5 py-1 text-[10px] font-bold hover:bg-[#4E7551] transition shadow-xs"
                     >
                       <Play className="size-2.5 fill-current" />
                       Preview AD with Lecture Audio
@@ -313,39 +305,16 @@ export function GapReasoningChain({ items, currentTime = 0, jumpTo }: GapReasoni
                   </div>
                 )}
               </div>
-
-              {/* Down arrow connector */}
-              {i < STEPS.length - 1 && (
-                <div className="col-span-full flex justify-start pl-[5px] pt-1 pb-1">
-                  <div className="flex flex-col items-center gap-0.5">
-                    <ArrowDown
-                      className={cn(
-                        "size-3.5 text-slate-400",
-                        step.id === "compare" && "text-brand-amber animate-pulse-soft"
-                      )}
-                      aria-hidden
-                    />
-                    <ArrowRight
-                      className={cn(
-                        "size-3 text-slate-300",
-                        step.id === "compare" && "text-brand-amber/60"
-                      )}
-                      aria-hidden
-                      style={{ transform: "translateY(-3px) translateX(4px) rotate(90deg)" }}
-                    />
-                  </div>
-                </div>
-              )}
             </div>
           );
         })}
       </div>
 
       {/* FOOTER: Architecture Note */}
-      <div className="mt-1 rounded-xl border border-slate-200/70 bg-slate-50/50 p-3 flex items-start gap-3">
-        <AlertTriangle className="size-4 text-slate-400 shrink-0 mt-0.5" aria-hidden />
-        <div className="text-[11.5px] leading-relaxed text-slate-600">
-          <span className="font-semibold text-slate-800">Evidence-first reasoning.</span>{" "}
+      <div className="mt-1 rounded-xl border border-[#DDD0C0] bg-[#FBF8F2] p-3.5 flex items-start gap-3 text-xs text-[#51483F]">
+        <AlertTriangle className="size-4 text-[#B85C38] shrink-0 mt-0.5" aria-hidden />
+        <div className="leading-relaxed">
+          <span className="font-bold text-[#2F2924]">Evidence-first reasoning.</span>{" "}
           Each disparity is produced by comparing two independent modalities (vision vs speech)
           and survives only when grounded in verifiable lecture timestamps. The remediation
           step layers a synchronized audio description cue non-destructively over the original

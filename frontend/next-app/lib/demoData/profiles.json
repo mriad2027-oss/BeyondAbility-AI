@@ -1,0 +1,25 @@
+[
+  {
+    "id": "001",
+    "accessibility_need": "visual",
+    "preferred_output": "audio",
+    "student_id": "001",
+    "name": "Alex",
+    "accessibility_mode": "blind",
+    "speech_rate": 1.0,
+    "description_detail": "high",
+    "language": "en",
+    "preferred_language": "en",
+    "quiz_difficulty": "adaptive"
+  },
+  {
+    "id": "002",
+    "accessibility_need": "hearing",
+    "preferred_output": "captions"
+  },
+  {
+    "id": "003",
+    "accessibility_need": "none",
+    "preferred_output": "both"
+  }
+]

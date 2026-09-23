@@ -17,9 +17,13 @@ function AskRedirectBody() {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    const job = searchParams.get("job") || searchParams.get("jobId") || "DEMO_python_loops";
-    router.replace(`/lectures/${encodeURIComponent(job)}?tab=ask`);
+    const job = searchParams.get("job") || searchParams.get("jobId");
+    if (job) {
+      router.replace(`/lectures/${encodeURIComponent(job)}?tab=ask`);
+    } else {
+      router.replace("/lectures");
+    }
   }, [router, searchParams]);
 
-  return <PageLoader label="Redirecting to Accessibility Workspace (Ask the Video)..." />;
+  return <PageLoader label="Opening Video QA Console..." />;
 }

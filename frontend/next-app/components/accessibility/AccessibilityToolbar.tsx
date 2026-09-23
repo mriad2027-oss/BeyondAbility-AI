@@ -99,55 +99,6 @@ export default function AccessibilityToolbar() {
     );
   }, [settings]);
 
-  // Assistant and voice commands set explicit values; they must not invert a
-  // setting that is already in the requested state.
-  useEffect(() => {
-    const captions = (event: Event) => {
-      const enabled = (event as CustomEvent<{ enabled?: boolean }>).detail?.enabled;
-      setSettings((prev) => ({ ...prev, captions: typeof enabled === "boolean" ? enabled : !prev.captions }));
-    };
-    const descriptions = (event: Event) => {
-      const enabled = (event as CustomEvent<{ enabled?: boolean }>).detail?.enabled;
-      setSettings((prev) => ({ ...prev, audioDescription: typeof enabled === "boolean" ? enabled : !prev.audioDescription }));
-    };
-    const font = (event: Event) => {
-      const delta = (event as CustomEvent<{ delta?: number }>).detail?.delta ?? 1;
-      if (delta !== 0) setSettings((prev) => ({ ...prev, largeText: delta > 0 }));
-    };
-    window.addEventListener("eduaccess:toggle_captions", captions);
-    window.addEventListener("eduaccess:toggle_audio_description", descriptions);
-    window.addEventListener("eduaccess:font_size", font);
-    return () => {
-      window.removeEventListener("eduaccess:toggle_captions", captions);
-      window.removeEventListener("eduaccess:toggle_audio_description", descriptions);
-      window.removeEventListener("eduaccess:font_size", font);
-    };
-  }, []);
-
-  // Global keyboard shortcuts
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      // Only handle when not typing in an input/textarea
-      if (["INPUT", "TEXTAREA"].includes((e.target as HTMLElement)?.tagName)) return;
-
-      if (e.key === "?" && !e.ctrlKey && !e.metaKey) {
-        setShowShortcuts((prev) => !prev);
-      } else if (e.key === "c" || e.key === "C") {
-        setSettings((prev) => ({ ...prev, captions: !prev.captions }));
-        window.dispatchEvent(new CustomEvent("eduaccess:toggle_captions"));
-      } else if (e.key === "a" || e.key === "A") {
-        setSettings((prev) => ({ ...prev, audioDescription: !prev.audioDescription }));
-        window.dispatchEvent(new CustomEvent("eduaccess:toggle_audio_description"));
-      } else if (e.key === "v" || e.key === "V") {
-        setSettings((prev) => ({ ...prev, visualCompanion: !prev.visualCompanion }));
-        window.dispatchEvent(new CustomEvent("eduaccess:toggle_visual_companion"));
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
-
   const toggleSetting = (key: keyof AccessibilitySettings) => {
     setSettings((prev) => ({ ...prev, [key]: !prev[key] }));
   };
@@ -159,7 +110,7 @@ export default function AccessibilityToolbar() {
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Accessibility Settings Toolbar"
-        className="eduaccess-accessibility-trigger fixed bottom-6 left-6 z-40 flex size-12 items-center justify-center rounded-2xl border border-app-edge bg-white text-slate-700 shadow-md transition-all hover:border-brand-indigo/40 hover:text-brand-indigo hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-brand-indigo/20"
+        className="eduaccess-accessibility-trigger fixed bottom-6 left-6 z-40 flex size-12 items-center justify-center rounded-2xl border border-[#DDD0C0] bg-[#FFFDFC] text-[#51483F] shadow-sm transition-all hover:border-[#B85C38]/60 hover:text-[#B85C38] hover:shadow-md focus:outline-none focus:ring-4 focus:ring-[#B85C38]/20 cursor-pointer"
       >
         <Accessibility className="size-5" />
       </button>
@@ -169,126 +120,126 @@ export default function AccessibilityToolbar() {
         <div
           role="dialog"
           aria-label="Accessibility Preferences"
-          className="eduaccess-accessibility-panel fixed bottom-20 left-6 z-40 w-72 sm:w-80 rounded-3xl border border-app-edge bg-white/95 p-4 shadow-2xl backdrop-blur-xl transition-all"
+          className="eduaccess-accessibility-panel fixed bottom-20 left-6 z-40 w-72 sm:w-80 rounded-3xl border border-[#E4D9CC] bg-[#FFFDFC]/95 p-4 shadow-xl backdrop-blur-xl transition-all text-[#2F2924]"
         >
-          <div className="flex items-center justify-between border-b border-app-edge/70 pb-3">
+          <div className="flex items-center justify-between border-b border-[#E7DED2] pb-3">
             <div>
               <div className="flex items-center gap-2">
-                <Accessibility className="size-4 text-brand-indigo" />
-                <h3 className="text-sm font-semibold text-slate-900">Accessibility Preferences</h3>
+                <Accessibility className="size-4 text-[#B85C38]" />
+                <h3 className="text-sm font-bold text-[#2F2924]">Accessibility Preferences</h3>
               </div>
-              <p className="text-[10px] text-app-muted mt-0.5">WCAG-informed accessibility features</p>
+              <p className="text-[10.5px] text-[#7A7067] mt-0.5">WCAG-informed accessibility features</p>
             </div>
             <button
               type="button"
               onClick={() => setIsOpen(false)}
               aria-label="Close Accessibility toolbar"
-              className="rounded-lg p-1 text-slate-400 hover:text-slate-700"
+              className="rounded-lg p-1 text-[#7A7067] hover:text-[#2F2924] hover:bg-[#F1E8DC] transition-colors cursor-pointer"
             >
               <X className="size-4" />
             </button>
           </div>
 
-          <div className="mt-3 space-y-2">
-            <label className="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition">
-              <div className="flex items-center gap-2.5 text-xs font-medium text-slate-700">
-                <Eye className="size-4 text-brand-indigo" />
+          <div className="mt-3 space-y-1.5">
+            <label className="flex items-center justify-between p-2 rounded-xl hover:bg-[#F1E8DC]/60 cursor-pointer transition">
+              <div className="flex items-center gap-2.5 text-xs font-semibold text-[#51483F]">
+                <Eye className="size-4 text-[#5F9A9A]" />
                 Captions
               </div>
               <input
                 type="checkbox"
                 checked={settings.captions}
                 onChange={() => toggleSetting("captions")}
-                className="size-4 rounded border-slate-300 text-brand-indigo focus:ring-brand-indigo"
+                className="size-4 rounded border-[#DDD0C0] text-[#B85C38] focus:ring-[#B85C38] accent-[#B85C38] cursor-pointer"
               />
             </label>
 
-            <label className="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition">
-              <div className="flex items-center gap-2.5 text-xs font-medium text-slate-700">
-                <Volume2 className="size-4 text-emerald-600" />
+            <label className="flex items-center justify-between p-2 rounded-xl hover:bg-[#F1E8DC]/60 cursor-pointer transition">
+              <div className="flex items-center gap-2.5 text-xs font-semibold text-[#51483F]">
+                <Volume2 className="size-4 text-[#5F8A62]" />
                 Audio Description
               </div>
               <input
                 type="checkbox"
                 checked={settings.audioDescription}
                 onChange={() => toggleSetting("audioDescription")}
-                className="size-4 rounded border-slate-300 text-brand-indigo focus:ring-brand-indigo"
+                className="size-4 rounded border-[#DDD0C0] text-[#B85C38] focus:ring-[#B85C38] accent-[#B85C38] cursor-pointer"
               />
             </label>
 
-            <label className="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition">
-              <div className="flex items-center gap-2.5 text-xs font-medium text-slate-700">
-                <Tv className="size-4 text-purple-600" />
+            <label className="flex items-center justify-between p-2 rounded-xl hover:bg-[#F1E8DC]/60 cursor-pointer transition">
+              <div className="flex items-center gap-2.5 text-xs font-semibold text-[#51483F]">
+                <Tv className="size-4 text-[#6C63A8]" />
                 Visual Companion
               </div>
               <input
                 type="checkbox"
                 checked={settings.visualCompanion}
                 onChange={() => toggleSetting("visualCompanion")}
-                className="size-4 rounded border-slate-300 text-brand-indigo focus:ring-brand-indigo"
+                className="size-4 rounded border-[#DDD0C0] text-[#B85C38] focus:ring-[#B85C38] accent-[#B85C38] cursor-pointer"
               />
             </label>
 
-            <div className="border-t border-app-edge/60 my-2" />
+            <div className="border-t border-[#E7DED2] my-1.5" />
 
-            <label className="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition">
-              <div className="flex items-center gap-2.5 text-xs font-medium text-slate-700">
-                <SunMoon className="size-4 text-amber-500" />
+            <label className="flex items-center justify-between p-2 rounded-xl hover:bg-[#F1E8DC]/60 cursor-pointer transition">
+              <div className="flex items-center gap-2.5 text-xs font-semibold text-[#51483F]">
+                <SunMoon className="size-4 text-[#C49A5A]" />
                 High Contrast
               </div>
               <input
                 type="checkbox"
                 checked={settings.highContrast}
                 onChange={() => toggleSetting("highContrast")}
-                className="size-4 rounded border-slate-300 text-brand-indigo focus:ring-brand-indigo"
+                className="size-4 rounded border-[#DDD0C0] text-[#B85C38] focus:ring-[#B85C38] accent-[#B85C38] cursor-pointer"
               />
             </label>
 
-            <label className="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition">
-              <div className="flex items-center gap-2.5 text-xs font-medium text-slate-700">
-                <Type className="size-4 text-blue-500" />
+            <label className="flex items-center justify-between p-2 rounded-xl hover:bg-[#F1E8DC]/60 cursor-pointer transition">
+              <div className="flex items-center gap-2.5 text-xs font-semibold text-[#51483F]">
+                <Type className="size-4 text-[#5B82A6]" />
                 Large Text
               </div>
               <input
                 type="checkbox"
                 checked={settings.largeText}
                 onChange={() => toggleSetting("largeText")}
-                className="size-4 rounded border-slate-300 text-brand-indigo focus:ring-brand-indigo"
+                className="size-4 rounded border-[#DDD0C0] text-[#B85C38] focus:ring-[#B85C38] accent-[#B85C38] cursor-pointer"
               />
             </label>
 
-            <label className="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition">
-              <div className="flex items-center gap-2.5 text-xs font-medium text-slate-700">
-                <Activity className="size-4 text-rose-500" />
+            <label className="flex items-center justify-between p-2 rounded-xl hover:bg-[#F1E8DC]/60 cursor-pointer transition">
+              <div className="flex items-center gap-2.5 text-xs font-semibold text-[#51483F]">
+                <Activity className="size-4 text-[#B94A48]" />
                 Reduced Motion
               </div>
               <input
                 type="checkbox"
                 checked={settings.reducedMotion}
                 onChange={() => toggleSetting("reducedMotion")}
-                className="size-4 rounded border-slate-300 text-brand-indigo focus:ring-brand-indigo"
+                className="size-4 rounded border-[#DDD0C0] text-[#B85C38] focus:ring-[#B85C38] accent-[#B85C38] cursor-pointer"
               />
             </label>
 
-            <label className="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 cursor-pointer transition">
-              <div className="flex items-center gap-2.5 text-xs font-medium text-slate-700">
-                <Glasses className="size-4 text-indigo-500" />
+            <label className="flex items-center justify-between p-2 rounded-xl hover:bg-[#F1E8DC]/60 cursor-pointer transition">
+              <div className="flex items-center gap-2.5 text-xs font-semibold text-[#51483F]">
+                <Glasses className="size-4 text-[#6C63A8]" />
                 Screen Reader Mode
               </div>
               <input
                 type="checkbox"
                 checked={settings.screenReaderMode}
                 onChange={() => toggleSetting("screenReaderMode")}
-                className="size-4 rounded border-slate-300 text-brand-indigo focus:ring-brand-indigo"
+                className="size-4 rounded border-[#DDD0C0] text-[#B85C38] focus:ring-[#B85C38] accent-[#B85C38] cursor-pointer"
               />
             </label>
 
             <button
               type="button"
               onClick={() => setShowShortcuts(true)}
-              className="w-full mt-2 flex items-center justify-center gap-2 rounded-xl border border-app-edge bg-slate-50 py-2 text-xs font-medium text-slate-700 hover:bg-slate-100 transition"
+              className="w-full mt-2 flex items-center justify-center gap-2 rounded-xl border border-[#DDD0C0] bg-[#FBF8F2] py-2 text-xs font-bold text-[#51483F] hover:bg-[#F1E8DC] transition cursor-pointer"
             >
-              <Keyboard className="size-3.5" /> Keyboard Shortcuts (?)
+              <Keyboard className="size-3.5 text-[#B85C38]" /> Keyboard Shortcuts (?)
             </button>
           </div>
         </div>
@@ -299,48 +250,48 @@ export default function AccessibilityToolbar() {
         <div
           role="dialog"
           aria-label="Keyboard Shortcuts"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[#2F2924]/40 backdrop-blur-xs p-4"
         >
-          <div className="relative w-full max-w-md rounded-3xl border border-app-edge bg-white p-6 shadow-2xl">
-            <div className="flex items-center justify-between border-b border-app-edge/70 pb-3">
+          <div className="relative w-full max-w-md rounded-3xl border border-[#E4D9CC] bg-[#FFFDFC] p-6 shadow-2xl text-[#2F2924]">
+            <div className="flex items-center justify-between border-b border-[#E7DED2] pb-3">
               <div className="flex items-center gap-2">
-                <Keyboard className="size-5 text-brand-indigo" />
-                <h3 className="text-base font-semibold text-slate-900">Accessible Shortcuts</h3>
+                <Keyboard className="size-5 text-[#B85C38]" />
+                <h3 className="text-base font-bold text-[#2F2924]">Accessible Shortcuts</h3>
               </div>
               <button
                 type="button"
                 onClick={() => setShowShortcuts(false)}
                 aria-label="Close shortcuts"
-                className="rounded-lg p-1 text-slate-400 hover:text-slate-700"
+                className="rounded-lg p-1 text-[#7A7067] hover:text-[#2F2924] hover:bg-[#F1E8DC] cursor-pointer"
               >
                 <X className="size-5" />
               </button>
             </div>
 
             <div className="mt-4 space-y-2.5 text-xs">
-              <div className="flex items-center justify-between py-1.5 border-b border-slate-100">
-                <span className="text-slate-600">Play / Pause Video</span>
-                <kbd className="rounded bg-slate-100 px-2 py-0.5 font-mono text-slate-800">Space</kbd>
+              <div className="flex items-center justify-between py-1.5 border-b border-[#E7DED2]">
+                <span className="text-[#51483F]">Play / Pause Video</span>
+                <kbd className="rounded-md bg-[#F1E8DC] border border-[#DDD0C0] px-2 py-0.5 font-mono font-bold text-[#2F2924]">Space</kbd>
               </div>
-              <div className="flex items-center justify-between py-1.5 border-b border-slate-100">
-                <span className="text-slate-600">Seek 5s Forward / Backward</span>
-                <kbd className="rounded bg-slate-100 px-2 py-0.5 font-mono text-slate-800">← / →</kbd>
+              <div className="flex items-center justify-between py-1.5 border-b border-[#E7DED2]">
+                <span className="text-[#51483F]">Seek 5s Forward / Backward</span>
+                <kbd className="rounded-md bg-[#F1E8DC] border border-[#DDD0C0] px-2 py-0.5 font-mono font-bold text-[#2F2924]">← / →</kbd>
               </div>
-              <div className="flex items-center justify-between py-1.5 border-b border-slate-100">
-                <span className="text-slate-600">Toggle Captions</span>
-                <kbd className="rounded bg-slate-100 px-2 py-0.5 font-mono text-slate-800">C</kbd>
+              <div className="flex items-center justify-between py-1.5 border-b border-[#E7DED2]">
+                <span className="text-[#51483F]">Toggle Captions</span>
+                <kbd className="rounded-md bg-[#F1E8DC] border border-[#DDD0C0] px-2 py-0.5 font-mono font-bold text-[#2F2924]">C</kbd>
               </div>
-              <div className="flex items-center justify-between py-1.5 border-b border-slate-100">
-                <span className="text-slate-600">Toggle Audio Description</span>
-                <kbd className="rounded bg-slate-100 px-2 py-0.5 font-mono text-slate-800">A</kbd>
+              <div className="flex items-center justify-between py-1.5 border-b border-[#E7DED2]">
+                <span className="text-[#51483F]">Toggle Audio Description</span>
+                <kbd className="rounded-md bg-[#F1E8DC] border border-[#DDD0C0] px-2 py-0.5 font-mono font-bold text-[#2F2924]">A</kbd>
               </div>
-              <div className="flex items-center justify-between py-1.5 border-b border-slate-100">
-                <span className="text-slate-600">Toggle Visual Companion</span>
-                <kbd className="rounded bg-slate-100 px-2 py-0.5 font-mono text-slate-800">V</kbd>
+              <div className="flex items-center justify-between py-1.5 border-b border-[#E7DED2]">
+                <span className="text-[#51483F]">Toggle Visual Companion</span>
+                <kbd className="rounded-md bg-[#F1E8DC] border border-[#DDD0C0] px-2 py-0.5 font-mono font-bold text-[#2F2924]">V</kbd>
               </div>
               <div className="flex items-center justify-between py-1.5">
-                <span className="text-slate-600">Open this Shortcuts Dialog</span>
-                <kbd className="rounded bg-slate-100 px-2 py-0.5 font-mono text-slate-800">?</kbd>
+                <span className="text-[#51483F]">Open this Shortcuts Dialog</span>
+                <kbd className="rounded-md bg-[#F1E8DC] border border-[#DDD0C0] px-2 py-0.5 font-mono font-bold text-[#2F2924]">?</kbd>
               </div>
             </div>
           </div>

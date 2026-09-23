@@ -59,8 +59,7 @@ export function WorkspaceProvider({
       } else if (isAvailable(storedId)) {
         setSelectedIdState(storedId);
       } else if (data.lectures.length > 0) {
-        const demo = data.lectures.find((l) => l.job_id.toUpperCase().includes("DEMO"));
-        setSelectedIdState((cur) => cur ?? demo?.job_id ?? data.lectures[0].job_id);
+        setSelectedIdState((cur) => cur ?? data.lectures[0].job_id);
       }
     } catch (e) {
       setError(e instanceof Error ? e.message : "Failed to load lectures");
